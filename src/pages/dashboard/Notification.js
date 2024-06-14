@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import React from "react";
-import { zubgbackgrad } from "../../Shared/color";
+import { gamename, zubgbackgrad } from "../../Shared/color";
 
 const Notification = ({ handleClosepolicy }) => {
   return (
@@ -12,7 +12,7 @@ const Notification = ({ handleClosepolicy }) => {
         sx={{ "&>p": { color: "white", fontSize: "12px" } }}
       >
         <p className=" pl-10 !text-red-600">
-          ⭐️ Right Time Operating 5 Years+
+          ⭐️ {gamename} Operating 5 Years+
         </p>
         <p className=" pl-10 !text-red-600">⭐️ High Quality Agent Benefits</p>
         <p className=" pl-10 !text-red-600">⭐️ No.1 Game Platform</p>

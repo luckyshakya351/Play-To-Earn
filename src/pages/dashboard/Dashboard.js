@@ -33,6 +33,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { checkTokenValidity } from "../../Shared/CookieStorage";
 import CustomCircularProgress from "../../Shared/CustomCircularProgress";
 import {
+  gamename,
   gray,
   zubgback,
   zubgbackgrad,
@@ -302,7 +303,7 @@ function Dashboard() {
                 style={{ color: zubgtext }}
               >
                 <Box component="img" src={logo} sx={{ width: "30px" }}></Box>
-                <span className="text-[14px]"> Right Time </span>
+                <span className="text-[14px]"> {gamename} </span>
               </div>
               <div className="flex gap-1 items-center cursor-pointer">
                 <CloudDownloadIcon sx={{ color: zubgtext }} />
@@ -567,7 +568,7 @@ function Dashboard() {
                       if (
                         i.name === "Slots" ||
                         i.name === "Popular" ||
-                        i.name === "Casino" 
+                        i.name === "Casino"
                         ||
                         i.name === "Aviator"
                       )
@@ -647,26 +648,25 @@ function Dashboard() {
                           Math.floor(Math.random() * 5) + 1 === 1
                             ? "https://mui.com/static/images/avatar/4.jpg"
                             : Math.floor(Math.random() * 5) + 1 === 2
-                            ? "https://lh3.googleusercontent.com/a/ACg8ocJ_lQQ7XjcLthKctAe1u5A6Fv8JJUQ0ugECmc7RkiZmKfI=s360-c-no"
-                            : Math.floor(Math.random() * 5) + 1 === 3
-                            ? "https://sunlottery.fun/static/media/tanveer.03fd8989206194114777.PNG"
-                            : Math.floor(Math.random() * 5) + 1 === 4
-                            ? "https://sunlottery.fun/static/media/sajid.e6abfd6b30c0fa7d3b1a.PNG"
-                            : ""
+                              ? "https://lh3.googleusercontent.com/a/ACg8ocJ_lQQ7XjcLthKctAe1u5A6Fv8JJUQ0ugECmc7RkiZmKfI=s360-c-no"
+                              : Math.floor(Math.random() * 5) + 1 === 3
+                                ? "https://sunlottery.fun/static/media/tanveer.03fd8989206194114777.PNG"
+                                : Math.floor(Math.random() * 5) + 1 === 4
+                                  ? "https://sunlottery.fun/static/media/sajid.e6abfd6b30c0fa7d3b1a.PNG"
+                                  : ""
                         } // Close the src attribute here
-                        className={`capitalize ${
-                          i.id % 2 === 0 ? "!bg-[#2350BF]" : "!bg-green-700"
-                        }`}
+                        className={`capitalize ${i.id % 2 === 0 ? "!bg-[#2350BF]" : "!bg-green-700"
+                          }`}
                       >
                         {i?.email?.split("@")[0]?.substring(0, 1)}
                       </Avatar>
                       <Typography variant="body1">
                         {i?.email
                           ? i.email.split("@")[0].substring(0, 2) +
-                            "**" +
-                            (i.email.split("@")[0].length > 2
-                              ? i.email.split("@")[0].substring(2, 4)
-                              : "")
+                          "**" +
+                          (i.email.split("@")[0].length > 2
+                            ? i.email.split("@")[0].substring(2, 4)
+                            : "")
                           : "**"}
                       </Typography>
                     </Stack>
@@ -783,28 +783,27 @@ function Dashboard() {
                           Math.floor(Math.random() * 5) + 1 === 1
                             ? "https://mui.com/static/images/avatar/4.jpg"
                             : Math.floor(Math.random() * 5) + 1 === 2
-                            ? "https://lh3.googleusercontent.com/a/ACg8ocJ_lQQ7XjcLthKctAe1u5A6Fv8JJUQ0ugECmc7RkiZmKfI=s360-c-no"
-                            : Math.floor(Math.random() * 5) + 1 === 3
-                            ? "https://sunlottery.fun/static/media/tanveer.03fd8989206194114777.PNG"
-                            : Math.floor(Math.random() * 5) + 1 === 4
-                            ? "https://sunlottery.fun/static/media/sajid.e6abfd6b30c0fa7d3b1a.PNG"
-                            : Math.floor(Math.random() * 5) + 1 === 5
-                            ? "https://res.cloudinary.com/do7kimovl/image/upload/v1711806164/WhatsApp_Image_2024-03-30_at_6.53.33_PM_qo99n4.jpg"
-                            : ""
+                              ? "https://lh3.googleusercontent.com/a/ACg8ocJ_lQQ7XjcLthKctAe1u5A6Fv8JJUQ0ugECmc7RkiZmKfI=s360-c-no"
+                              : Math.floor(Math.random() * 5) + 1 === 3
+                                ? "https://sunlottery.fun/static/media/tanveer.03fd8989206194114777.PNG"
+                                : Math.floor(Math.random() * 5) + 1 === 4
+                                  ? "https://sunlottery.fun/static/media/sajid.e6abfd6b30c0fa7d3b1a.PNG"
+                                  : Math.floor(Math.random() * 5) + 1 === 5
+                                    ? "https://res.cloudinary.com/do7kimovl/image/upload/v1711806164/WhatsApp_Image_2024-03-30_at_6.53.33_PM_qo99n4.jpg"
+                                    : ""
                         } // Close the src attribute here
-                        className={`capitalize ${
-                          i.id % 2 === 0 ? "!bg-[#2350BF]" : "!bg-green-700"
-                        }`}
+                        className={`capitalize ${i.id % 2 === 0 ? "!bg-[#2350BF]" : "!bg-green-700"
+                          }`}
                       >
                         {i?.email?.split("@")[0]?.substring(0, 1)}
                       </Avatar>
                       <Typography variant="body1">
                         {i?.email
                           ? i.email.split("@")[0].substring(0, 2) +
-                            "**" +
-                            (i.email.split("@")[0].length > 2
-                              ? i.email.split("@")[0].substring(2, 4)
-                              : "")
+                          "**" +
+                          (i.email.split("@")[0].length > 2
+                            ? i.email.split("@")[0].substring(2, 4)
+                            : "")
                           : "**"}
                       </Typography>
                     </Stack>
@@ -856,7 +855,7 @@ function Dashboard() {
               </div>
               <DialogContent style={{ background: zubgback }}>
                 {!openbannerurl ||
-                openbannerurl === "" ? (
+                  openbannerurl === "" ? (
                   <Notification handleClosepolicy={handleClosepolicy} />
                 ) : (
                   <img src={openbannerurl} className="w-[100%] h-[100%]" />

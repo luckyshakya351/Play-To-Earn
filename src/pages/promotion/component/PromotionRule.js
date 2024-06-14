@@ -6,7 +6,7 @@ import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeft
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Layout from '../../../component/Layout/Layout';
 import Leval from '../../../assets/images/leval.png'
-import { iconcolorpink, zubgback, zubgbackgrad, zubgmid, zubgtext } from '../../../Shared/color';
+import { gamename, iconcolorpink, zubgback, zubgbackgrad, zubgmid, zubgtext } from '../../../Shared/color';
 
 
 
@@ -175,7 +175,7 @@ function PromotionRule() {
           <Box sx={style.box}>
             <Box sx={style.boxNumber}>08</Box>
             <Typography variant="body1" color="initial">
-              The final interpretation of this activity belongs to Welcome to Right Time Game
+              The final interpretation of this activity belongs to Welcome to {gamename} Game
             </Typography>
           </Box>
         </Box>

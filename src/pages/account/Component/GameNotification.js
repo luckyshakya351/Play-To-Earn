@@ -3,7 +3,7 @@ import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import * as React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { zubgback, zubgmid, zubgtext } from '../../../Shared/color';
+import { gamename, zubgback, zubgmid, zubgtext } from '../../../Shared/color';
 import Layout from '../../../component/Layout/Layout';
 import promotion from '../../../assets/images/marketing (1).png'
 
@@ -28,7 +28,7 @@ function GameNotification() {
           <Stack direction='row' sx={style.notificationStack}>
             <Stack direction='row' sx={style.notificationStack}>
               <Box component={'img'} src={promotion} sx={{ width: '30px', height: '30px' }}></Box>
-              <Typography variant="body1" color="initial">About Withdrawal - Right Time Notify</Typography>
+              <Typography variant="body1" color="initial">About Withdrawal - {gamename} Notify</Typography>
             </Stack>
           </Stack>
           <Typography variant="body1" color="initial">

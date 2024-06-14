@@ -192,9 +192,9 @@ function Wallet() {
 
   const series = [Number(result?.bonus || 0)?.toFixed(2) || 0];
   const series2 = [
-    (Number(Number(result?.winning_wallet || 0)%100) || 0)?.toFixed(2),
+    (Number(Number(result?.winning_wallet || 0) % 100) || 0)?.toFixed(2),
   ];
-  
+
   const [options] = React.useState({
     colors: ["#E71D1E", "red", "green"],
     chart: {
@@ -282,7 +282,7 @@ function Wallet() {
                 {(
                   Number(
                     Number(result?.winning_wallet || 0) +
-                      Number(result?.wallet || 0)
+                    Number(result?.wallet || 0)
                   ) || 0
                 )?.toFixed(0)}
               </Typography>
@@ -585,7 +585,7 @@ function Wallet() {
                 0.000
               </Typography>
               <Typography variant="body1" color="initial">
-                RT
+                P2E
               </Typography>
             </Box>
           </Box>
@@ -595,7 +595,7 @@ function Wallet() {
                 0.000
               </Typography>
               <Typography variant="body1" color="initial">
-                RT
+                P2E
               </Typography>
             </Box>
           </Box>
@@ -605,7 +605,7 @@ function Wallet() {
                 0.000
               </Typography>
               <Typography variant="body1" color="initial">
-                RT
+                P2E
               </Typography>
             </Box>
           </Box>
@@ -615,7 +615,7 @@ function Wallet() {
                 0.000
               </Typography>
               <Typography variant="body1" color="initial">
-                RT
+                P2E
               </Typography>
             </Box>
           </Box>
@@ -625,7 +625,7 @@ function Wallet() {
                 0.000
               </Typography>
               <Typography variant="body1" color="initial">
-                RT
+                P2E
               </Typography>
             </Box>
           </Box>
@@ -635,7 +635,7 @@ function Wallet() {
                 0.000
               </Typography>
               <Typography variant="body1" color="initial">
-                RT
+                P2E
               </Typography>
             </Box>
           </Box>

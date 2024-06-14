@@ -39,3 +39,6 @@ export const zubgcrickblue = '#613EF0';
 export const zubgcrickorange = '#00A260';
 export const zubgcrickgred = "#005543";
 export const zubgcricklight = "#00B55E";
+
+
+export const gamename = 'Play2Earn'
