@@ -633,7 +633,7 @@ function Dashboard() {
               >
                 Winning information
               </Typography>
-              {winnner_data.slice(3, 10)?.map((i, index) => {
+              {winnner_data?.slice(3, 10)?.map((i, index) => {
                 return (
                   <Stack
                     key={index}
@@ -768,7 +768,7 @@ function Dashboard() {
             </div>
           ) : (
             <Box sx={{ ...styles.wininfoouter, mb: "40px" }}>
-              {winnner_data.slice(0, 3)?.map((i, index) => {
+              {winnner_data?.slice(0, 3)?.map((i, index) => {
                 return (
                   <Stack
                     key={index}
