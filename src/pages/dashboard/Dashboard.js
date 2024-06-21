@@ -51,7 +51,7 @@ import cash from "../../assets/images/money.png";
 import deposit from "../../assets/images/security-box.png";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import position2 from "../../assets/images/positio2.png";
-import logo from "../../assets/images/logo-2 (1) (1).png";
+import logo from "../../assets/images/logo-2 (2).png";
 import position3 from "../../assets/images/position3.png";
 import position1 from "../../assets/images/positoin1.png";
 import stage from "../../assets/images/pod2.png";
@@ -302,8 +302,7 @@ function Dashboard() {
                 className="flex items-center gap-2"
                 style={{ color: zubgtext }}
               >
-                <Box component="img" src={logo} sx={{ width: "30px" }}></Box>
-                <span className="text-[14px]"> {gamename} </span>
+                <Box component="img" src={logo} sx={{ width: "60px" }}></Box>
               </div>
               <div className="flex gap-1 items-center cursor-pointer">
                 <CloudDownloadIcon sx={{ color: zubgtext }} />

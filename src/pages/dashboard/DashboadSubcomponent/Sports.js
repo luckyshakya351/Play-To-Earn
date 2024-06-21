@@ -5,7 +5,7 @@ import { zubgback, zubgbackgrad, zubgmid, zubgshadow, zubgwhite } from "../../..
 import kind from "../../../assets/images/PSD.jpg";
 import Crickback from "../../../assets/images/crickback.png";
 import go from "../../../assets/images/go.png";
-import wingobg from '../../../assets/images/wingo1.jpg';
+import wingobg from '../../../assets/images/wingo11111.jpg';
 
 
 const Original = () => {
@@ -24,9 +24,9 @@ const Original = () => {
             </Box>
             <Box sx={style.titleBox}>
               <Box>
-                <Typography variant="body1" color="initial" sx={style.title} className="!text-4xl">
-                  Cricket
-                </Typography>
+                <NavLink href="https://www.fontspace.com/category/gaming">
+                  <Box sx={{ width: '150px' }} component='img' src="https://see.fontimg.com/api/renderfont4/MVrOx/eyJyIjoiZnMiLCJoIjo2MSwidyI6MTI1MCwiZnMiOjQ5LCJmZ2MiOiIjRjVGMkYyIiwiYmdjIjoiIzAwMDAwMCIsInQiOjF9/Q3JpY2tldA/metricas.png" alt="Gaming fonts"></Box>
+                </NavLink>
               </Box>
             </Box>
           </Box>
