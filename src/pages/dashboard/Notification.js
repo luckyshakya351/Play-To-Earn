@@ -11,9 +11,9 @@ const Notification = ({ handleClosepolicy }) => {
         className="mt-2"
         sx={{ "&>p": { color: "white", fontSize: "12px" } }}
       >
-        <p className=" pl-10 !text-red-600">
+        {/* <p className=" pl-10 !text-red-600">
           ⭐️ {gamename} Operating 5 Years+
-        </p>
+        </p> */}
         <p className=" pl-10 !text-red-600">⭐️ High Quality Agent Benefits</p>
         <p className=" pl-10 !text-red-600">⭐️ No.1 Game Platform</p>
       </Box>
@@ -22,10 +22,10 @@ const Notification = ({ handleClosepolicy }) => {
         sx={{ "&>p": { color: "white", fontSize: "12px" } }}
       >
         <p className=" pl-10 !text-red-600">
-          🔥 Local Bank Deposit 2% Bonus 🔥
+          🔥 Local Bank Deposit 10 Rs Bonus 🔥
         </p>
         <p className=" pl-10 !text-red-600">
-          🔥USDT 3% Bonus & TRX 2% Bonus 🔥
+          🔥 Signup Bonus 20 Rs  & TRX 2% Bonus 🔥
         </p>
       </Box>
       <Box

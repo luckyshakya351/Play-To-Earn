@@ -15,6 +15,8 @@ import toast from "react-hot-toast";
 import CloseIcon from "@mui/icons-material/Close";
 import sunlotteryhomebanner from "../../assets/sunlotteryhomebanner.jpg";
 import { useState } from "react";
+import "../income/MainPageOFIncome"
+import MainPageOFIncome from "../income/MainPageOFIncome";
 
 function Activity() {
   const navigate = useNavigate();
@@ -69,7 +71,9 @@ function Activity() {
           </Typography>
           <Box></Box>
         </Box>
-        <Box className="bgcardbox">
+
+        <MainPageOFIncome className="!-h-[100%]"/>
+        {/* <Box className="bgcardbox">
           {game_data?.map((i, index) => {
             return (
               <Box
@@ -111,7 +115,7 @@ function Activity() {
               </Box>
             );
           })}
-        </Box>
+        </Box> */}
         {openDialogBoxHomeBanner && (
           <Dialog PaperProps={{ width: "500px", height: "500px" }} open={openDialogBoxHomeBanner}>
             <div>

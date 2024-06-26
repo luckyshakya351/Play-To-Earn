@@ -510,7 +510,7 @@ function Withdrawl() {
                   <div className="error">{fk.errors.account_number}</div>
                 )}
               </FormControl> */}
-              <FormControl fullWidth sx={{ mt: "10px" }}>
+              {/* <FormControl fullWidth sx={{ mt: "10px" }}>
                 <Stack direction="row" className="loginlabel">
                   <Typography variant="h3" sx={{ color: zubgtext }}>
                     Description <span className="!text-red-600">*</span>
@@ -540,7 +540,7 @@ function Withdrawl() {
                 {fk.touched.description && fk.errors.description && (
                   <div className="error">{fk.errors.description}</div>
                 )}
-              </FormControl>
+              </FormControl> */}
               <Button
                 sx={style.paytmbtntwo}
                 type="submit"
@@ -554,6 +554,22 @@ function Withdrawl() {
             </Box>
           </Box>
         </Box>
+        <Box className="!my-10 !mx-5 "  sx={{ "&>p": { textAlign: "center", color: "red" } }}>
+    
+      <Box
+        className="mt-2 !py-4 border border-red-500  rounded-lg"
+        sx={{ "&>p": { color: "", fontSize: "18px" } }}
+      >
+          <p className="  !text-red-600 !m-1">⭐️ Need to bet ₹0.00  to be able to withdraw .</p>
+        <p className="  !text-red-600 !m-1">⭐️ Withdraw time 00:00-23:59 </p>
+        <p className="  !text-red-600 !m-1">⭐️ Inday Remaining Withdrawal Times 3</p>
+        <p className="  !text-red-600 !m-1">⭐️ Withdrawal amount range ₹110.00-₹50,000.00</p>
+        <p className="  !text-red-600 !m-1">⭐️ Please confirm your beneficial account information before withdrawing. If your information is incorrect, our company will not be liable for the amount of loss</p>
+        <p className="  !text-red-600 !m-1">⭐️ If your beneficial information is incorrect, please contact customer service</p>
+
+      
+     </Box>
+    </Box>
         <Dialog open={openDialogBox}>
           <div className="!p-5 !max-w-[300px]">
             <p className="!font-bold text-center flex-col">

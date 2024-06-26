@@ -159,13 +159,13 @@ function AddBankDetails() {
                   type="email"
                   value={fk.values.email}
                   onChange={fk.handleChange}
-                  placeholder="Enter email *"
+                  placeholder="Enter email "
                   className="withdrawalfield"
                   onKeyDown={(e) => e.key === "Enter" && fk.handleSubmit()}
                 />
-                {fk.touched.email && fk.errors.email && (
+                {/* {fk.touched.email && fk.errors.email && (
                   <div className="error">{fk.errors.email}</div>
-                )}
+                )} */}
               </FormControl>
               <FormControl fullWidth sx={{ mt: "10px" }}>
                 <Stack direction="row" className="loginlabel">
@@ -179,13 +179,13 @@ function AddBankDetails() {
                   type="number"
                   value={fk.values.mobile}
                   onChange={fk.handleChange}
-                  placeholder="Enter mobile *"
+                  placeholder="Enter mobile "
                   className="withdrawalfield"
                   onKeyDown={(e) => e.key === "Enter" && fk.handleSubmit()}
                 />
-                {fk.touched.mobile && fk.errors.mobile && (
+                {/* {fk.touched.mobile && fk.errors.mobile && (
                   <div className="error">{fk.errors.mobile}</div>
-                )}
+                )} */}
               </FormControl>
 
               <FormControl fullWidth sx={{ mt: "10px" }}>

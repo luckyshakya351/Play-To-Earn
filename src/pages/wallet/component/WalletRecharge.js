@@ -351,6 +351,13 @@ function WalletRecharge() {
         >
           <Button
             sx={style.paytmbtn}
+            onClick={() => fk.setFieldValue("amount", 100)}
+          >
+            {" "}
+            ₹ 100
+          </Button>
+          <Button
+            sx={style.paytmbtn}
             onClick={() => fk.setFieldValue("amount", 500)}
           >
             {" "}
@@ -384,13 +391,7 @@ function WalletRecharge() {
             {" "}
             ₹ 15K
           </Button>
-          <Button
-            sx={style.paytmbtn}
-            onClick={() => fk.setFieldValue("amount", 20000)}
-          >
-            {" "}
-            ₹ 20K
-          </Button>
+        
         </Stack>
       </>
     );

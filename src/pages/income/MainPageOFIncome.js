@@ -100,17 +100,18 @@ function MainPageOFIncome() {
     },
   ];
   return (
-    <Layout>
+   
       <Container
         sx={{
           background: zubgback,
           width: "100%",
-          height: "100vh",
+          // height: "100vh",
           overflow: "auto",
           mb: 5,
         }}
       >
         <Box
+      
           sx={{
             width: "95%",
             marginLeft: "2.5%",
@@ -158,7 +159,7 @@ function MainPageOFIncome() {
           </div>
         </Box>
       </Container>
-    </Layout>
+   
   );
 }
 
