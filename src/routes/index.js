@@ -55,6 +55,9 @@ import QRScreen from "../pages/wallet/component/QRScreen";
 import TeamData from "../pages/promotion/component/TeamData";
 import TronScanPage from "../pages/trx/component/TronScanPage";
 import DailyNonWorking from "../pages/income/incomeSubSection/DailyNonWorkingBonus";
+import Fund from "../pages/account/Component/Fund";
+import FundTransfer from "../pages/account/Component/FundTransfer";
+import FundTransferHistory from "../pages/account/Component/FundTransferHistory";
 
 export const routes = [
     {
@@ -112,6 +115,18 @@ export const routes = [
     {
         path: "/SettingCenter",
         component: <SettingCenter />
+    },
+    {
+        path: "/fund",
+        component: <Fund />
+    },
+    {
+        path: "/fund/fundtransfer",
+        component: <FundTransfer />
+    },
+    {
+        path: "/fund/fundhistory",
+        component: <FundTransferHistory />
     },
     {
         path: "/SettingCenter/LoginPassword",

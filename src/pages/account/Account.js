@@ -403,31 +403,31 @@ function Account() {
           <div className="!w-full !grid !grid-cols-3 !place-items-center">
             {[
               {
-                // to: "/account/income-main",
-                name: "Income",
+                to: "/fund",
+                name: "Fund ",
                 logo: balance,
               },
               {
-                //  to: "/SettingCenter",
+                 to: "/SettingCenter",
                  name: "Setting",
                   logo: setting },
               {
-                // to: "/gameNotification",
+                to: "/gameNotification",
                 name: "Notification",
                 logo: notification1,
               },
               {
-                // to: "/SettingCenter/LoginPassword",
+                to: "/SettingCenter/LoginPassword",
                 name: "Change Password",
                 logo: user2,
               },
               {
-                // to: "/promotion/customerLine/",
+                to: "/promotion/customerLine/",
                 name: "Customer service",
                 logo: customer,
               },
               {
-                //  to: "/feedback",
+                 to: "/feedback",
                  name: "Feedback", 
                  logo: hand },
             ]?.map((i) => {
