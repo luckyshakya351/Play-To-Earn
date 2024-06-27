@@ -181,7 +181,7 @@ function Account() {
             </Typography>
           </Box>
         </Box>
-        <Box sx={style.actionContainer} component={NavLink} to={"/bathistory"}>
+        {/* <Box sx={style.actionContainer} component={NavLink} to={"/bathistory"}>
           <Box
             sx={{
               width: "50%",
@@ -244,7 +244,7 @@ function Account() {
               </Box>
             </Stack>
           </Box>
-        </Box>
+        </Box> */}
         <Box sx={style.actionContainertwo}>
           <Stack
             sx={{

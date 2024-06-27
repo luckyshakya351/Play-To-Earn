@@ -54,6 +54,7 @@ import AddedBankDetailList from "../pages/account/Component/AddedBankDetailList"
 import QRScreen from "../pages/wallet/component/QRScreen";
 import TeamData from "../pages/promotion/component/TeamData";
 import TronScanPage from "../pages/trx/component/TronScanPage";
+import DailyNonWorking from "../pages/income/incomeSubSection/DailyNonWorkingBonus";
 
 export const routes = [
     {
@@ -267,6 +268,10 @@ export const routes = [
     {
         path: "/account/income-main/team-reward-bonus",
         component: <TeamRewardBonus />
+    },
+    {
+        path: "/account/income-main/daily-non-working",
+        component: <DailyNonWorking />
     },
     {
         path: "/add-bank-details",

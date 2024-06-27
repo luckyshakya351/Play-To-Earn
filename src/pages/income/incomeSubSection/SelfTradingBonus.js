@@ -46,7 +46,7 @@ function SelfTradingBonus() {
             <Box component={NavLink} onClick={goBack}>
               <KeyboardArrowLeftOutlinedIcon />
             </Box>
-            <p>Daily Cashback Bonus</p>
+            <p>Self Trading Bonus</p>
           </Box>
           <div>
             <img className="" src={nodatafoundimage} />
@@ -71,7 +71,7 @@ function SelfTradingBonus() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Self Tradin Bonus</p>
+          <p>Self Trading Bonus</p>
         </Box>
         <div className="no-scrollbar !mb-10">
           {res?.map((i) => {
@@ -79,22 +79,22 @@ function SelfTradingBonus() {
               <div className="!w-full !flex !flex-col   !p-2 !rounded-lg !mt-2" style={{ background: zubgwhite, boxShadow: zubgshadow }}>
                 <div className="!w-full !flex !justify-between">
                   <span style={{ color: zubgtext }}>{i?.l01_transection_type}</span>
-                  <span className="!text-green-400 !text-lg">
-                    {i?.l01_amount}
+                  <span className="!text-green-800 !text-lg">
+                  ₹ {i?.l01_amount}
                   </span>
                 </div>
                 <div className="!w-full !flex !justify-between">
-                  <span style={{ color: zubgtext }}>{i?.lo1_id}</span>
-                  <span className="!text-yellow-400  !text-[12px]">
+                  <span style={{ color: zubgtext }}></span>
+                  <span className="!text-yellow-700  !text-[12px]">
                     {moment(i?.l01_date)?.format("DD-MM-YYYY")}{" "}
                     {moment(i?.l01_date)?.format("HH:mm:ss")}
                   </span>
                 </div>
-                <div className="!w-full !flex !justify-between">
+                {/* <div className="!w-full !flex !justify-between">
                   <span style={{ color: zubgtext }} className=" !text-[12px]">
                     {i?.l01_type}
                   </span>
-                </div>
+                </div> */}
               </div>
             );
           })}

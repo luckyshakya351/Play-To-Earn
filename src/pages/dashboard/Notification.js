@@ -25,7 +25,7 @@ const Notification = ({ handleClosepolicy }) => {
           🔥 Local Bank Deposit 10 Rs Bonus 🔥
         </p>
         <p className=" pl-10 !text-red-600">
-          🔥 Signup Bonus 20 Rs  & TRX 2% Bonus 🔥
+          🔥 Signup Bonus 20 Rs  🔥
         </p>
       </Box>
       <Box

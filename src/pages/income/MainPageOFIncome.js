@@ -11,6 +11,7 @@ import * as React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { zubgback, zubgbackgrad, zubgmid, zubgtext } from "../../Shared/color";
 import Layout from "../../component/Layout/Layout";
+import { Balance } from "@mui/icons-material";
 function MainPageOFIncome() {
   const navigate = useNavigate();
   const goBack = () => {
@@ -93,6 +94,16 @@ function MainPageOFIncome() {
       name: "Team Reward Bonus",
       logo: (
         <Diversity2Icon
+          className="!w-[40px] !h-[40px] !text-white"
+          color="#8f5206"
+        />
+      ),
+    },
+    {
+      to: "/account/income-main/daily-non-working",
+      name: "Daily Non Working Bonus",
+      logo: (
+        <Balance
           className="!w-[40px] !h-[40px] !text-white"
           color="#8f5206"
         />

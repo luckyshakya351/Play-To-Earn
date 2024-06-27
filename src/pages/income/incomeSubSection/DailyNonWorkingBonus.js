@@ -5,51 +5,50 @@ import * as React from "react";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../../Shared/CustomCircularProgress";
-import { zubgback, zubgbackgrad, zubgmid, zubgtext } from "../../../Shared/color";
+import { zubgback, zubgbackgrad, zubgmid, zubgshadow, zubgtext, zubgwhite } from "../../../Shared/color";
 import Layout from "../../../component/Layout/Layout";
-import { teamRewartBonus } from "../../../services/apicalling";
+import { dailyBonusFn } from "../../../services/apicalling";
 import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 
-function TeamRewardBonus() {
+function DailyNonWorking() {
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
   const { isLoading, data } = useQuery(
-    ["team_reward_bonus"],
-    () => teamRewartBonus(),
+    ["get_daily"],
+    () => dailyBonusFn(),
     {
       refetchOnMount: false,
       refetchOnReconnect: true,
     }
   );
   const res = data?.data?.data;
-
   if (!isLoading && !res)
-  return (
-    <Layout>
-      <Container
-        sx={{
-          background: zubgback,
-          width: "100%",
-          height: "100vh",
-          overflow: "auto",
-          mb: 5,
-        }}
-      >
-        <Box sx={style.header}>
-          <Box component={NavLink} onClick={goBack}>
-            <KeyboardArrowLeftOutlinedIcon />
+    return (
+      <Layout>
+        <Container
+          sx={{
+            background: zubgback,
+            width: "100%",
+            height: "100vh",
+            overflow: "auto",
+            mb: 5,
+          }}
+        >
+          <Box sx={style.header}>
+            <Box component={NavLink} onClick={goBack}>
+              <KeyboardArrowLeftOutlinedIcon />
+            </Box>
+            <p>Daily Non Working Bonus</p>
           </Box>
-          <p>Team Reward Bonus</p>
-        </Box>
-        <div>
-          <img className="" src={nodatafoundimage} />
-        </div>
-      </Container>
-    </Layout>
-  );
+          <div>
+            <img className="" src={nodatafoundimage} />
+          </div>
+        </Container>
+      </Layout>
+    );
   return (
     <Layout>
       <Container
@@ -67,30 +66,26 @@ function TeamRewardBonus() {
           <Box component={NavLink} onClick={goBack}>
             <KeyboardArrowLeftOutlinedIcon />
           </Box>
-          <p>Team Reward Bonus</p>
+          <p>Daily Non Working Bonus</p>
         </Box>
         <div className="no-scrollbar !mb-10">
           {res?.map((i) => {
             return (
-              <div className="!w-full !flex !flex-col  !bg-white !bg-opacity-5 !p-2 !rounded-lg !mt-2">
+              <div className="!w-full !flex !flex-col   !p-2 !rounded-lg !mt-2" style={{ background: zubgwhite, boxShadow: zubgshadow }}>
                 <div className="!w-full !flex !justify-between">
-                  <span className="!text-white">{i?.l01_transection_type}</span>
-                  <span className="!text-green-400 !text-lg">
-                    {i?.l01_amount}
+                  <span style={{ color: zubgtext }}>{i?.l01_transection_type}</span>
+                  <span className="!text-green-800 !text-lg">
+                  ₹ {i?.l01_amount}
                   </span>
                 </div>
                 <div className="!w-full !flex !justify-between">
-                  <span className="!text-white">{i?.lo1_id}</span>
-                  <span className="!text-yellow-400  !text-[12px]">
+                  <span style={{ color: zubgtext }}></span>
+                  <span className="!text-yellow-700  !text-[12px]">
                     {moment(i?.l01_date)?.format("DD-MM-YYYY")}{" "}
                     {moment(i?.l01_date)?.format("HH:mm:ss")}
                   </span>
                 </div>
-                <div className="!w-full !flex !justify-between">
-                  <span className="!text-white !text-[12px]">
-                    {i?.l01_type}
-                  </span>
-                </div>
+               
               </div>
             );
           })}
@@ -100,11 +95,11 @@ function TeamRewardBonus() {
   );
 }
 
-export default TeamRewardBonus;
+export default DailyNonWorking;
 
 const style = {
   header: {
-    padding: "15px 8px",
+    padding: "10px 8px",
     background: zubgtext,
     display: "flex",
     alignItems: "center",

@@ -190,7 +190,7 @@ function Wallet() {
   //   },
   // };
 
-  const series = [Number(result?.bonus || 0)?.toFixed(2) || 0];
+  const series = [(Number(Number(result?.wallet || 0) % 100) || 0)?.toFixed(2),]
   const series2 = [
     (Number(Number(result?.winning_wallet || 0) % 100) || 0)?.toFixed(2),
   ];
@@ -347,14 +347,14 @@ function Wallet() {
                   color="initial"
                   sx={{
                     position: "absolute",
-                    left: "39%",
+                    left: "42%",
                     top: "32%",
                     fontSize: "15px",
                     fontWeight: "700",
                     color: "white",
                   }}
                 >
-                  {series}%
+                  {series}
                 </Typography>
                 <ReactApexChart
                   options={options}
@@ -373,14 +373,14 @@ function Wallet() {
                     color="initial"
                     sx={{ color: "white", fontWeight: "600" }}
                   >
-                    {series}%
+                    {Number(result?.wallet || 0)}
                   </Typography>
                   <Typography
                     variant="body1"
                     color="initial"
                     sx={{ color: "white", fontWeight: "600" }}
                   >
-                    Bonus Amount
+                    Wallet Amount
                   </Typography>
                 </Box>
               </Box>
@@ -391,13 +391,13 @@ function Wallet() {
                   sx={{
                     position: "absolute",
                     color: "white",
-                    left: "39%",
+                    left: "42%",
                     top: "32%",
                     fontSize: "15px",
                     fontWeight: "700",
                   }}
                 >
-                  {series2}%
+                  {series2}
                 </Typography>
                 <ReactApexChart
                   options={options}
@@ -416,7 +416,7 @@ function Wallet() {
                     color="initial"
                     sx={{ color: "white", fontWeight: "600" }}
                   >
-                    {series2}%
+                     {Number(result?.winning_wallet || 0)}
                   </Typography>
                   <Typography
                     variant="body1"
