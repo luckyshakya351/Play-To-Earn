@@ -21,10 +21,7 @@ import CryptoJS from 'crypto-js'
 function FundRequest() {
   const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null;
   const user_id = login_data && JSON.parse(login_data).UserID;
-  const functionTOCopy = (value) => {
-    copy(value);
-    toast.success("Copied to clipboard!");
-  };
+
   const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
     refetchOnReconnect: true,
@@ -41,17 +38,7 @@ function FundRequest() {
       console.log(e);
     }
   };
-  const initialValues = {
-    referrel_code: "https://zupeeter.com/auth/registration/WlcxMjM0NTY3",
-  };
-  const fk = useFormik({
-    initialValues: initialValues,
-    onSubmit: () => {
-      console.log("This is handle submit");
-    },
-  });
-
-  const amount = data?.data?.data?.wallet || 0;
+ 
   if (isLoading)
     return (
       <Layout>

@@ -1,10 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { zubgback, zubgbackgrad, zubgmid, zubgshadow, zubgwhite } from "../../../Shared/color";
+import { zubgmid, zubgshadow, zubgwhite } from "../../../Shared/color";
 import kind from "../../../assets/images/PSD.jpg";
-import Crickback from "../../../assets/images/crickback.png";
-import go from "../../../assets/images/go.png";
 import wingobg from '../../../assets/images/wingo11111.jpg';
 
 

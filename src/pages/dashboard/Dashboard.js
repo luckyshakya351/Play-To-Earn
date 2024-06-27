@@ -1,8 +1,7 @@
+import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import FitbitIcon from "@mui/icons-material/Fitbit";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import TelegramIcon from "@mui/icons-material/Telegram";
-import bgms from "../../assets/images/bgms1.png";
 import {
   Avatar,
   Box,
@@ -33,33 +32,30 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { checkTokenValidity } from "../../Shared/CookieStorage";
 import CustomCircularProgress from "../../Shared/CustomCircularProgress";
 import {
-  gamename,
   gray,
   zubgback,
-  zubgbackgrad,
-  zubggray,
   zubgmid,
   zubgshadow,
   zubgtext,
-  zubgwhite,
+  zubgwhite
 } from "../../Shared/color";
 import aviator_game_image from "../../assets/aviator_game_image.png";
 import one from "../../assets/images/1.jpg";
-import two from "../../assets/images/2.jpg";
 import three from "../../assets/images/123.png";
-import cash from "../../assets/images/money.png";
-import deposit from "../../assets/images/security-box.png";
-import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
-import position2 from "../../assets/images/positio2.png";
+import two from "../../assets/images/2.jpg";
+import bgms from "../../assets/images/bgms1.png";
+import gmbg from "../../assets/images/gmbg.jpg";
+import winp4 from "../../assets/images/jacpot.jpg";
 import logo from "../../assets/images/logo-2 (2).png";
+import cash from "../../assets/images/money.png";
+import stage from "../../assets/images/pod2.png";
+import position2 from "../../assets/images/positio2.png";
 import position3 from "../../assets/images/position3.png";
 import position1 from "../../assets/images/positoin1.png";
-import stage from "../../assets/images/pod2.png";
-import winp4 from "../../assets/images/jacpot.jpg";
+import deposit from "../../assets/images/security-box.png";
 import sajid from "../../assets/sajid.PNG";
 import tanveer from "../../assets/tanveer.PNG";
 import Layout from "../../component/Layout/Layout";
-import gmbg from "../../assets/images/gmbg.jpg";
 import {
   please_reconnect_the_serverFun,
   waitingAviatorFun,
@@ -74,15 +70,13 @@ import {
 import {
   endpoint,
   fron_end_main_domain,
-  rupees,
   support_mail,
-  telegram_url,
+  telegram_url
 } from "../../services/urls";
 import Lottery from "./DashboadSubcomponent/Lottery";
 import Original from "./DashboadSubcomponent/Original";
 import Sports from "./DashboadSubcomponent/Sports";
 import Notification from "./Notification";
-import { Opacity } from "@mui/icons-material";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
