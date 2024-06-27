@@ -141,7 +141,7 @@ function WalletRecharge() {
       fd.append("Name", user_name);
       fd.append("TransactionID", transaction_id);
 
-      return toast("We are upgrading for smooth and fast payin please wait...");
+      // return toast("We are upgrading for smooth and fast payin please wait...");
 
       paymentRequest(fd, fk.values.amount);
       fk.setFieldValue("all_data", {
@@ -179,9 +179,9 @@ function WalletRecharge() {
     }
     try {
       const res = await axios.post(`${endpoint.payment_request}`, fdata);
-      const qr_url = res?.data?.data && JSON.parse(res?.data?.data)?.payment_link || "";
+      const qr_url = res?.data?.data && JSON.parse(res?.data?.data)?.upi_deep_link || "";
       // const qr_url = JSON.parse(res?.data?.data) || "";
-      console.log(res);
+      console.log(res,qr_url);
       if (qr_url) {
         setDeposit_req_data(qr_url);
       } else {
