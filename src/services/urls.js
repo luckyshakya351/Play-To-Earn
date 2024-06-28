@@ -66,4 +66,6 @@ export const endpoint = {
   wallet_data: `${baseUrl}/api/aviator/userwallet`,
   bet_now: `${baseUrl}/api/aviator/bet_now`,
   cash_out: `${baseUrl}/api/aviator/cash_out`,
+  insert_fund_transfer: `${baseUrl}/api/wallet-to-wallet-transfer`,
+  fund_transfer_history: `${baseUrl}/api/wallet-fund-trasfer-list`,
 };

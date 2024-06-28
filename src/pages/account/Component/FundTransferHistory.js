@@ -5,6 +5,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { zubgback, zubgbackgrad, zubgmid, zubgshadow, zubgtext, zubgwhite } from '../../../Shared/color';
 import Layout from '../../../component/Layout/Layout';
 import moment from 'moment/moment';
+import { FundTransferHistoryFn } from '../../../services/apicalling';
+import { useQuery } from 'react-query';
+import nodatafoundimage from "../../../assets/images/nodatafoundimage.png";
 
 function FundTransferHistory() {
     const navigate = useNavigate();
@@ -14,22 +17,21 @@ function FundTransferHistory() {
     const tableRef = React.useRef(null);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
-    // const { isLoading, data: game_history } = useQuery(
-    //   ["fund_transfer_history_details"],
-    //   () => FundTransferHistoryFn(),
-    //   {
-    //     refetchOnMount: false,
-    //     refetchOnReconnect: true,
-    //   }
-    // );
+    const { isLoading, data:game_history } = useQuery(
+      ["fund_transfer_history_details"],
+      () => FundTransferHistoryFn(),
+      {
+        refetchOnMount: false,
+        refetchOnReconnect: true,
+      }
+    );
   
-    // const game_history_data = game_history?.data?.data;
-    const game_history_data = []
+    const game_history_data = game_history?.data?.data;
+    // const game_history_data = []
     // React.useMemo(
-    //   () => game_history?.data?.earning?.rid,
-    //   [game_history?.data?.earning?.rid]
+    //   () => game_history?.data?.data,
+    //   [game_history?.data?.data]
     // );
-  
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -47,7 +49,30 @@ function FundTransferHistory() {
         ),
       [page, rowsPerPage, game_history_data]
     );
-  
+    if (!isLoading && !game_history_data)
+      return (
+        <Layout>
+          <Container
+            sx={{
+              background: zubgback,
+              width: "100%",
+              height: "100vh",
+              overflow: "auto",
+              mb: 5,
+            }}
+          >
+            <Box sx={style.header}>
+              <Box component={NavLink} onClick={goBack}>
+                <KeyboardArrowLeftOutlinedIcon />
+              </Box>
+              <p>Fund Transfer History</p>
+            </Box>
+            <div>
+              <img className="" src={nodatafoundimage} />
+            </div>
+          </Container>
+        </Layout>
+      );
     return (
         <Layout>
             <Container sx={style.container}>
@@ -90,25 +115,15 @@ function FundTransferHistory() {
                   </TableCell>
                   <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
                     Date
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Transfer Amount
-                  </TableCell>
+                  </TableCell>  
                   <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
                     Receive Amount
-                  </TableCell>
-                  <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Fees
-                  </TableCell>
+                  </TableCell> 
                 </TableRow>
               </TableHead>
               <TableBody
-              // sx={{
-              //   "&>tr>td": { padding: "10px 5px", border: "none" },
-              //   "&>tr": { borderBottom: "1px solid #ced4d7" },
-              // }}
               >
-                 {visibleRows?.map((i, index) => {
+                {visibleRows?.map((i, index) => {
                   return ( 
                     <TableRow key="" className="!w-[95%]">
                       <TableCell className="!text-black !pl-[2px] !pr-2 !text-center !border-2 !border-r ">
@@ -118,26 +133,18 @@ function FundTransferHistory() {
                         {i?.tr11_fund_transaid}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {i?.or_m_user_id ? i?.or_m_user_id:"----" }
+                      {i?.username ? i?.username:"----" }
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {moment(i?.tr11_fund_date)?.format("DD-MM-YYYY")}
-                      </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {Number(
-                          Number(i?.tr11_fund_amt || 0) +
-                          (Number(i?.tr11_fund_amt || 0)*3/100)
-                        )?.toFixed(2)}
+                        {moment(i?.tr11_fund_date)?.format("DD-MM-YYYY")}{" "}
+                        {moment(i?.tr11_fund_date)?.format("HH:mm:ss")}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
                         {Number(i?.tr11_fund_amt || 0)?.toFixed()}
                       </TableCell>
-                      <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {(Number(i?.tr11_fund_amt || 0)*3/100)?.toFixed(2)}
-                      </TableCell>
                     </TableRow>
                   );
-                })}
+                })} 
               </TableBody>
             </Table>
           </TableContainer>
@@ -145,14 +152,14 @@ function FundTransferHistory() {
             <Stack spacing={2}>
               <TablePagination
                 sx={{ background: zubgmid, color: "white" }}
-                // rowsPerPageOptions={[10, 15, 20]}
-                // component="div"
-                // count={game_history_data?.length}
-                // rowsPerPage={rowsPerPage}
-                // page={page}
-                // onPageChange={handleChangePage}
-                // onRowsPerPageChange={handleChangeRowsPerPage}
-                // labelRowsPerPage="Rows"
+                rowsPerPageOptions={[10, 15, 20]}
+                component="div"
+                count={game_history_data?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage="Rows"
               />
             </Stack>
           </Box>

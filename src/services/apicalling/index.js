@@ -21,6 +21,16 @@ export const MyProfileDataFn = async () => {
     console.log(e);
   }
 };
+export const FundTransferHistoryFn = async () => {
+  try {
+    const response = await axios.get(
+      `${endpoint.fund_transfer_history}?user_id=${Number(user_id)}`
+    );
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
 export const Cricket_id_passFunction = async ({ setId_pass_data }) => {
   try {
     const response = await axios.get(
