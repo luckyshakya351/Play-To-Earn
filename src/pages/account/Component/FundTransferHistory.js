@@ -148,7 +148,7 @@ function FundTransferHistory() {
               </TableBody>
             </Table>
           </TableContainer>
-          <Box sx={{ background: "white", mt: 3 }}>
+          <Box sx={{ background: "white", mt: 3 ,mb:10 }}>
             <Stack spacing={2}>
               <TablePagination
                 sx={{ background: zubgmid, color: "white" }}

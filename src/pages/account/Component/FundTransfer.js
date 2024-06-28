@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, OutlinedInput, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Container, FormControl, OutlinedInput, Typography } from '@mui/material';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import { useFormik } from "formik";
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -6,24 +6,24 @@ import axios from "axios";
 import toast from 'react-hot-toast';
 import Layout from '../../../component/Layout/Layout';
 import { endpoint } from "../../../services/urls";
-import { MyProfileDataFn } from "../../../services/apicalling";
 import { zubgback, zubgbackgrad, zubgmid, zubgtext, zubgwhite, zubgshadow } from '../../../Shared/color'
-import { useQuery, useQueryClient } from 'react-query';
-
+import {  useQueryClient } from 'react-query';
+import CryptoJS from "crypto-js";
+import { useState } from 'react';
+import CustomCircularProgress from '../../../Shared/CustomCircularProgress';
 function FundTransfer() {
+
+    const [isLoading, setLoading] = useState(false);
+    const login_data =localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null
+    const user_id =login_data &&  JSON.parse(login_data)?.UserID;
+    console.log(user_id)
     const navigate = useNavigate();
     const client = useQueryClient();
     const goBack = () => {
         navigate(-1);
     };
-    const {  data } = useQuery(["myprofile"], () => MyProfileDataFn(), {
-      refetchOnMount: false,
-      refetchOnReconnect: true,
-    });
-    const result = data?.data?.data  ;
-    console.log(result)
     const initialValue = {
-        userid: result?.id, 
+        userid: user_id, 
         amount: "",
         txtintroducer_id: "",
     };
@@ -31,8 +31,9 @@ function FundTransfer() {
     const fk = useFormik({
         initialValues: initialValue,
         enableReinitialize: true,
-        onSubmit: async (values, { setSubmitting, resetForm }) => {
+        onSubmit: async (values, { resetForm }) => {
             try {
+                setLoading(true);
                 const reqBody = {
                     userid: values.userid,
                     txtintroducer_id: values.txtintroducer_id,
@@ -41,6 +42,7 @@ function FundTransfer() {
 
                 if (!reqBody.userid || !reqBody.txtintroducer_id || !reqBody.amount) {
                     toast.error("Please enter all data");
+                    setLoading(false);
                     return;
                 }
                 const res = await axios.post(endpoint?.insert_fund_transfer, reqBody);
@@ -53,9 +55,9 @@ function FundTransfer() {
                 toast.error("Failed");
             }
             finally {
-                // Set submitting state to false
-                setSubmitting(false);
+                setLoading(false); 
             }
+           
         },
     });
 
@@ -102,9 +104,11 @@ function FundTransfer() {
                     </Box>
                      
                     <Button className='!mb-10' sx={style.paytmbtntwo}
-                    disabled={fk.isSubmitting || !fk.dirty}
-                    onClick={() => fk.handleSubmit()}
-                    >  {fk.isSubmitting ? 'Submitting...' : 'Submit'} </Button>
+                   onClick={() => fk.handleSubmit()}
+                    > Submit </Button>
+                     {isLoading && (
+                            <CustomCircularProgress isLoading={isLoading}/>
+                        )}
                 </Box>
             </Box>
         </Container>
