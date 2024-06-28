@@ -27,11 +27,6 @@ function FundTransferHistory() {
     );
   
     const game_history_data = game_history?.data?.data;
-    // const game_history_data = []
-    // React.useMemo(
-    //   () => game_history?.data?.data,
-    //   [game_history?.data?.data]
-    // );
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
