@@ -7,9 +7,10 @@ import toast from 'react-hot-toast';
 import Layout from '../../../component/Layout/Layout';
 import { endpoint } from "../../../services/urls";
 import { zubgback, zubgbackgrad, zubgmid, zubgtext, zubgwhite, zubgshadow } from '../../../Shared/color'
-import {  useQueryClient } from 'react-query';
+import {  useQuery, useQueryClient } from 'react-query';
 import CryptoJS from "crypto-js";
 import { useState } from 'react';
+import { CandidateNameFn } from '../../../services/apicalling';
 import CustomCircularProgress from '../../../Shared/CustomCircularProgress';
 function FundTransfer() {
 
@@ -21,6 +22,8 @@ function FundTransfer() {
     const goBack = () => {
         navigate(-1);
     };
+  
+
     const initialValue = {
         userid: user_id, 
         amount: "",
@@ -59,7 +62,15 @@ function FundTransfer() {
            
         },
     });
-
+    const { data } = useQuery(
+        ["getname", fk.values.txtintroducer_id],
+        () => CandidateNameFn({ reffral_id: fk.values.txtintroducer_id }),
+        {
+            refetchOnMount: false,
+            refetchOnReconnect: true,
+        }
+    );
+    const candidateName = data?.data?.data;
     return (
        
         <Layout>
@@ -98,7 +109,16 @@ function FundTransfer() {
                               onChange={fk.handleChange}
                               placeholder='Enter Id'
                               className="loginfields "
-                          />
+                                onKeyDown={(e) => e.key === "Enter" && fk.handleSubmit()}
+                                />
+                                {fk.touched.txtintroducer_id && fk.errors.txtintroducer_id && (
+                                    <div className="error">{fk.errors.txtintroducer_id}</div>
+                                )}
+                                {fk.values.txtintroducer_id && candidateName && (
+                                    <div className="text-blue-500">{`Name: ${candidateName}`}</div>
+                                )} 
+                            
+                             
                        </FormControl>
                     </Box>
                      
