@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Container, FormControl, OutlinedInput, Typography } from '@mui/material';
+import { Box, Button, Container, FormControl, OutlinedInput, Typography } from '@mui/material';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import { useFormik } from "formik";
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -16,7 +16,6 @@ function FundTransfer() {
     const [isLoading, setLoading] = useState(false);
     const login_data =localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null
     const user_id =login_data &&  JSON.parse(login_data)?.UserID;
-    console.log(user_id)
     const navigate = useNavigate();
     const client = useQueryClient();
     const goBack = () => {
