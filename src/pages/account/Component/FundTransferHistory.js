@@ -1,9 +1,10 @@
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
-import { Box, Button, Container, FormControl, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import { Box, Container, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 import * as React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { zubgback, zubgbackgrad, zubgmid, zubgtext, zubgwhite, zubgshadow } from '../../../Shared/color';
+import { zubgback, zubgbackgrad, zubgmid, zubgshadow, zubgtext, zubgwhite } from '../../../Shared/color';
 import Layout from '../../../component/Layout/Layout';
+import moment from 'moment/moment';
 
 function FundTransferHistory() {
     const navigate = useNavigate();
@@ -22,29 +23,30 @@ function FundTransferHistory() {
     //   }
     // );
   
-    // // const game_history_data = game_history?.data?.data;
-    // const game_history_data = React.useMemo(
+    // const game_history_data = game_history?.data?.data;
+    const game_history_data = []
+    // React.useMemo(
     //   () => game_history?.data?.earning?.rid,
     //   [game_history?.data?.earning?.rid]
     // );
   
-    // const handleChangePage = (event, newPage) => {
-    //   setPage(newPage);
-    // };
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
   
-    // const handleChangeRowsPerPage = (event) => {
-    //   setRowsPerPage(parseInt(event.target.value, 10));
-    //   setPage(0);
-    // };
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
   
-    // const visibleRows = React.useMemo(
-    //   () =>
-    //     game_history_data?.slice(
-    //       page * rowsPerPage,
-    //       page * rowsPerPage + rowsPerPage
-    //     ),
-    //   [page, rowsPerPage, game_history_data]
-    // );
+    const visibleRows = React.useMemo(
+      () =>
+        game_history_data?.slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage
+        ),
+      [page, rowsPerPage, game_history_data]
+    );
   
     return (
         <Layout>
@@ -106,36 +108,36 @@ function FundTransferHistory() {
               //   "&>tr": { borderBottom: "1px solid #ced4d7" },
               // }}
               >
-                {/* {visibleRows?.map((i, index) => {
-                  return ( */}
+                 {visibleRows?.map((i, index) => {
+                  return ( 
                     <TableRow key="" className="!w-[95%]">
                       <TableCell className="!text-black !pl-[2px] !pr-2 !text-center !border-2 !border-r ">
-                        {/* {index + 1} */}
+                        {index + 1}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {/* {i?.tr11_fund_transaid} */}
+                        {i?.tr11_fund_transaid}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {/* {i?.or_m_user_id ? i?.or_m_user_id:"----" } */}
+                        {i?.or_m_user_id ? i?.or_m_user_id:"----" }
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {/* {moment(i?.tr11_fund_date)?.format("DD-MM-YYYY")} */}
+                        {moment(i?.tr11_fund_date)?.format("DD-MM-YYYY")}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {/* {Number(
+                        {Number(
                           Number(i?.tr11_fund_amt || 0) +
                           (Number(i?.tr11_fund_amt || 0)*3/100)
-                        )?.toFixed(2)} */}
+                        )?.toFixed(2)}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {/* {Number(i?.tr11_fund_amt || 0)?.toFixed()} */}
+                        {Number(i?.tr11_fund_amt || 0)?.toFixed()}
                       </TableCell>
                       <TableCell className="!text-black !pr-2 !pl-1 !text-center border-2 !border-r ">
-                        {/* {(Number(i?.tr11_fund_amt || 0)*3/100)?.toFixed(2)} */}
+                        {(Number(i?.tr11_fund_amt || 0)*3/100)?.toFixed(2)}
                       </TableCell>
                     </TableRow>
-                  {/* );
-                })} */}
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
