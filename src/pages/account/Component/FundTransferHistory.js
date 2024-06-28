@@ -114,7 +114,7 @@ function FundTransferHistory() {
                     Transfer Id
                   </TableCell>
                   <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Date
+                    Date/Time
                   </TableCell>  
                   <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
                     Transfer Amount
