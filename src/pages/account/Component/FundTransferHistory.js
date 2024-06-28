@@ -117,7 +117,7 @@ function FundTransferHistory() {
                     Date
                   </TableCell>  
                   <TableCell className="!text-sm !text-center !pr-0 !pl-1 border-2 border-r border-white">
-                    Receive Amount
+                    Transfer Amount
                   </TableCell> 
                 </TableRow>
               </TableHead>
