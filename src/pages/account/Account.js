@@ -399,7 +399,7 @@ function Account() {
             {[
               {
                 to: "/fund",
-                name: "Fund ",
+                name: "Fund Transfer",
                 logo: balance,
               },
               {

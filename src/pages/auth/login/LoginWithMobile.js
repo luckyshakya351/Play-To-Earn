@@ -206,7 +206,15 @@ function LoginWithMobile() {
       </Box>
       <Stack direction="row" className="loginbtnbox" mt={2}>
 
-
+      <Button
+          type="submit"
+          value="Submit"
+          component={NavLink}
+          className="btnLogin"
+          onClick={fk.handleSubmit}
+        >
+          Let's go
+        </Button>
         <Button
           component={NavLink}
           className="btnregister"
@@ -216,15 +224,7 @@ function LoginWithMobile() {
         >
           Register
         </Button>
-        <Button
-          type="submit"
-          value="Submit"
-          component={NavLink}
-          className="btnLogin"
-          onClick={fk.handleSubmit}
-        >
-          Let's go
-        </Button>
+       
       </Stack>
       <CustomCircularProgress isLoading={loding} />
     </Box>
