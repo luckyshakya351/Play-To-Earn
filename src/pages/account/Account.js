@@ -16,11 +16,7 @@ import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../Shared/CustomCircularProgress";
-import {
-  zubgback,
-  zubgmid,
-  zubgtext
-} from "../../Shared/color";
+import { zubgback, zubgmid, zubgtext } from "../../Shared/color";
 import cip from "../../assets/cip.png";
 import dp2 from "../../assets/dp2.png";
 import dp3 from "../../assets/dp3.png";
@@ -74,8 +70,6 @@ function Account() {
       const res = await axios.get(
         `${baseUrl}/api/deposit-collback?order_id=${transactionId}`
       );
-      client.removeQueries("myprofile");
-      client.removeQueries("walletamount");
       if (res?.data?.status === "200") {
         window.location.href = `${fron_end_main_domain}/account`;
       }
@@ -83,10 +77,11 @@ function Account() {
     } catch (e) {
       console.log(e);
     }
-
   }
 
   useEffect(() => {
+    client.removeQueries("myprofile");
+    client.removeQueries("walletamount");
     if (transactionId) {
       sendUrlCallBackToBackend(transactionId);
     }
@@ -408,9 +403,10 @@ function Account() {
                 logo: balance,
               },
               {
-                 to: "/SettingCenter",
-                 name: "Setting",
-                  logo: setting },
+                to: "/SettingCenter",
+                name: "Setting",
+                logo: setting,
+              },
               {
                 to: "/gameNotification",
                 name: "Notification",
@@ -427,9 +423,10 @@ function Account() {
                 logo: customer,
               },
               {
-                 to: "/feedback",
-                 name: "Feedback", 
-                 logo: hand },
+                to: "/feedback",
+                name: "Feedback",
+                logo: hand,
+              },
             ]?.map((i) => {
               return (
                 <Box
