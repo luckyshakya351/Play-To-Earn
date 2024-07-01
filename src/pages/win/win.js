@@ -1,26 +1,25 @@
+import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import { Box, Container, Dialog, Stack, Typography } from "@mui/material";
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import * as React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../Shared/CustomCircularProgress";
-import { zubgback, zubgbackgrad, zubgshadow, zubgtext, zubgwhite } from "../../Shared/color";
-import cash from "../../assets/images/withdraw.png";
+import { zubgback, zubgshadow, zubgtext, zubgwhite } from "../../Shared/color";
 import deposit from "../../assets/images/deposit (1).png";
 import Timeactive from "../../assets/images/fast-time (2).png";
 import Timeinactive from "../../assets/images/fast-time.png";
+import cash from "../../assets/images/withdraw.png";
 import Layout from "../../component/Layout/Layout";
 import { endpoint } from "../../services/urls";
-import WinOneMin from "./component/WinOneMin/WinOneMin";
-import WinLossPopup from "./component/WinOneMin/WinLossPopup";
-import { useSelector } from "react-redux";
-import WinThreeMin from "./component/WinOneMin/WinThreeMin";
 import WinFiveMin from "./component/WinOneMin/WinFiveMin";
-import { MyHistoryFn } from "../../services/apicalling";
-import CryptoJS from "crypto-js";
-import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
+import WinLossPopup from "./component/WinOneMin/WinLossPopup";
+import WinOneMin from "./component/WinOneMin/WinOneMin";
+import WinThreeMin from "./component/WinOneMin/WinThreeMin";
 
 function Win() {
   const navigate = useNavigate();
