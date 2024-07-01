@@ -103,12 +103,14 @@ function Win() {
               </Typography>
             </Box>
             <Box>
-              <Typography variant="body1" color="initial" className="b-val" sx={{ color: zubgtext, }}>
-                ₹{" "}
+              <Typography variant="body1" color="initial" className="b-val !flex !gap-3" sx={{ color: zubgtext, }} >
+                <span>₹</span>
+                <span>
                 {Number(
                   Number(amount?.wallet || 0) + Number(amount?.winning || 0) ||
                   0
                 )?.toFixed(2)}
+                </span>
               </Typography>
               <Typography variant="body1" color="initial" className="b-valp" sx={{ color: zubgtext, }}>
                 Available Balance
