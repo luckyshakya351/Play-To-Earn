@@ -130,7 +130,7 @@ function AddedBankDetailList() {
                       {i?.holder_name}
                     </Typography>
                   </Stack>
-                  <Stack
+                  {/* <Stack
                     direction="row"
                     sx={{
                       alignItems: "center",
@@ -144,7 +144,7 @@ function AddedBankDetailList() {
                     <Typography variant="body1" color="initial">
                       {i?.email}
                     </Typography>
-                  </Stack>
+                  </Stack> */}
                   <Stack
                     direction="row"
                     sx={{
@@ -160,7 +160,7 @@ function AddedBankDetailList() {
                       {i?.bank_name}
                     </Typography>
                   </Stack>
-                  <Stack
+                  {/* <Stack
                     direction="row"
                     sx={{
                       alignItems: "center",
@@ -174,7 +174,7 @@ function AddedBankDetailList() {
                     <Typography variant="body1" color="initial">
                       {i?.mobile}
                     </Typography>
-                  </Stack>
+                  </Stack> */}
                   <Stack
                     direction="row"
                     sx={{

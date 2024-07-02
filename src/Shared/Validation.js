@@ -77,6 +77,7 @@ export const withdrawAmountSchemaValidaton = Yup.object().shape({
     .min(11, "IFSC must be 11 characters at minimum")
     .max(11, "IFSC should not be more than 11 character")
     .required("IFSC is required"),
+    
   account_number: Yup.string().required("Account Number is required"),
 });
 

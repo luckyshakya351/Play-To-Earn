@@ -49,11 +49,14 @@ function AddBankDetails() {
     onSubmit: () => {
       console.log(fk.values);
       const fd = new FormData();
+
       fd.append("email", fk.values.email);
       fd.append("mobile", fk.values.mobile);
       fd.append("bank_name", fk.values.bank_name);
       fd.append("name", fk.values.name);
-      fd.append("ifsc_code", fk.values.ifsc);
+      const capitalizedIFSC = fk.values.ifsc.toUpperCase();
+      fd.append("ifsc_code", capitalizedIFSC);
+      // fd.append("ifsc_code", fk.values.ifsc );
       fd.append("account_number", fk.values.account_number);
       fd.append("user_id", user_id);
 
@@ -216,13 +219,13 @@ function AddBankDetails() {
                   </Typography>
                 </Stack>
                 <TextField
-                  id="ifsc"
+                 id="ifsc"
                   name="ifsc"
                   type="text"
                   value={fk.values.ifsc}
                   onChange={fk.handleChange}
                   placeholder="Enter IFSC code *"
-                  className="withdrawalfield"
+                  className="withdrawalfield uppercase"
                   onKeyDown={(e) => e.key === "Enter" && fk.handleSubmit()}
                 />
                 {fk.touched.ifsc && fk.errors.ifsc && (
