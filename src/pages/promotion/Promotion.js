@@ -64,7 +64,7 @@ function Promotion() {
               {result?.today_turnover}
             </Typography>
             <Typography variant="body1" color="initial" sx={{ color: 'white' }}>
-              Today's Turnover
+              Total Turnover
             </Typography>
             <Typography variant="body1" color="initial" sx={{ color: zubgtext }}>
               Upgrade the level to increase turnover

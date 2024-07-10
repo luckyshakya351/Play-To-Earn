@@ -10,7 +10,7 @@ export const domain = "https://play2earn-timer.onrender.com";
 
 export const support_mail = ""
 // `support@sunlottrey.fun`;
-export const telegram_url = ""
+export const telegram_url = "https://t.me/play2earnspace"
 // `https://t.me/SunLottaryOfficial`;
 
 export const endpoint = {

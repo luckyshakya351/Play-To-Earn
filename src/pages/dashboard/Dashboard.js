@@ -298,12 +298,12 @@ function Dashboard() {
               >
                 <Box component="img" src={logo} sx={{ width: "60px" }}></Box>
               </div>
-              <div className="flex gap-1 items-center cursor-pointer">
+              {/* <div className="flex gap-1 items-center cursor-pointer">
                 <CloudDownloadIcon sx={{ color: zubgtext }} />
                 <span className="text-[12px]" style={{ color: zubgtext }}>
                   Download App
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
           <Box className="!px-2">
