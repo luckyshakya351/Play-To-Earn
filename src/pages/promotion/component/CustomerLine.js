@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { zubgback, zubgtext } from '../../../Shared/color';
 import customer from '../../../assets/images/supportgirls.png';
 import Layout from '../../../component/Layout/Layout';
+import { telegram_url } from '../../../services/urls';
 
 
 function Subordinate() {
@@ -27,9 +28,10 @@ function Subordinate() {
         </Box>
         <Box component={NavLink}>
           <Stack direction='row' sx={{ background: zubgtext, width: '95%', marginLeft: '2.5%', borderRadius: '5px', marginTop: '10px', padding: '20px', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant="body1" sx={{ color: 'white', fontSize: '20px', fontWeight: '400', }}>
+            <Typography variant="body1" sx={{ color: 'white', fontSize: '20px', fontWeight: '400', }}
+             onClick={() => window.open(`${telegram_url}`, "_blank")}>
               Live Now
-            </Typography>
+            </Typography >
             <Typography variant="body1" color="initial">
               <ArrowForwardIcon sx={{ color: 'white' }} />
             </Typography>

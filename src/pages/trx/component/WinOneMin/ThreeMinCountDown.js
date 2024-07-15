@@ -102,7 +102,9 @@ const ThreeMinCountDown = ({ fk }) => {
     () => GameHistoryFn(),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 

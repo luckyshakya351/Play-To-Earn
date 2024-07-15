@@ -22,7 +22,9 @@ function FundRequest() {
 
   const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false,
+    retryOnMount:false,
   });
 
   const walletamount = async () => {

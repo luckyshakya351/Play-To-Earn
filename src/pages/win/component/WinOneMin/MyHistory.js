@@ -31,7 +31,9 @@ const MyHistory = ({ gid }) => {
     () => MyHistoryFn(gid),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 
@@ -42,7 +44,9 @@ const MyHistory = ({ gid }) => {
     () => My_All_HistoryFn(gid),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 
@@ -117,7 +121,7 @@ const MyHistory = ({ gid }) => {
                             }`}
                         >
                           {" "}
-                          {rupees} bb{i?.status === "1" ? i?.win : i?.totalamount}
+                          {rupees} {i?.status === "1" ? i?.win : i?.totalamount}
                         </span>
                       </div>
                     </AccordionSummary>

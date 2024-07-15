@@ -39,7 +39,9 @@ const MyHistory = ({ gid }) => {
     () => My_All_TRX_HistoryFn(gid),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 
@@ -50,7 +52,9 @@ const MyHistory = ({ gid }) => {
     () => My_All_TRX_HistoryPendingFn(gid),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 

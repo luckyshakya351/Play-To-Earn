@@ -21,7 +21,9 @@ function ReferralBonus() {
   const [select_type_of_history, setselect_type_of_history] = useState(1);
   const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false,
+    retryOnMount:false,
   });
 
   const walletamount = async () => {

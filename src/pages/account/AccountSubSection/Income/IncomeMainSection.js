@@ -25,7 +25,9 @@ function IncomeMainSection() {
   const user_id =login_data &&  JSON.parse(login_data)?.UserID;
   const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false,
+    retryOnMount:false,
   });
 
   const walletamount = async () => {

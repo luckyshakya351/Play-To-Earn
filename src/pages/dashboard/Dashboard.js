@@ -143,7 +143,10 @@ function Dashboard() {
 
   const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false,
+    retryOnMount:false,
+
   });
 
   const newdata = data?.data?.data || 0;
@@ -152,8 +155,11 @@ function Dashboard() {
     isLoading: allWithdrawlCashUserFnLoding,
     data: allWithdrawlCashData,
   } = useQuery(["allWithdrawlCashUser"], () => allWithdrawlCashUserFn(), {
+   
     refetchOnMount: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false,
+    retryOnMount:false,
   });
 
   const allWithdrawl_CashData = allWithdrawlCashData?.data?.data || [];
@@ -163,7 +169,9 @@ function Dashboard() {
     () => MyProfileDataFn(),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 

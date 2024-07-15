@@ -32,7 +32,9 @@ function Promotion() {
     () => MypromotionDataFn(),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 

@@ -78,7 +78,9 @@ const PlayGame = () => {
     () => resultFunction({ limit: limit }),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 
@@ -104,7 +106,9 @@ const PlayGame = () => {
     () => walletamount(),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
 

@@ -26,7 +26,9 @@ function DailyCashBackBonus() {
     () => dailyWalletIncomeFn(),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
   const res = data?.data?.data;
@@ -80,7 +82,7 @@ function DailyCashBackBonus() {
                 <div className="!w-full !flex !justify-between">
                   <span style={{ color: zubgtext }}>{i?.l01_transection_type}</span>
                   <span className="!text-green-800 !text-lg">
-                    {i?.l01_amount}
+                    {i?.l01_amount}                           
                   </span>
                 </div>
                 <div className="!w-full !flex !justify-between">

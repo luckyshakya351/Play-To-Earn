@@ -7,6 +7,7 @@ export const fron_end_main_domain = "https://play2earn.space";
 
 export const domain = "https://play2earn-timer.onrender.com";
 
+// export const domain = "http://192.168.18.183:8000";
 
 export const support_mail = ""
 // `support@sunlottrey.fun`;

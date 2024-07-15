@@ -50,7 +50,9 @@ function Win() {
 
   const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false,
+    refetchOnMount:false
   });
 
   const amount = data?.data?.data || 0;

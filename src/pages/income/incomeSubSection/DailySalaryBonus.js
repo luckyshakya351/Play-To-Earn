@@ -27,7 +27,9 @@ function DailySalaryBonus() {
     () => dailySalaryIncomeFn(),
     {
       refetchOnMount: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
     }
   );
   const res = data?.data?.data;
