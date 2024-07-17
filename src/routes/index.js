@@ -35,6 +35,7 @@ import TeamRewardBonus from "../pages/income/incomeSubSection/TeamRewardBonus";
 import TeamTradingBonus from "../pages/income/incomeSubSection/TeamTradingBonus";
 import Promotion from "../pages/promotion/Promotion";
 import CustomerLine from "../pages/promotion/component/CustomerLine";
+import CustomerQueryHistory from "../pages/promotion/component/CustomerQueryHistory";
 import Invitaton from "../pages/promotion/component/Invitaton";
 import PromotionRule from "../pages/promotion/component/PromotionRule";
 import RobateRetio from "../pages/promotion/component/RebateRatio";
@@ -140,6 +141,10 @@ export const routes = [
     {
         path:"/services",
         component:<Services/>
+    },
+    {
+        path:"/queries",
+        component:<CustomerQueryHistory/>
     },
     {
         path: "/test",

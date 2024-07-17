@@ -103,3 +103,10 @@ export const cashDepositRequestValidationSchema = Yup.object().shape({
   //   }
   // ),
 });
+
+export const servicesvalidationSchema = Yup.object().shape({
+  activity_type: Yup.string().required("Activity application is required"),
+  transection_id: Yup.string().required("Transaction ID is required"),
+  // image: Yup.mixed().required("Image is required"),
+  // description: Yup.string().required("Description is required"),
+});
