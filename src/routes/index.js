@@ -38,6 +38,7 @@ import CustomerLine from "../pages/promotion/component/CustomerLine";
 import Invitaton from "../pages/promotion/component/Invitaton";
 import PromotionRule from "../pages/promotion/component/PromotionRule";
 import RobateRetio from "../pages/promotion/component/RebateRatio";
+import Services from "../pages/promotion/component/Services";
 import Subordinate from "../pages/promotion/component/Subordinate";
 import TeamData from "../pages/promotion/component/TeamData";
 import TeamReports from "../pages/promotion/component/TeamReport";
@@ -136,10 +137,10 @@ export const routes = [
         path: "/gameNotification",
         component: <GameNotification />
     },
-    // {
-    //     path:"/",
-    //     component:<Login/>
-    // },
+    {
+        path:"/services",
+        component:<Services/>
+    },
     {
         path: "/test",
         component: <Test />

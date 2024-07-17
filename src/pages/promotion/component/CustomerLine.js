@@ -2,7 +2,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import { Box, Container, Stack, Typography, } from '@mui/material';
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { zubgback, zubgtext } from '../../../Shared/color';
 import customer from '../../../assets/images/supportgirls.png';
 import Layout from '../../../component/Layout/Layout';
@@ -10,6 +10,8 @@ import { telegram_url } from '../../../services/urls';
 
 
 function Subordinate() {
+
+  const navigate = useNavigate()
   return (
     <Layout>
       <Container sx={{ background: zubgback, width: '100%', height: '100vh', overflow: 'auto' }}>
@@ -26,17 +28,21 @@ function Subordinate() {
             <Box component='img' src={customer} sx={{ mt: 3, width: '100%', height: '100%', margin: 'auto', objectFit: 'cover', objectPosition: 'top', }}></Box>
           </Box>
         </Box>
-        <Box component={NavLink}>
+        <Box >
           <Stack direction='row' sx={{ background: zubgtext, width: '95%', marginLeft: '2.5%', borderRadius: '5px', marginTop: '10px', padding: '20px', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography variant="body1" sx={{ color: 'white', fontSize: '20px', fontWeight: '400', }}
-             onClick={() => window.open(`${telegram_url}`, "_blank")}>
+          >
               Live Now
             </Typography >
+            <NavLink to='/services' target='_blank'>
             <Typography variant="body1" color="initial">
               <ArrowForwardIcon sx={{ color: 'white' }} />
             </Typography>
+            </NavLink>
           </Stack>
         </Box>
+         
+        
       </Container >
     </Layout>
   )
