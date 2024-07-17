@@ -63,115 +63,61 @@ function CustomerQueryHistory() {
 
                 <Box>
                     <Box
-                        sx={{
-                            padding: "10px",
-                            background: zubgwhite,
-                            boxShadow: zubgshadow,
-                            borderRadius: "10px",
-                            mb: 5,
-                            mt: 3,
-                        }}
+                     className="!mx-10"
                     >
                          {res?.map((i) => {
                             return (
-                                <Box
-                                    sx={{
-                                        mb: 2,
-                                        padding: "15px",
-                                        borderRadius: "10px",
-                                        border: "1px solid white",
-                                        background: zubgback,
-                                        boxShadow: zubgshadow,
-                                        border: `1px solid #ff00422b`,
-                                    }}
-                                >
+                                <Box >
 
-                                    <Stack
-                                        direction="row"
-                                        sx={{
-                                            mb: "10px",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            "&>p": { color: zubgtext },
-                                        }}
-                                    >
-                                        <Typography variant="body1" color="initial">
+                                    <div>
+                                         <p className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600">
                                             Activity Type
-                                        </Typography>
-                                        <Typography variant="body1" color="initial">
+                                        </p>
+                                        <div className="w-full !flex !justify-end mt-5">
+                                        <p  className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600"> 
                                             {i?.activity_type}
-                                        </Typography>
-                                    </Stack>
-                                    <Stack
-                                        direction="row"
-                                        sx={{
-                                            mb: "10px",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            "&>p": { color: zubgtext },
-                                        }}
-                                    >
-                                        <Typography variant="body1" color="initial">
-                                            Transaction ID
-                                        </Typography>
-                                        <Typography variant="body1" color="initial">
+                                        </p>
+                                        </div>
+                                        
+                                    </div>
+                                    <div>
+                                         <p className="bg-blue-600 !mt-10 justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600">
+                                         Transaction ID
+                                        </p>
+                                        <div className="w-full !flex !justify-end mt-10">
+                                        <p  className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600"> 
                                             {i?.transaction_id}
-                                        </Typography>
-                                    </Stack>
-
-                                    <Stack
-                                        direction="row"
-                                        sx={{
-                                            mb: "10px",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            "&>p": { color: zubgtext },
-                                        }}
-                                    >
-                                        <Typography variant="body1" color="initial">
-                                            Date/Time
-                                        </Typography>
-                                        <Typography variant="body1" color="initial">
-                                            {moment(i?.date || Date.now()).format("DD-MM-YYYY")}&nbsp;
-                                            {moment(i?.date || Date.now()).format("HH:mm")}
-                                        </Typography>
-                                    </Stack>
-                                    <Stack
-                                        direction="row"
-                                        sx={{
-                                            mb: "10px",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            "&>p": { color: zubgtext },
-                                        }}
-                                    >
-                                        <Typography variant="body1" color="initial">
-                                            Image
-                                        </Typography>
-                                        <Typography variant="body1" color="initial">
-                                            {i && i.imgurl && i.images && i.images[0] &&
+                                        </p>
+                                        </div>
+                                        
+                                    </div>
+                                    <div>
+                                         <p className="bg-blue-600 !mt-10 justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600">
+                                         Image
+                                        </p>
+                                        <div className="w-full !flex !justify-end mt-10">
+                                        <p  className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600"> 
+                                        {i && i.imgurl && i.images && i.images[0] &&
                                                 <img src={`${i.imgurl}/${i.images[0]}`} alt="images"
-                                                    className="!h-10 !w-10" />
+                                                    className="!h-16 !w-16" />
                                             }
-                                        </Typography>
-                                    </Stack>
-                                    <Stack
-                                        direction="row"
-                                        sx={{
-                                            mb: "10px",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            "&>p": { color: zubgtext },
-                                        }}
-                                    >
-                                        <Typography variant="body1" color="initial">
-                                            Description
-                                        </Typography>
-                                        <Typography>
-                                            {i?.description}
-                                        </Typography>
-                                    </Stack>
-
+                                        </p>
+                                        </div>
+                                        
+                                    </div>
+                                    <div>
+                                         <p className="bg-blue-600 !mt-10 justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600">
+                                         Description
+                                        </p>
+                                        <div className="w-full !flex !justify-end mt-10">
+                                        <p  className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600"> 
+                                        {i?.description}
+                                        </p>
+                                        </div>
+                                        
+                                    </div>
+                                  
+                                  
                                 </Box>
                             );
                         })}
