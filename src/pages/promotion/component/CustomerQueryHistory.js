@@ -68,7 +68,14 @@ function CustomerQueryHistory() {
                          {res?.map((i) => {
                             return (
                                 <Box >
-
+                                           <div className="w-full">
+                                         <p className=" !my-5  flex justify-center w-full !text-gray-600 !text-xs">
+                                         --------------- {moment(i?.date || Date.now()).format("DD-MM-YYYY")}---------------
+                
+                 
+                                        </p>
+                                    </div>
+                                  
                                     <div>
                                          <p className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600">
                                             Activity Type
@@ -96,27 +103,26 @@ function CustomerQueryHistory() {
                                          Image
                                         </p>
                                         <div className="w-full !flex !justify-end mt-10">
-                                        <p  className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600"> 
+                                        <p  className=" !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border "> 
                                         {i && i.imgurl && i.images && i.images[0] &&
                                                 <img src={`${i.imgurl}/${i.images[0]}`} alt="images"
-                                                    className="!h-16 !w-16" />
+                                                    className="!h-28 !w-28" />
                                             }
                                         </p>
                                         </div>
                                         
                                     </div>
                                     <div>
-                                         <p className="bg-blue-600 !mt-10 justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600">
+                                         <p className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600">
                                          Description
                                         </p>
                                         <div className="w-full !flex !justify-end mt-10">
-                                        <p  className="bg-blue-600 !mt-10  justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600"> 
+                                        <p  className="bg-blue-600 !mt-10 !mb-10 justify-start w-fit !text-white p-1 px-4 rounded-full border border-blue-600"> 
                                         {i?.description}
                                         </p>
                                         </div>
                                         
                                     </div>
-                                  
                                   
                                 </Box>
                             );

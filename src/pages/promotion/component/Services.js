@@ -6,18 +6,18 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { zubgback, zubgtext } from '../../../Shared/color';
 import customer from '../../../assets/images/logo-2 (2).png';
 import Layout from '../../../component/Layout/Layout';
-import { useQueryClient } from 'react-query';
 import { endpoint } from "../../../services/urls";
 import CryptoJS from 'crypto-js';
 import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { servicesvalidationSchema } from '../../../Shared/Validation';
+import CustomCircularProgress from '../../../Shared/CustomCircularProgress';
 
 function Services() {
   const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null
   const user_id = login_data && JSON.parse(login_data)?.UserID;
-  const client = useQueryClient()
+  const [isLoading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -49,10 +49,13 @@ function Services() {
 
   const addservicesFunction = async (fd) => {
     try {
+      setLoading(true);
       const response = await axios.post(`${endpoint.add_services}`, fd); 
       if (response.data.error === false) {
         toast.success(response.data.message); 
         fk.handleReset(); 
+       setLoading(false)
+
       } else {
         toast.error(response.data.message); 
       }
@@ -149,7 +152,9 @@ function Services() {
               }}> Submit Application </button></div>
          <div className="my-1  mb-16 w-[45%] bg-[#E71D1E] text-white  text-center p-2">
             <button className='w-[100%]' onClick={()=>navigate('/queries')}> Reviews Program Queries </button></div>
-
+            {isLoading && (
+                            <CustomCircularProgress isLoading={isLoading}/>
+                        )}
            {/* <div className="my-1 mb-16 w-[45%] bg-[#E71D1E] text-white  text-center p-2">
             <button className='w-[100%]'
             > Other Problems </button></div> */}
