@@ -1,12 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import CustomCircularProgress from "../../../../Shared/CustomCircularProgress";
 import Loss from "../../../../assets/images/loss.png";
 import win from "../../../../assets/images/winnner.png";
 import { endpoint } from "../../../../services/urls";
-import CryptoJS from "crypto-js";
 const WinLossPopup = ({ gid }) => {
   const login_data =
     (localStorage.getItem("logindataen") &&
@@ -15,6 +15,7 @@ const WinLossPopup = ({ gid }) => {
         "anand"
       )?.toString(CryptoJS.enc.Utf8)) ||
     null;
+    
   const user_id = login_data && JSON.parse(login_data)?.UserID;
   const [loding, setloding] = useState(false);
   const [status, setstatus] = useState("");
@@ -24,8 +25,9 @@ const WinLossPopup = ({ gid }) => {
     setloding(true);
     try {
       const response = await axios.get(
-        `${endpoint.my_history_all_trx_pending}?userid=${user_id}&limit=0&gameid=${gid}`
+        `${endpoint.trx_game_history}?gameid=${gid}&limit=500`
       );
+
       const firstId = response?.data?.data?.[0]?.gamesno;
       const winAmnt =
         response?.data?.data

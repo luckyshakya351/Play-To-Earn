@@ -5,13 +5,16 @@ export const baseUrl = "https://admin.play2earn.space";
 // export const fron_end_main_domain = "https://sunlottery.fun";
 export const fron_end_main_domain = "https://play2earn.space";
 
-export const domain = "https://play2earn-timer.onrender.com";
+// export const domain = "http://192.168.18.183:9000";
 
-// export const domain = "http://192.168.18.183:8000";
+// export const domain = "https://play2earn-timer.onrender.com";
+export const domain = "https://play2earn-timer-1.onrender.com";
+// export const domain = "https://zupeeter-timer.onrender.com";
+export const newDomain = "https://api.play2earn.space";
 
-export const support_mail = ""
+export const support_mail = "";
 // `support@sunlottrey.fun`;
-export const telegram_url = "https://t.me/play2earnspace"
+export const telegram_url = "https://t.me/play2earnspace";
 // `https://t.me/SunLottaryOfficial`;
 
 export const endpoint = {
@@ -48,14 +51,18 @@ export const endpoint = {
   team_trading_bonus: `${baseUrl}/api/team-trading-bonus`,
   add_bank_details: `${baseUrl}/api/bank-add`,
   get_bank_list: `${baseUrl}/api/user-bank-details`,
-  promotion_data: `${domain}/api/v1/promotiondata`,
+  promotion_data: `${newDomain}/api/v1/promotiondata`,
   all_withdrawl_user_list: `${baseUrl}/api/widthrol-user-list`,
   recharge_call_bakc: `${baseUrl}/api/deposits-user-request`,
   cricket_get_url_id_pass: `${baseUrl}/api/cricket-details`,
   // trx api's
-  trx_game_history:`${baseUrl}/api/trx-auto-genrated-result`,
-  trx_game_bet:`${baseUrl}/api/trx-bet`,
-  my_history_all_trx: `${baseUrl}/api/trx-getColourBets`,
+  // trx_game_history:`${baseUrl}/api/trx-auto-genrated-result`,
+  trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`,
+  trx_game_bet: `${baseUrl}/api/trx-bet`,
+  // trx_game_bet: `${newDomain}/api/v1/trx-bet`,
+  // my_history_all_trx: `${baseUrl}/api/trx-getColourBets`,
+  my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`,
+
   my_history_all_trx_pending: `${baseUrl}/api/trx-getColourBets-results`,
   // aviator api's
   aviator_login: `${baseUrl}/api/aviator/login`,

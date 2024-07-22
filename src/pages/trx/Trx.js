@@ -1,3 +1,4 @@
+import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import { Box, Container, Dialog, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import CryptoJS from "crypto-js";
@@ -8,18 +9,22 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../Shared/CustomCircularProgress";
-import { zubgback, zubgbackgrad, zubgshadow, zubgtext, zubgwhite } from "../../Shared/color";
-import cash from "../../assets/images/withdraw.png";
+import {
+  zubgback,
+  zubgshadow,
+  zubgtext,
+  zubgwhite
+} from "../../Shared/color";
 import deposit from "../../assets/images/deposit (1).png";
 import Timeactive from "../../assets/images/fast-time (2).png";
 import Timeinactive from "../../assets/images/fast-time.png";
+import cash from "../../assets/images/withdraw.png";
 import Layout from "../../component/Layout/Layout";
 import { endpoint } from "../../services/urls";
 import WinFiveMin from "./component/WinOneMin/WinFiveMin";
 import WinLossPopup from "./component/WinOneMin/WinLossPopup";
 import WinOneMin from "./component/WinOneMin/WinOneMin";
 import WinThreeMin from "./component/WinOneMin/WinThreeMin";
-import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 
 function Win() {
   const navigate = useNavigate();
@@ -51,8 +56,8 @@ function Win() {
   const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
     refetchOnReconnect: false,
-    refetchOnWindowFocus:false,
-    refetchOnMount:false
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   const amount = data?.data?.data || 0;
@@ -105,16 +110,26 @@ function Win() {
               </Typography>
             </Box>
             <Box>
-              <Typography variant="body1" color="initial" className="b-val !flex !gap-3" sx={{ color: zubgtext, }} >
+              <Typography
+                variant="body1"
+                color="initial"
+                className="b-val !flex !gap-3"
+                sx={{ color: zubgtext }}
+              >
                 <span>₹</span>
                 <span>
-                {Number(
-                  Number(amount?.wallet || 0) + Number(amount?.winning || 0) ||
-                  0
-                )?.toFixed(2)}
+                  {Number(
+                    Number(amount?.wallet || 0) +
+                      Number(amount?.winning || 0) || 0
+                  )?.toFixed(2)}
                 </span>
               </Typography>
-              <Typography variant="body1" color="initial" className="b-valp" sx={{ color: zubgtext, }}>
+              <Typography
+                variant="body1"
+                color="initial"
+                className="b-valp"
+                sx={{ color: zubgtext }}
+              >
                 Available Balance
               </Typography>
             </Box>
@@ -135,7 +150,12 @@ function Win() {
                   className="!cursor-pointer"
                 />
               </Box>
-              <Typography variant="body1" color="initial" className="db-header" sx={{ color: zubgtext, }}>
+              <Typography
+                variant="body1"
+                color="initial"
+                className="db-header"
+                sx={{ color: zubgtext }}
+              >
                 Withdraw
               </Typography>
             </Box>
@@ -168,7 +188,11 @@ function Win() {
             </Box>
             <Box
               component={NavLink}
-              onClick={() => setTab(2)}
+              onClick={
+                () => 
+                // toast("We are upgrading server ,please wait !")
+                 setTab(2)
+              }
               className={Tab === 2 ? "activewinNav Winnav" : " Winnav"}
             >
               {Tab === 2 ? (
@@ -182,7 +206,11 @@ function Win() {
             </Box>
             <Box
               component={NavLink}
-              onClick={() => setTab(3)}
+              onClick={
+                () => 
+                // toast("We are upgrading server ,please wait !")
+                setTab(3)
+              }
               className={Tab === 3 ? "activewinNav Winnav" : " Winnav"}
             >
               {Tab === 3 ? (

@@ -13,12 +13,11 @@ import countdownfirst from "../../../../assets/countdownfirst.mp3";
 import countdownlast from "../../../../assets/countdownlast.mp3";
 import circle from "../../../../assets/images/circle-arrow.png";
 import howToPlay from "../../../../assets/images/user-guide.png";
-import trxtimerbackground from "../../../../assets/trxtimerbackground.png";
 import { dummycounterFun, trx_game_image_index_function, updateNextCounter } from "../../../../redux/slices/counterSlice";
 import { endpoint } from "../../../../services/urls";
 import Policy from "../policy/Policy";
 import ShowImages from "./ShowImages";
-import { zubgmid, zubgtext } from "../../../../Shared/color";
+import {zubgtext } from "../../../../Shared/color";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -43,6 +42,7 @@ const OneMinCountDown = ({ fk }) => {
   React.useEffect(() => {
     const handleOneMin = (onemin) => {
       setOne_min_time(onemin);
+      console.log(onemin,"one min timer")
       fk.setFieldValue("show_this_one_min_time", onemin);
       if (onemin === 5 || onemin === 4 || onemin === 3 || onemin === 2) {
         handlePlaySound();
@@ -51,6 +51,8 @@ const OneMinCountDown = ({ fk }) => {
 
       if (onemin <= 10) {
         fk.setFieldValue("openTimerDialogBoxOneMin", true);
+      }else{
+        fk.setFieldValue("openTimerDialogBoxOneMin", false);
       }
       if (onemin === 0) {
         client.refetchQueries("trx_gamehistory");
@@ -59,7 +61,7 @@ const OneMinCountDown = ({ fk }) => {
         client.refetchQueries("my_trx_history");
         client.refetchQueries("walletamount");
         dispatch(dummycounterFun());
-        fk.setFieldValue("openTimerDialogBoxOneMin", false);
+        
       }
     };
     socket.on("onemintrx", handleOneMin);
