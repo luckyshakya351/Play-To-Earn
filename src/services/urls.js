@@ -5,7 +5,7 @@ export const baseUrl = "https://admin.play2earn.space";
 // export const fron_end_main_domain = "https://sunlottery.fun";
 export const fron_end_main_domain = "https://play2earn.space";
 
-// export const domain = "http://192.168.18.183:9000";
+// export const newDomain = "http://192.168.18.183:8000";
 
 // export const domain = "https://play2earn-timer.onrender.com";
 export const domain = "https://play2earn-timer-1.onrender.com";
