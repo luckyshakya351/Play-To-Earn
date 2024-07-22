@@ -264,6 +264,17 @@ export const referralBonusFn = async () => {
     console.log(e);
   }
 };
+export const CustomerFn = async () => {
+  try {
+    const response = await axios.post(
+      `${endpoint.customer_query}?user_id=${user_id}`
+    );
+    return response;
+  } catch (e) {
+    toast(e?.message);
+    console.log(e);
+  }
+};
 export const dailyBonusFn = async () => {
   try {
     const response = await axios.get(

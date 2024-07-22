@@ -35,9 +35,11 @@ import TeamRewardBonus from "../pages/income/incomeSubSection/TeamRewardBonus";
 import TeamTradingBonus from "../pages/income/incomeSubSection/TeamTradingBonus";
 import Promotion from "../pages/promotion/Promotion";
 import CustomerLine from "../pages/promotion/component/CustomerLine";
+import CustomerQueryHistory from "../pages/promotion/component/CustomerQueryHistory";
 import Invitaton from "../pages/promotion/component/Invitaton";
 import PromotionRule from "../pages/promotion/component/PromotionRule";
 import RobateRetio from "../pages/promotion/component/RebateRatio";
+import Services from "../pages/promotion/component/Services";
 import Subordinate from "../pages/promotion/component/Subordinate";
 import TeamData from "../pages/promotion/component/TeamData";
 import TeamReports from "../pages/promotion/component/TeamReport";
@@ -136,10 +138,14 @@ export const routes = [
         path: "/gameNotification",
         component: <GameNotification />
     },
-    // {
-    //     path:"/",
-    //     component:<Login/>
-    // },
+    {
+        path:"/services",
+        component:<Services/>
+    },
+    {
+        path:"/queries",
+        component:<CustomerQueryHistory/>
+    },
     {
         path: "/test",
         component: <Test />

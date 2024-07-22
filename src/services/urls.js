@@ -34,6 +34,7 @@ export const endpoint = {
   check_result: `${baseUrl}/api/checkresult`,
   color_winning: `${baseUrl}/api/colour_winning`,
   cash_deposit: `${baseUrl}/api/deposit`,
+  add_services: `${baseUrl}/api/customer-query`,
   payment_url: "https://vpayout.com/Upi_controller/insert_fund_request_online",
   withdraw_payment: `${baseUrl}/api/payout-request`,
   get_name_by_referral_code: `${baseUrl}/api/get-user-reffral-name`,
@@ -42,7 +43,7 @@ export const endpoint = {
   deposit_history: `${baseUrl}/api/deposit-history`,
   withdrawl_history: `${baseUrl}/api/withdrawl-history`,
   deposit_bonus: `${baseUrl}/api/deposit-bonus`,
-  referral_bonus: `${baseUrl}/api/refral-bonus`,
+  customer_query: `${baseUrl}/api/get-customer-query`,
   get_daily: `${baseUrl}/api/get-daily-non-working-bonus`,
   daily_self_bet_income: `${baseUrl}/api/daily-self-bet-income`,
   daily_wallet_income: `${baseUrl}/api/daily-wallet-income`,
@@ -76,4 +77,5 @@ export const endpoint = {
   cash_out: `${baseUrl}/api/aviator/cash_out`,
   insert_fund_transfer: `${baseUrl}/api/wallet-to-wallet-transfer`,
   fund_transfer_history: `${baseUrl}/api/wallet-fund-trasfer-list`,
+  
 };
