@@ -7,10 +7,11 @@ export const fron_end_main_domain = "https://play2earn.space";
 
 export const newDomain1 = "http://192.168.18.183:8000";
 
-// export const domain = "https://play2earn-timer.onrender.com";
 export const domain = "https://play2earn-timer-1.onrender.com";
-// export const domain = "https://zupeeter-timer.onrender.com";
+// export const domain = "https://test.zupeeter.com";
+
 export const newDomain = "https://api.play2earn.space";
+// export const newDomain = "http://192.168.157.149:8000";
 
 export const support_mail = "";
 // `support@sunlottrey.fun`;
@@ -30,6 +31,7 @@ export const endpoint = {
   openbannerUrl: `${baseUrl}/popup`,
   profiledata: `${baseUrl}/api/profileapi`,
   applybet: `${baseUrl}/api/bet`,
+  // applybet: `${newDomain}/api/v1/bet`,
   game_history: `${baseUrl}/api/colour_result`,
 
   my_history: `${baseUrl}/api/getbet`,
@@ -38,7 +40,6 @@ export const endpoint = {
   check_result: `${baseUrl}/api/checkresult`,
   color_winning: `${baseUrl}/api/colour_winning`,
   cash_deposit: `${baseUrl}/api/deposit`,
-  add_services: `${baseUrl}/api/customer-query`,
   payment_url: "https://vpayout.com/Upi_controller/insert_fund_request_online",
   withdraw_payment: `${baseUrl}/api/payout-request`,
   get_name_by_referral_code: `${baseUrl}/api/get-user-reffral-name`,
@@ -47,7 +48,7 @@ export const endpoint = {
   deposit_history: `${baseUrl}/api/deposit-history`,
   withdrawl_history: `${baseUrl}/api/withdrawl-history`,
   deposit_bonus: `${baseUrl}/api/deposit-bonus`,
-  customer_query: `${baseUrl}/api/get-customer-query`,
+  referral_bonus: `${baseUrl}/api/refral-bonus`,
   get_daily: `${baseUrl}/api/get-daily-non-working-bonus`,
   daily_self_bet_income: `${baseUrl}/api/daily-self-bet-income`,
   daily_wallet_income: `${baseUrl}/api/daily-wallet-income`,
@@ -82,5 +83,4 @@ export const endpoint = {
   cash_out: `${baseUrl}/api/aviator/cash_out`,
   insert_fund_transfer: `${baseUrl}/api/wallet-to-wallet-transfer`,
   fund_transfer_history: `${baseUrl}/api/wallet-fund-trasfer-list`,
-  
 };
