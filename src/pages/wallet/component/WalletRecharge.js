@@ -124,7 +124,7 @@ function WalletRecharge() {
   }, []);
 
   const initialValues = {
-    amount: deposit_amount || 100,
+    amount: deposit_amount || 110,
     all_data: { t_id: "", amount: "", date: "" },
   };
 
@@ -351,10 +351,10 @@ function WalletRecharge() {
         >
           <Button
             sx={style.paytmbtn}
-            onClick={() => fk.setFieldValue("amount", 100)}
+            onClick={() => fk.setFieldValue("amount", 110)}
           >
             {" "}
-            ₹ 100
+            ₹ 110
           </Button>
           <Button
             sx={style.paytmbtn}
