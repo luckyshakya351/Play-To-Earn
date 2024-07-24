@@ -5,7 +5,7 @@ export const baseUrl = "https://admin.play2earn.space";
 // export const fron_end_main_domain = "https://sunlottery.fun";
 export const fron_end_main_domain = "https://play2earn.space";
 
-// export const newDomain = "http://192.168.18.183:8000";
+export const newDomain1 = "http://192.168.18.183:8000";
 
 // export const domain = "https://play2earn-timer.onrender.com";
 export const domain = "https://play2earn-timer-1.onrender.com";
@@ -18,7 +18,9 @@ export const telegram_url = "https://t.me/play2earnspace";
 // `https://t.me/SunLottaryOfficial`;
 
 export const endpoint = {
-  login: `${baseUrl}/api/user_login`,
+
+  login: `${newDomain1}/api/v1/user_login`,//node api 
+  // login: `${baseUrl}/api/user_login`,
   send_otp: `${baseUrl}/api/forget-password`,
   veryfy_otp: `${baseUrl}/api/user-otp-verify`,
   signup: `${baseUrl}/api/user_register`,
@@ -29,7 +31,9 @@ export const endpoint = {
   profiledata: `${baseUrl}/api/profileapi`,
   applybet: `${baseUrl}/api/bet`,
   game_history: `${baseUrl}/api/colour_result`,
+
   my_history: `${baseUrl}/api/getbet`,
+  // my_history: `${newDomain1}/api/v1/getbet`,
   my_history_all: `${baseUrl}/api/getbet-game-results`,
   check_result: `${baseUrl}/api/checkresult`,
   color_winning: `${baseUrl}/api/colour_winning`,
@@ -58,11 +62,12 @@ export const endpoint = {
   cricket_get_url_id_pass: `${baseUrl}/api/cricket-details`,
   // trx api's
   // trx_game_history:`${baseUrl}/api/trx-auto-genrated-result`,
-  trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`,
-  trx_game_bet: `${baseUrl}/api/trx-bet`,
-  // trx_game_bet: `${newDomain}/api/v1/trx-bet`,
+  trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`,//node api
+
+  // trx_game_bet: `${baseUrl}/api/trx-bet`,
+   trx_game_bet: `${newDomain1}/api/v1/trx-bet`,//node api 
   // my_history_all_trx: `${baseUrl}/api/trx-getColourBets`,
-  my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`,
+  my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`,//node api
 
   my_history_all_trx_pending: `${baseUrl}/api/trx-getColourBets-results`,
   // aviator api's
