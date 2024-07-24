@@ -5,7 +5,7 @@ export const baseUrl = "https://admin.play2earn.space";
 // export const fron_end_main_domain = "https://sunlottery.fun";
 export const fron_end_main_domain = "https://play2earn.space";
 
-export const newDomain1 = "http://192.168.18.183:8000";
+export const newDomain1 = "https://api.play2earn.space";
 
 export const domain = "http://192.168.18.183:8000";
 // export const domain = "https://test.zupeeter.com";
@@ -20,7 +20,7 @@ export const telegram_url = "https://t.me/play2earnspace";
 
 export const endpoint = {
 
-  login: `${newDomain1}/api/v1/user_login`,//node api 
+  login: `${newDomain1}/api/v1/user_login`,
   // login: `${baseUrl}/api/user_login`,
   send_otp: `${baseUrl}/api/forget-password`,
   veryfy_otp: `${baseUrl}/api/user-otp-verify`,
@@ -36,7 +36,7 @@ export const endpoint = {
   // game_history: `${baseUrl}/api/colour_result`,
   // my_history: `${baseUrl}/api/getbet`,
   // my_history_all: `${baseUrl}/api/getbet-game-results`,
-  
+
   applybet: `${newDomain1}/api/v1/bet`,
   game_history: `${newDomain1}/api/v1/colour_result`,
   my_history_all: `${newDomain1}/api/v1/getbet-game-results`,
