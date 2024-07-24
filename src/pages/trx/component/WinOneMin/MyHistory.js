@@ -47,29 +47,29 @@ const MyHistory = ({ gid }) => {
 
   const my_history_data = my_history?.data?.data || [];
 
-  const { isLoading: myhistory_loding_all, data: my_history_all } = useQuery(
-    ["my_trx_Allhistory", gid],
-    () => My_All_TRX_HistoryPendingFn(gid),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
+  // const { isLoading: myhistory_loding_all, data: my_history_all } = useQuery(
+  //   ["my_trx_Allhistory", gid],
+  //   () => My_All_TRX_HistoryPendingFn(gid),
+  //   {
+  //     refetchOnMount: false,
+  //     refetchOnReconnect: false,
+  //     retryOnMount: false,
+  //     refetchOnWindowFocus: false,
+  //   }
+  // );
 
-  const my_history_data_all = my_history_all?.data?.data || [];
+  // const my_history_data_all = my_history_all?.data?.data || [];
 
   const visibleRows = React.useMemo(
     () =>
-      my_history_data_all?.slice(
+      my_history_data?.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [page, rowsPerPage, my_history_data_all]
+    [page, rowsPerPage, my_history_data]
   );
 
-  if (myhistory_loding_all)
+  if (myhistory_loding)
     return (
       <div className="!w-full  flex justify-center">
         <CircularProgress className={""} />
@@ -94,7 +94,7 @@ const MyHistory = ({ gid }) => {
         </Typography>
       </Stack>
       <div className="flex flex-col gap-[2px]">
-        {my_history_data?.[0]?.status === "0" &&
+        {/* {my_history_data?.[0]?.status === "0" &&
           my_history_data
             ?.filter((i) => i.status === "0")
             ?.map((i, index) => {
@@ -165,7 +165,7 @@ const MyHistory = ({ gid }) => {
 
                         {i?.status !== "0" ? (
                           <div className="flex gap-2 items-center">
-                            <span>{`${i?.number_result}`}</span>
+                            <span>{`${i?.result}`}</span>
                             <span
                               className={`
                   ${
@@ -270,7 +270,7 @@ const MyHistory = ({ gid }) => {
                   </Accordion>
                 </div>
               );
-            })}
+            })} */}
 
         {visibleRows?.map((i) => {
           return (
@@ -364,71 +364,71 @@ const MyHistory = ({ gid }) => {
                       <div className="flex gap-2 items-center bg-white !bg-opacity-10 py-1 px-2">
                         <span
                          className={`
-                          ${(i?.number_result === "0" &&
+                          ${(i?.result === "0" &&
                                       "!bg-gradient-to-t from-red-400 to-violet-400") ||
-                                    (i?.number_result === "5" &&
+                                    (i?.result === "5" &&
                                       "!bg-gradient-to-t from-violet-400 to-green-400") ||
-                                    ((i?.number_result === "1" ||
-                                      i?.number_result === "3" ||
-                                      i?.number_result === "7" ||
-                                      i?.number_result === "9" ||
-                                      i?.number_result === "10") &&
+                                    ((i?.result === "1" ||
+                                      i?.result === "3" ||
+                                      i?.result === "7" ||
+                                      i?.result === "9" ||
+                                      i?.result === "10") &&
                                       "bg-gradient-to-t from-green-400 to-green-900") ||
-                                    ((i?.number_result === "2" ||
-                                      i?.number_result === "4" ||
-                                      i?.number_result === "6" ||
-                                      i?.number_result === "8" ||
-                                      i?.number_result === "30") &&
+                                    ((i?.result === "2" ||
+                                      i?.result === "4" ||
+                                      i?.result === "6" ||
+                                      i?.result === "8" ||
+                                      i?.result === "30") &&
                                       "bg-gradient-to-tl from-red-400 to-red-900") ||
-                                    (i?.number_result === "50" && "bg-[#3183ee]") ||
-                                    (i?.number_result === "40" && "bg-[#f1be24]") ||
-                                    (i?.number_result === "20" && "bg-[#eb2feb]")
+                                    (i?.result === "50" && "bg-[#3183ee]") ||
+                                    (i?.result === "40" && "bg-[#f1be24]") ||
+                                    (i?.result === "20" && "bg-[#eb2feb]")
                                     }
                           transparentColor font-bold text-xl
-                          `}>{`${i?.number_result}`}</span>
+                          `}>{`${i?.result}`}</span>
                         <span
                           className={`
                   ${
-                    (i?.number_result === "0" &&
+                    (i?.result === "0" &&
                       "!bg-gradient-to-t from-red-400 to-violet-400") ||
-                    (i?.number_result === "5" &&
+                    (i?.result === "5" &&
                       "!bg-gradient-to-t from-violet-400 to-green-400") ||
-                    ((i?.number_result === "1" ||
-                      i?.number_result === "3" ||
-                      i?.number_result === "7" ||
-                      i?.number_result === "9" ||
-                      i?.number_result === "10") &&
+                    ((i?.result === "1" ||
+                      i?.result === "3" ||
+                      i?.result === "7" ||
+                      i?.result === "9" ||
+                      i?.result === "10") &&
                       "bg-gradient-to-t from-green-400 to-green-900") ||
-                    ((i?.number_result === "2" ||
-                      i?.number_result === "4" ||
-                      i?.number_result === "6" ||
-                      i?.number_result === "8" ||
-                      i?.number_result === "30") &&
+                    ((i?.result === "2" ||
+                      i?.result === "4" ||
+                      i?.result === "6" ||
+                      i?.result === "8" ||
+                      i?.result === "30") &&
                       "bg-gradient-to-tl from-red-400 to-red-900") ||
-                    (i?.number_result === "50" && "bg-[#3183ee]") ||
-                    (i?.number_result === "40" && "bg-[#f1be24]") ||
-                    (i?.number_result === "20" && "bg-[#eb2feb]")
+                    (i?.result === "50" && "bg-[#3183ee]") ||
+                    (i?.result === "40" && "bg-[#f1be24]") ||
+                    (i?.result === "20" && "bg-[#eb2feb]")
                   }
                   transparentColor font-bold text-xl
                   `}
                         >
-                          {i?.number_result === "0"
+                          {i?.result === "0"
                             ? "Red Voilet"
-                            : i?.number_result === "1" ||
-                              i?.number_result === "3" ||
-                              i?.number_result === "7" ||
-                              i?.number_result === "9"
+                            : i?.result === "1" ||
+                              i?.result === "3" ||
+                              i?.result === "7" ||
+                              i?.result === "9"
                             ? "Green"
-                            : i?.number_result === "5"
+                            : i?.result === "5"
                             ? "Voilet Green"
-                            : (i?.number_result === "2" ||
-                                i?.number_result === "4" ||
-                                i?.number_result === "6" ||
-                                i?.number_result === "8") &&
+                            : (i?.result === "2" ||
+                                i?.result === "4" ||
+                                i?.result === "6" ||
+                                i?.result === "8") &&
                               "Red"}
                         </span>
                         <span>
-                          {Number(i?.number_result) <= 4 ? "Small" : "Big"}
+                          {Number(i?.result) <= 4 ? "Small" : "Big"}
                         </span>
                       </div>
                     ) : (
@@ -599,7 +599,7 @@ const MyHistory = ({ gid }) => {
           }}
           rowsPerPageOptions={[2, 5, 10, 15]}
           component="div"
-          count={my_history_data_all?.length}
+          count={my_history_data?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
