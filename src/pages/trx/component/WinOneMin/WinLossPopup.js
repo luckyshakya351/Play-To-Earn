@@ -25,9 +25,8 @@ const WinLossPopup = ({ gid }) => {
     setloding(true);
     try {
       const response = await axios.get(
-        `${endpoint.trx_game_history}?gameid=${gid}&limit=500`
+        `${endpoint.my_history_all_trx}?userid=${user_id}&limit=0&gameid=${gid}`
       );
-
       const firstId = response?.data?.data?.[0]?.gamesno;
       const winAmnt =
         response?.data?.data

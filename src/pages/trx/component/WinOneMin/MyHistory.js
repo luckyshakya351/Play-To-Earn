@@ -12,9 +12,10 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import moment from "moment";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { zubgback, zubgtext, zubgwhite } from "../../../../Shared/color";
+import { zubgback, zubgbackgrad, zubgtext, zubgwhite } from "../../../../Shared/color";
 import history from "../../../../assets/images/list.png";
 import {
+  MyHistoryFn,
   My_All_TRX_HistoryFn,
   My_All_TRX_HistoryPendingFn,
 } from "../../../../services/apicalling";
@@ -68,7 +69,7 @@ const MyHistory = ({ gid }) => {
     [page, rowsPerPage, my_history_data_all]
   );
 
-  if (myhistory_loding)
+  if (myhistory_loding_all)
     return (
       <div className="!w-full  flex justify-center">
         <CircularProgress className={""} />
@@ -361,7 +362,30 @@ const MyHistory = ({ gid }) => {
 
                     {i?.status !== "0" ? (
                       <div className="flex gap-2 items-center bg-white !bg-opacity-10 py-1 px-2">
-                        <span>{`${i?.number_result}`}</span>
+                        <span
+                         className={`
+                          ${(i?.number_result === "0" &&
+                                      "!bg-gradient-to-t from-red-400 to-violet-400") ||
+                                    (i?.number_result === "5" &&
+                                      "!bg-gradient-to-t from-violet-400 to-green-400") ||
+                                    ((i?.number_result === "1" ||
+                                      i?.number_result === "3" ||
+                                      i?.number_result === "7" ||
+                                      i?.number_result === "9" ||
+                                      i?.number_result === "10") &&
+                                      "bg-gradient-to-t from-green-400 to-green-900") ||
+                                    ((i?.number_result === "2" ||
+                                      i?.number_result === "4" ||
+                                      i?.number_result === "6" ||
+                                      i?.number_result === "8" ||
+                                      i?.number_result === "30") &&
+                                      "bg-gradient-to-tl from-red-400 to-red-900") ||
+                                    (i?.number_result === "50" && "bg-[#3183ee]") ||
+                                    (i?.number_result === "40" && "bg-[#f1be24]") ||
+                                    (i?.number_result === "20" && "bg-[#eb2feb]")
+                                    }
+                          transparentColor font-bold text-xl
+                          `}>{`${i?.number_result}`}</span>
                         <span
                           className={`
                   ${
