@@ -26,6 +26,8 @@ import { get_user_data_fn } from "../../../services/apicalling";
 import { endpoint } from "../../../services/urls";
 import Policy from "./policy/Policy";
 import { zubgtext } from "../../../Shared/color";
+import FalseCheck from "../../../Shared/check/FalseCheck";
+import SuccessCheck from "../../../Shared/check/SuccessCheck";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });

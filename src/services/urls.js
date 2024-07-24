@@ -1,17 +1,8 @@
 export const rupees = "₹";
 
 export const baseUrl = "https://admin.play2earn.space";
-
-// export const fron_end_main_domain = "https://sunlottery.fun";
 export const fron_end_main_domain = "https://play2earn.space";
-
-// export const newDomain = "http://192.168.18.183:8000";
-
-export const domain = "https://play2earn-timer-1.onrender.com";
-// export const domain = "https://test.zupeeter.com";
-
 export const newDomain = "https://api.play2earn.space";
-// export const newDomain = "http://192.168.157.149:8000";
 
 export const support_mail = "";
 // `support@sunlottrey.fun`;
@@ -19,22 +10,29 @@ export const telegram_url = "https://t.me/play2earnspace";
 // `https://t.me/SunLottaryOfficial`;
 
 export const endpoint = {
-  login: `${baseUrl}/api/user_login`,
+
+  login: `${newDomain}/api/v1/user_login`,
+  // login: `${baseUrl}/api/user_login`,
   send_otp: `${baseUrl}/api/forget-password`,
   veryfy_otp: `${baseUrl}/api/user-otp-verify`,
   signup: `${baseUrl}/api/user_register`,
-  userwallet: `${baseUrl}/api/userwallet`,
+  // userwallet: `${baseUrl}/api/userwallet`,
+  userwallet: `${newDomain}/api/v1/userwallet`,
   // top11winner: `https://game-zone-sql.onrender.com/api/v1/topw11winningInformation`,
   top11winner: `${baseUrl}/api/winning-list`,
   openbannerUrl: `${baseUrl}/popup`,
   profiledata: `${baseUrl}/api/profileapi`,
-  applybet: `${baseUrl}/api/bet`,
-  // applybet: `${newDomain}/api/v1/bet`,
-  game_history: `${baseUrl}/api/colour_result`,
-  // game_history: `${newDomain}/api/v1/colour_result`,
-  my_history: `${baseUrl}/api/getbet`,
-  // my_history_all: `${newDomain}/api/v1/getbet-game-results`,
-  my_history_all: `${baseUrl}/api/getbet-game-results`,
+
+  // applybet: `${baseUrl}/api/bet`,
+  // game_history: `${baseUrl}/api/colour_result`,
+  // my_history: `${baseUrl}/api/getbet`,
+  // my_history_all: `${baseUrl}/api/getbet-game-results`,
+
+  applybet: `${newDomain}/api/v1/bet`,
+  game_history: `${newDomain}/api/v1/colour_result`,
+  my_history_all: `${newDomain}/api/v1/getbet-game-results`,
+  
+  
   check_result: `${baseUrl}/api/checkresult`,
   color_winning: `${baseUrl}/api/colour_winning`,
   cash_deposit: `${baseUrl}/api/deposit`,
@@ -60,14 +58,15 @@ export const endpoint = {
   recharge_call_bakc: `${baseUrl}/api/deposits-user-request`,
   cricket_get_url_id_pass: `${baseUrl}/api/cricket-details`,
   // trx api's
-  trx_game_history: `${baseUrl}/api/trx-auto-genrated-result`,
-  // trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`,
-  trx_game_bet: `${baseUrl}/api/trx-bet`,
-  // trx_game_bet: `${newDomain}/api/v1/trx-bet`,
-  my_history_all_trx: `${baseUrl}/api/trx-getColourBets`,
-  // my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`,
+  // trx_game_history:`${baseUrl}/api/trx-auto-genrated-result`,
+  // trx_game_bet: `${baseUrl}/api/trx-bet`,
+    // my_history_all_trx: `${baseUrl}/api/trx-getColourBets`,
+    // my_history_all_trx_pending: `${baseUrl}/api/trx-getColourBets-results`,
 
-  my_history_all_trx_pending: `${baseUrl}/api/trx-getColourBets-results`,
+  trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`,//node api
+   trx_game_bet: `${newDomain}/api/v1/trx-bet`,//node api 
+  my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`,//node api
+
   // aviator api's
   aviator_login: `${baseUrl}/api/aviator/login`,
   get_data_by_user_id: `${baseUrl}/api/userProfile`,

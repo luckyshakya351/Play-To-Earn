@@ -6,9 +6,12 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogContent,
   IconButton,
   InputAdornment,
   OutlinedInput,
+  Slide,
   Stack,
   Typography,
 } from "@mui/material";
@@ -21,6 +24,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../../Shared/CustomCircularProgress";
 import { cashDepositRequestValidationSchema } from "../../../Shared/Validation";
 import {
+  gray,
   zubgback,
   zubgbackgrad,
   zubgmid,
@@ -42,6 +46,8 @@ import QRScreen from "./QRScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { get_user_data_fn } from "../../../services/apicalling";
 import CryptoJS from "crypto-js";
+import Msg from "./Msg";
+import { RxCross2 } from "react-icons/rx";
 
 function WalletRecharge() {
   const [t_id, setT_id] = React.useState();
@@ -53,7 +59,7 @@ function WalletRecharge() {
   const aviator_login_data = useSelector(
     (state) => state.aviator.aviator_login_data
   );
-
+  const [poicy, setpoicy] = React.useState(false);
   const deposit_amount = localStorage.getItem("amount_set");
   const Deposit_type = localStorage.getItem("Deposit_type");
   const server_provider = localStorage.getItem("server_provider");
@@ -72,13 +78,24 @@ function WalletRecharge() {
   const user_id = login_data && JSON.parse(login_data)?.UserID;
   const [deposit_req_data, setDeposit_req_data] = React.useState();
   const [loding, setloding] = React.useState(false);
-  const [show_time, set_show_time] = React.useState("0_0");
   const [amount, setAmount] = React.useState({
     wallet: 0,
     winning: 0,
     cricket_wallet: 0,
   });
+  const handleClosemsg= () => {
+    setpoicy(false);
+    // navigate('/wallet/Recharge')
+  };
+  React.useEffect(() => {
+    if("/wallet/Recharge"){
+      setpoicy(true)
+    }
+  }, []);
 
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -813,6 +830,41 @@ function WalletRecharge() {
           </Box>
           {rechargeInstruction}
         </Box>
+        {poicy && (
+            <Dialog
+              open={poicy}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={handleClosemsg}
+              aria-describedby="alert-dialog-slide-description"
+              PaperProps={{ className: `!max-w-[400px] ${gray}` }}
+            >
+              <div
+                style={{
+                  background: zubgtext,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "15px",
+                }}
+              >
+               
+                    <p style={{ color: "white", fontSize: "14px" }}>
+                      Notification
+                    </p>
+                 
+                <RxCross2
+                  style={{ color: "white" }}
+                  onClick={handleClosemsg}
+                />
+              </div>
+              <DialogContent style={{ background: zubgback }}>
+             
+                  <Msg handleClosemsg={handleClosemsg} />
+              
+              </DialogContent>
+            </Dialog>
+          )}
         <CustomCircularProgress isLoading={loding} />
         {/* deposit_req_data */}
         {/* {true && (

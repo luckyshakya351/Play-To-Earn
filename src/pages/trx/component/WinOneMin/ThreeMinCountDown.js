@@ -81,7 +81,7 @@ const ThreeMinCountDown = ({ fk }) => {
       ) {
         client.refetchQueries("trx_gamehistory");
         client.refetchQueries("trx_gamehistory_chart");
-        client.refetchQueries("my_trx_Allhistory");
+        // client.refetchQueries("my_trx_Allhistory");
         client.refetchQueries("my_trx_history");
         client.refetchQueries("walletamount");
         dispatch(dummycounterFun());
