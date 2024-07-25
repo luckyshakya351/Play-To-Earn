@@ -3,7 +3,9 @@ export const rupees = "₹";
 export const baseUrl = "https://admin.play2earn.space";
 export const fron_end_main_domain = "https://play2earn.space";
 export const newDomain = "https://api.play2earn.space";
-export const domain = "https://api.zupeeter.com";
+// export const domain = "https://api.zupeeter.com";
+
+export const domain = "https://play2earn-timer-zh8b.onrender.com";
 
 export const support_mail = "";
 // `support@sunlottrey.fun`;
@@ -11,7 +13,6 @@ export const telegram_url = "https://t.me/play2earnspace";
 // `https://t.me/SunLottaryOfficial`;
 
 export const endpoint = {
-
   login: `${newDomain}/api/v1/user_login`,
   // login: `${baseUrl}/api/user_login`,
   send_otp: `${baseUrl}/api/forget-password`,
@@ -32,8 +33,7 @@ export const endpoint = {
   applybet: `${newDomain}/api/v1/bet`,
   game_history: `${newDomain}/api/v1/colour_result`,
   my_history_all: `${newDomain}/api/v1/getbet-game-results`,
-  
-  
+
   check_result: `${baseUrl}/api/checkresult`,
   color_winning: `${baseUrl}/api/colour_winning`,
   cash_deposit: `${baseUrl}/api/deposit`,
@@ -61,12 +61,12 @@ export const endpoint = {
   // trx api's
   // trx_game_history:`${baseUrl}/api/trx-auto-genrated-result`,
   // trx_game_bet: `${baseUrl}/api/trx-bet`,
-    // my_history_all_trx: `${baseUrl}/api/trx-getColourBets`,
-    // my_history_all_trx_pending: `${baseUrl}/api/trx-getColourBets-results`,
+  // my_history_all_trx: `${baseUrl}/api/trx-getColourBets`,
+  // my_history_all_trx_pending: `${baseUrl}/api/trx-getColourBets-results`,
 
-  trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`,//node api
-   trx_game_bet: `${newDomain}/api/v1/trx-bet`,//node api 
-  my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`,//node api
+  trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`, //node api
+  trx_game_bet: `${newDomain}/api/v1/trx-bet`, //node api
+  my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`, //node api
 
   // aviator api's
   aviator_login: `${baseUrl}/api/aviator/login`,
