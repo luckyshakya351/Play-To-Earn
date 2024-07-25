@@ -71,8 +71,8 @@ const GameHistory = ({ gid }) => {
 
   if (isLoading)
     return (
-      <div className="!w-full flex justify-center">
-        <CircularProgress />
+      <div className="!w-full  flex justify-center">
+        <CircularProgress  />
       </div>
     );
   return (
