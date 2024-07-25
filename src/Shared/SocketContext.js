@@ -1,12 +1,12 @@
 // SocketContext.js
 import React, { createContext, useContext, useMemo } from 'react';
 import io from 'socket.io-client';
-import { newDomain } from '../services/urls';
+import { domain } from '../services/urls';
 
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
- const socket =  useMemo(()=>io(newDomain),[])
+ const socket =  useMemo(()=>io(domain),[])
 
   return (
     <SocketContext.Provider value={socket}>
