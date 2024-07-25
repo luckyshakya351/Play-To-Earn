@@ -85,13 +85,8 @@ function WalletRecharge() {
   });
   const handleClosemsg= () => {
     setpoicy(false);
-    // navigate('/wallet/Recharge')
   };
-  React.useEffect(() => {
-    if("/wallet/Recharge"){
-      setpoicy(true)
-    }
-  }, []);
+
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -129,7 +124,7 @@ function WalletRecharge() {
       );
 
       setAmount(response?.data?.data);
-      // console.log(response,"response")
+      setpoicy(true)
     } catch (e) {
       toast(e?.message);
       console.log(e);
@@ -138,6 +133,7 @@ function WalletRecharge() {
 
   React.useEffect(() => {
     walletamountFn();
+    
   }, []);
 
   const initialValues = {
@@ -850,7 +846,7 @@ function WalletRecharge() {
               >
                
                     <p style={{ color: "white", fontSize: "14px" }}>
-                      Notification
+             Deposit  Instruction 
                     </p>
                  
                 <RxCross2

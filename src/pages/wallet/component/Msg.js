@@ -12,9 +12,10 @@ const Msg = ({ handleClosemsg }) => {
         sx={{ "&>p": { color: "white", fontSize: "15px" } }}
       >
        
-        <p className=" pl-5 !text-red-600">⭐️ Please refrain from using the back button while the transaction is in progress.</p>
-        <p className=" pl-5 !text-red-600">⭐️ The page will automatically redirect shortly</p>
-        <p className=" pl-5 !text-red-600">⭐️ Please wait for 3 minutes for automatic redirection.</p>
+        <p className=" pl-1 !text-red-600 ">* Please refrain from using the back button</p>
+        <p className=" pl-5 !text-red-600 !pb-5 "> while the transaction is in progress.</p>
+        <p className=" pl-1 !text-red-600 ">* The page will automatically redirect shortly</p>
+        <p className=" pl-5 !text-red-600"> Please wait for 3 minutes for automatic redirection.</p>
       </Box>
    
   
