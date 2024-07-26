@@ -203,7 +203,6 @@ function Dashboard() {
     !aviator_login_data && get_user_data_fn(dispatch);
   }, []);
 
-  console.log(openbannerurl);
 
   const game_data = [
     {
