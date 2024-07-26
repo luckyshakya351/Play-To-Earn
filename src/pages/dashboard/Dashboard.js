@@ -1,5 +1,4 @@
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
-import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import {
@@ -61,9 +60,7 @@ import {
   waitingAviatorFun,
 } from "../../redux/slices/counterSlice";
 import {
-  MyProfileDataFn,
   MypromotionDataFn,
-  allWithdrawlCashUserFn,
   get_user_data_fn,
   walletamount,
 } from "../../services/apicalling";
@@ -88,7 +85,6 @@ function Dashboard() {
   );
 
   const isAvailableUser = sessionStorage.getItem("isAvailableUser");
-  // const aviator_data = localStorage.getItem("aviator_data");
   const value =
     (localStorage.getItem("logindataen") &&
       CryptoJS.AES.decrypt(
@@ -96,27 +92,26 @@ function Dashboard() {
         "anand"
       )?.toString(CryptoJS.enc.Utf8)) ||
     null;
-  //  console.log(JSON.parse(value));
   const navigate = useNavigate();
   const [poicy, setpoicy] = React.useState(false);
   const [type_of_game, settype_of_game] = React.useState("");
-  // const login_data = localStorage.getItem("logindata");
   const user_id = value && JSON.parse(value).UserID;
   const [winnner_data, setwinnerdata] = useState([]);
-  const [openbannerurl, setopenbannerurl] = useState("");
+  const [openbannerurl, setopenbannerurl] = useState(""); 
   const [loding, setloding] = useState(false);
   const [lodingBanner, setlodingBanner] = useState(false);
 
   useQuery(["promotion_data"], () => MypromotionDataFn(), {
     refetchOnMount: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false,
   });
 
   useEffect(() => {
     if (!checkTokenValidity()) {
       localStorage.clear();
       sessionStorage.clear();
-      window.location.href = "/"; // Redirect to login page
+      window.location.href = "/"; 
     }
   }, []);
 
@@ -151,31 +146,6 @@ function Dashboard() {
 
   const newdata = data?.data?.data || 0;
 
-  const {
-    isLoading: allWithdrawlCashUserFnLoding,
-    data: allWithdrawlCashData,
-  } = useQuery(["allWithdrawlCashUser"], () => allWithdrawlCashUserFn(), {
-   
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus:false,
-    retryOnMount:false,
-  });
-
-  const allWithdrawl_CashData = allWithdrawlCashData?.data?.data || [];
-
-  const { isLoading: profile_loding, data: profile } = useQuery(
-    ["myprofile"],
-    () => MyProfileDataFn(),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
-    }
-  );
-
-  const result = profile?.data?.data || [];
 
   useEffect(() => {
     openbannerFunction();
@@ -195,24 +165,8 @@ function Dashboard() {
     }
     setlodingBanner(false);
   };
-
-  // console.log(openbannerurl);
-
-  // useEffect(() => {
-  //   console.log(result?.referral_code, "nandn");
-  //   setReferral_code(
-  //     CryptoJS.AES.encrypt(
-  //       JSON.stringify(result?.referral_code),
-  //       "anand"
-  //     ).toString()
-  //   );
-  //   console.log(referal_code, "converted value");
-  // }, [result]);
-
   const initialValues = {
-    //  referrel_code: `https://play.ferryinfotech.in/register?ref=${referal_code}`,
-    referrel_code: `${fron_end_main_domain}/register?ref=${result?.referral_code}`,
-    // referrel_code: `https://play.ferryinfotech.in/register?ref=${referal_code}`,
+    referrel_code: `${fron_end_main_domain}/register?ref=${newdata?.referral_code}`, 
   };
 
   const fk = useFormik({
@@ -237,15 +191,6 @@ function Dashboard() {
     dispatch(waitingAviatorFun(true));
     dispatch(please_reconnect_the_serverFun(false));
   }, []);
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     setdata_array([...data_array, 100]);
-  //     setTimeout(() => {
-  //       setdata_array(data_array.slice(0, data_array.length));
-  //     }, 1000);
-  //   }, 3000);
-  // }, []);
 
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
@@ -351,50 +296,7 @@ function Dashboard() {
               </SwiperSlide>
             </Swiper>
           </Box>
-          {/* <Box className="!px-2">
-            <Swiper
-              spaceBetween={30}
-              centeredSlides={true}
-              autoplay={{ delay: 2000, disableOnInteraction: false }}
-              pagination={{ clickable: true }}
-              navigation={false}
-              modules={[Autoplay, Pagination, Navigation]}
-              className="mySwiper !rounded-lg !mt-2"
-            >
-              {allWithdrawlCashUserFnLoding
-                ? [1, 2]?.map((i) => {
-                  return (
-                    <SwiperSlide>
-                      <CircularProgress className="!text-#E71D1E" />
-                    </SwiperSlide>
-                  );
-                })
-                : allWithdrawl_CashData?.map((i, index) => {
-                  return (
-                    <SwiperSlide key={index}>
-                      <div className="!h-20 !w-full  !flex !items-center ">
-                        <div className="!w-full grid grid-cols-2 place-items-center  !py-6" style={{ background: '#ffffff', boxShadow: ' rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}>
-                          <div className="flex items-center justify-between gap-3">
-                            <Avatar alt="Remy Sharp" sizes="large">
-                              {i?.full_name?.substring(0, 1) || ""}
-                            </Avatar>
-                            <p className=" !text-#E71D1E !text-lg !#E71D1Espace-nowrap">
-                              {i?.full_name || ""}
-                            </p>
-                          </div>
-                          <p className=" !text-#E71D1E">
-                            Withdraw {rupees}{" "}
-                            <spna className={"!font-bold !text-[#FB8356]"}>
-                              {Number(i?.amount || 0).toFixed(2)}
-                            </spna>
-                          </p>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
-            </Swiper>
-          </Box> */}
+         
           <Box
             sx={{
               display: "flex",
@@ -865,38 +767,10 @@ function Dashboard() {
             </Dialog>
           )}
 
-          {/* {poicy && (
-            <Dialog
-              open={poicy}
-              TransitionComponent={Transition}
-              keepMounted
-              onClose={handleClosepolicy}
-              aria-describedby="alert-dialog-slide-description"
-              PaperProps={{ className: `!max-w-[1000px] ${gray}` }}
-            >
-              <div
-                style={{
-                  background: zubgmid,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "15px",
-                }}
-              >
-                <p style={{ color:zubgtext, fontSize: "14px" }}>Notification</p>
-                <RxCross2
-                  style={{ color:zubgtext }}
-                  onClick={handleClosepolicy}
-                />
-              </div>
-              <DialogContent style={{ background: zubgback }}>
-                <Notification handleClosepolicy={handleClosepolicy} />
-              </DialogContent>
-            </Dialog>
-          )} */}
+       
         </Container>
       </Box>
-      <CustomCircularProgress isLoading={isLoading || profile_loding} />
+      <CustomCircularProgress isLoading={isLoading || isLoading} />
     </Layout>
   );
 }

@@ -6,7 +6,7 @@ export const newDomain = "https://api.play2earn.space";
 // export const domain = "https://api.zupeeter.com";
 
 export const domain = "https://play2earn-timer-1.onrender.com"
-
+// export const domain1 = "http://192.168.18.183:8000"
 export const support_mail = "";
 // `support@sunlottrey.fun`;
 export const telegram_url = "https://t.me/play2earnspace";
@@ -21,7 +21,7 @@ export const endpoint = {
   // userwallet: `${baseUrl}/api/userwallet`,
   userwallet: `${newDomain}/api/v1/userwallet`,
   // top11winner: `https://game-zone-sql.onrender.com/api/v1/topw11winningInformation`,
-  top11winner: `${baseUrl}/api/winning-list`,
+  top11winner: `${newDomain}/api/v1/winning-list`,
   openbannerUrl: `${baseUrl}/popup`,
   profiledata: `${baseUrl}/api/profileapi`,
 

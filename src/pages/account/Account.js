@@ -40,7 +40,7 @@ import dpt from "../../assets/images/wallet (3).png";
 import wtd from "../../assets/images/withdraw.png";
 import sunlotteryhomebanner from "../../assets/sunlotteryhomebanner.jpg";
 import Layout from "../../component/Layout/Layout";
-import { MyProfileDataFn } from "../../services/apicalling";
+import {  walletamount } from "../../services/apicalling";
 import { baseUrl, fron_end_main_domain } from "../../services/urls";
 
 function Account() {
@@ -49,21 +49,15 @@ function Account() {
   const transactionId = searchParams?.get("order_id");
   const client = useQueryClient();
   const navigate = useNavigate();
-  const profile_data = localStorage.getItem("profile_data");
   const [openDialogBoxHomeBanner, setopenDialogBoxHomeBanner] = useState(false);
-  const [imageNumber, setImageNumber] = useState(profile_data || "1");
-  const { isLoading, data } = useQuery(["myprofile"], () => MyProfileDataFn(), {
+  
+  const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: false,
+    retryOnMount:false,
+    refetchOnWindowFocus:false
   });
-  const result = data?.data?.data;
-
-  const imge_array = [
-    { id: 1, img: dp1 },
-    { id: 2, img: dp2 },
-    { id: 3, img: dp3 },
-    { id: 4, img: dp4 },
-  ];
+  const amount = data?.data?.data || 0;
 
   async function sendUrlCallBackToBackend(transactionId) {
     try {
@@ -80,8 +74,7 @@ function Account() {
   }
 
   useEffect(() => {
-    client.removeQueries("myprofile");
-    client.removeQueries("walletamount");
+    client.refetchQueries("walletamount");
     if (transactionId) {
       sendUrlCallBackToBackend(transactionId);
     }
@@ -94,20 +87,20 @@ function Account() {
           <Box sx={style.profileBox}>
             <Box
               component="img"
-              src={imge_array[Number(Number(imageNumber) - 1 || 0)]?.img}
+              src={dp1}
               sx={style.profileImage}
             />
           </Box>
           <Box sx={style.userInfo}>
             <Stack direction="row" alignItems="center">
               <Typography variant="" color="initial" sx={{ mr: 2 }}>
-                {result?.full_name}
+                {amount?.full_name}
               </Typography>
               <Box component="img" src={namer} sx={{ width: "50px" }} />
             </Stack>
 
             <Typography variant="body1" color="initial" sx={{ mt: 1 }}>
-              UID | {result?.custid || 0}{" "}
+              UID | {amount?.custid || 0}{" "}
               <ContentCopyOutlinedIcon sx={{ fontSize: "15px", ml: 2 }} />
             </Typography>
           </Box>
@@ -124,10 +117,21 @@ function Account() {
               ₹
               {(
                 Number(
-                  Number(result?.winning_wallet || 0) +
-                    Number(result?.wallet || 0)
+                  Number(amount?.winning || 0) +
+                    Number(amount?.wallet || 0)
                 ) || 0
               )?.toFixed(0)}
+               {/* ₹{" "}
+              {amount ?
+              (
+                Number(
+                  Number(amount?.winning || 0) +
+                    Number(amount?.wallet || 0)
+                ) || 0
+              )?.toFixed(0)  : (
+                <CircularProgress />
+              )} */}
+             
             </Typography>
             <CachedIcon sx={style.cachedIcon} />
           </Stack>
@@ -141,7 +145,7 @@ function Account() {
           >
             <Box component="img" src={cip} sx={style.cardImage} />
             <Typography variant="body1" color="initial" sx={style.cardNumber}>
-              Rererral Code: {result?.referral_code}
+              Rererral Code: {amount?.referral_code}
             </Typography>
           </Stack>
         </Box>
@@ -171,70 +175,7 @@ function Account() {
             </Typography>
           </Box>
         </Box>
-        {/* <Box sx={style.actionContainer} component={NavLink} to={"/bathistory"}>
-          <Box
-            sx={{
-              width: "50%",
-              height: "100%",
-            }}
-          >
-            <Stack direction="row" sx={{ alignItems: "center" }}>
-              <Box
-                component="img"
-                src={casino}
-                sx={{ width: "40px", height: "40px", marginRight: "20px" }}
-              ></Box>
-              <Box
-                sx={{
-                  "&>:nth-child(1)": {
-                    fontSize: "15px",
-                    fontWeight: "500",
-                    color: zubgtext,
-                  },
-                  "&>:nth-child(2)": {
-                    fontSize: "12px",
-                    fontWeight: "500",
-                    color: zubgtext,
-                  },
-                }}
-              >
-                <p className="!text-sm">Bet</p>
-                <p className="!text-[10px]">My betting history</p>
-              </Box>
-            </Stack>
-          </Box>
-          <Box
-            sx={{
-              width: "50%",
-              height: "100%",
-            }}
-          >
-            <Stack direction="row" sx={{ alignItems: "center" }}>
-              <Box
-                component="img"
-                src={card}
-                sx={{ width: "40px", height: "40px", marginRight: "20px" }}
-              ></Box>
-              <Box
-                sx={{
-                  "&>:nth-child(1)": {
-                    fontSize: "15px",
-                    fontWeight: "500",
-                    color: zubgtext,
-                  },
-                  "&>:nth-child(2)": {
-                    fontSize: "10px",
-                    fontWeight: "500",
-                    color: zubgtext,
-                  },
-                }}
-              >
-                <p className="!text-sm">Transaction</p>
-                <p className="!text-[10px]">My Transaction history</p>
-              </Box>
-            </Stack>
-          </Box>
-        </Box> */}
+        
         <Box sx={style.actionContainertwo}>
           <Stack
             sx={{

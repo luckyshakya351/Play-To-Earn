@@ -5,6 +5,7 @@ import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeft
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Dialog,
   DialogContent,
@@ -51,10 +52,6 @@ import { RxCross2 } from "react-icons/rx";
 
 function WalletRecharge() {
   const [t_id, setT_id] = React.useState();
-  // const [callBackResponse, setCallBackResponse] = React.useState({
-  //   payment_status: "NO",
-  // });
-  // let intervalId;
   const dispatch = useDispatch();
   const aviator_login_data = useSelector(
     (state) => state.aviator.aviator_login_data
@@ -83,7 +80,7 @@ function WalletRecharge() {
     winning: 0,
     cricket_wallet: 0,
   });
-  const handleClosemsg= () => {
+  const handleClosemsg = () => {
     setpoicy(false);
   };
 
@@ -133,7 +130,7 @@ function WalletRecharge() {
 
   React.useEffect(() => {
     walletamountFn();
-    
+
   }, []);
 
   const initialValues = {
@@ -193,8 +190,6 @@ function WalletRecharge() {
     try {
       const res = await axios.post(`${endpoint.payment_request}`, fdata);
       const qr_url = res?.data?.data && JSON.parse(res?.data?.data)?.upi_deep_link || "";
-      // const qr_url = JSON.parse(res?.data?.data) || "";
-      // console.log(res,qr_url);
       if (qr_url) {
         setDeposit_req_data(qr_url);
       } else {
@@ -205,68 +200,6 @@ function WalletRecharge() {
     }
     setloding(false);
   }
-
-  // React.useEffect(() => {
-  //   let x = true;
-  //   if (deposit_req_data) {
-  //     let min = 1;
-  //     let sec = 59;
-  //     const interval = setInterval(() => {
-  //       set_show_time(`${min}_${sec}`);
-  //       if (x) {
-  //         startGetTimeForCallBack();
-  //         x = false;
-  //       }
-  //       sec--;
-
-  //       if (sec < 0) {
-  //         sec = 59;
-  //         min--;
-
-  //         if (min < 0) {
-  //           sec = 59;
-  //           min = 1;
-  //           stopPrintingHello();
-  //           clearInterval(interval);
-  //           setDeposit_req_data();
-  //           set_show_time("0_0");
-  //           setloding(false);
-  //         }
-  //       }
-  //     }, 1000);
-  //   }
-  // }, [deposit_req_data]);
-
-  // async function printHello() {
-  //   try {
-  //     const res = await axios.get(
-  //       `${endpoint.recharge_call_bakc}?userid=${user_id}&transectionid=${t_id}`
-  //     );
-  //     console.log(res, "Api response");
-  //     if (res?.data?.payment_status !== "Pending") {
-  //       setTimeout(() => {
-  //         setDeposit_req_data();
-  //         set_show_time("0_0");
-  //         setloding(false);
-  //         stopPrintingHello();
-  //       }, 2000);
-  //     }
-  //     if (res?.data?.msg === "Successfully Data Found") {
-  //       setCallBackResponse(res?.data);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-  // function startGetTimeForCallBack() {
-  //   intervalId = setInterval(printHello, 20000);
-  // }
-
-  // // Function to stop the interval
-  // function stopPrintingHello() {
-  //   clearInterval(intervalId); // Clear the interval using its ID
-  // }
 
   const audio = React.useMemo(() => {
     return (
@@ -404,7 +337,7 @@ function WalletRecharge() {
             {" "}
             ₹ 15K
           </Button>
-        
+
         </Stack>
       </>
     );
@@ -515,13 +448,19 @@ function WalletRecharge() {
                 zIndex: 10,
               }}
             >
-              {" "}
-              ₹{" "}
-              {deposit_amount
-                ? Number(amount?.cricket_wallet || 0)?.toFixed(2)
-                : Number(
-                    Number(amount?.wallet || 0) + Number(amount?.winning || 0)
-                  )?.toFixed(2)}
+              {(
+                Number(deposit_amount ? amount?.cricket_wallet || 0
+                  : Number(amount?.wallet || 0) + Number(amount?.winning || 0)).toFixed(2)
+              )}
+              {/* ₹{" "}
+              {deposit_amount ? (
+                <CircularProgress />
+              ) : (
+                Number(deposit_amount ? amount?.cricket_wallet || 0
+                  : Number(amount?.wallet || 0) + Number(amount?.winning || 0)).toFixed(2)
+              )} */}
+
+
             </Typography>
             <CachedIcon
               sx={{
@@ -570,167 +509,7 @@ function WalletRecharge() {
           </Box>
         </Box>
         <Box>
-          {/* {React.useMemo(() => {
-            return (
-              <>
-                <Box
-                  sx={{
-                    padding: "10px",
-                    width: "95%",
-                    margin: "auto",
-                    mt: "20px",
-                    background: zubgmid,
-                    borderRadius: "10px",
-                    mb: 2,
-                  }}
-                >
-                  <Stack
-                    direction="row"
-                    sx={{ alignItems: "center", mb: "20px" }}
-                  >
-                    <Box component="img" src={quickpay} width={30}></Box>
-                    <Typography
-                      variant="body1"
-                      color="initial"
-                      sx={{ fontSize: "15px ", color: "white", ml: "10px" }}
-                    >
-                      {" "}
-                      Select channel
-                    </Typography>
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    sx={{
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      flexWrap: "wrap",
-                      mt: "10px",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: "48%",
-                        background: zubgbackgrad,
-                        padding: "15px 20px",
-                        borderRadius: "10px",
-                        mb: "10px",
-                        "&>p": { fontSize: "14px", color: "white" },
-                      }}
-                    >
-                      <Typography variant="body1" color="initial">
-                        IMpay-QR
-                      </Typography>
-                      <Typography variant="body1" color="initial">
-                        Balance:100 - 50K
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        width: "48%",
-                        background: zubgback,
-                        padding: "15px 20px",
-                        borderRadius: "10px",
-                        mb: "10px",
-                        "&>p": { fontSize: "14px", color: "white" },
-                      }}
-                    >
-                      <Typography variant="body1" color="initial">
-                        TYpay-QR
-                      </Typography>
-                      <Typography variant="body1" color="initial">
-                        Balance:500 - 50K
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        width: "48%",
-                        background: zubgback,
-                        padding: "15px 20px",
-                        borderRadius: "10px",
-                        mb: "10px",
-                        "&>p": { fontSize: "14px", color: "white" },
-                      }}
-                    >
-                      <Typography variant="body1" color="initial">
-                        HeyPay-APP
-                      </Typography>
-                      <Typography variant="body1" color="initial">
-                        Balance:100 - 50K
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        width: "48%",
-                        background: zubgback,
-                        padding: "15px 20px",
-                        borderRadius: "10px",
-                        mb: "10px",
-                        "&>p": { fontSize: "14px", color: "white" },
-                      }}
-                    >
-                      <Typography variant="body1" color="initial">
-                        UPIpay-APP
-                      </Typography>
-                      <Typography variant="body1" color="initial">
-                        Balance:100 - 50K
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        width: "48%",
-                        background: zubgback,
-                        padding: "15px 20px",
-                        borderRadius: "10px",
-                        mb: "10px",
-                        "&>p": { fontSize: "14px", color: "white" },
-                      }}
-                    >
-                      <Typography variant="body1" color="initial">
-                        BYpay-APP
-                      </Typography>
-                      <Typography variant="body1" color="initial">
-                        Balance:100 - 50K
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        width: "48%",
-                        background: zubgback,
-                        padding: "15px 20px",
-                        borderRadius: "10px",
-                        mb: "10px",
-                        "&>p": { fontSize: "14px", color: "white" },
-                      }}
-                    >
-                      <Typography variant="body1" color="initial">
-                        OKpay-QR
-                      </Typography>
-                      <Typography variant="body1" color="initial">
-                        Balance:500 - 50K
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        width: "48%",
-                        background: zubgback,
-                        padding: "15px 20px",
-                        borderRadius: "10px",
-                        mb: "10px",
-                        "&>p": { fontSize: "14px", color: "white" },
-                      }}
-                    >
-                      <Typography variant="body1" color="initial">
-                        MGpay-QR
-                      </Typography>
-                      <Typography variant="body1" color="initial">
-                        Balance:500 - 100K
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </Box>
-              </>
-            );
-          }, [])} */}
+
           <Box
             sx={{
               padding: "10px",
@@ -774,11 +553,11 @@ function WalletRecharge() {
                 <div className="error">{fk.errors.amount}</div>
               )}
               {/* {!deposit_req_data ? ( */}
-                <Button sx={style.paytmbtntwo} onClick={fk.handleSubmit}>
-                  Deposit
-                </Button>
+              <Button sx={style.paytmbtntwo} onClick={fk.handleSubmit}>
+                Deposit
+              </Button>
               {/* ) : ( */}
-                {/* <div style={style.paytmbtntwo} className="mt-5">
+              {/* <div style={style.paytmbtntwo} className="mt-5">
                   <div className="flex w-full justify-between items-center">
                     <span style={{ color: "white" }}>
                       {fk.values.all_data?.t_id}
@@ -827,40 +606,40 @@ function WalletRecharge() {
           {rechargeInstruction}
         </Box>
         {poicy && (
-            <Dialog
-              open={poicy}
-              TransitionComponent={Transition}
-              keepMounted
-              onClose={handleClosemsg}
-              aria-describedby="alert-dialog-slide-description"
-              PaperProps={{ className: `!max-w-[400px] ${gray}` }}
+          <Dialog
+            open={poicy}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClosemsg}
+            aria-describedby="alert-dialog-slide-description"
+            PaperProps={{ className: `!max-w-[400px] ${gray}` }}
+          >
+            <div
+              style={{
+                background: zubgtext,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "15px",
+              }}
             >
-              <div
-                style={{
-                  background: zubgtext,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "15px",
-                }}
-              >
-               
-                    <p style={{ color: "white", fontSize: "14px" }}>
-             Deposit  Instruction 
-                    </p>
-                 
-                <RxCross2
-                  style={{ color: "white" }}
-                  onClick={handleClosemsg}
-                />
-              </div>
-              <DialogContent style={{ background: zubgback }}>
-             
-                  <Msg handleClosemsg={handleClosemsg} />
-              
-              </DialogContent>
-            </Dialog>
-          )}
+
+              <p style={{ color: "white", fontSize: "14px" }}>
+                Deposit  Instruction
+              </p>
+
+              <RxCross2
+                style={{ color: "white" }}
+                onClick={handleClosemsg}
+              />
+            </div>
+            <DialogContent style={{ background: zubgback }}>
+
+              <Msg handleClosemsg={handleClosemsg} />
+
+            </DialogContent>
+          </Dialog>
+        )}
         <CustomCircularProgress isLoading={loding} />
         {/* deposit_req_data */}
         {/* {true && (

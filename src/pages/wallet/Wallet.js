@@ -30,7 +30,7 @@ import wallet from "../../assets/images/wallet (5).png";
 import bgms1 from "../../assets/images/playgame.jpg";
 import bgms from "../../assets/images/bgs.jpg";
 import Layout from "../../component/Layout/Layout";
-import { MyProfileDataFn } from "../../services/apicalling";
+import {  walletamount } from "../../services/apicalling";
 import CloseIcon from "@mui/icons-material/Close";
 import sunlotteryhomebanner from "../../assets/sunlotteryhomebanner.jpg";
 
@@ -39,160 +39,17 @@ function Wallet() {
   const navigate = useNavigate();
   const [openDialogBoxHomeBanner, setopenDialogBoxHomeBanner] =
     React.useState(false);
-  const { isLoading, data } = useQuery(["myprofile"], () => MyProfileDataFn(), {
-    refetchOnMount: false,
-    refetchOnReconnect: true,
-  });
-  const result = data?.data?.data;
-
-  // const main_wallet = {
-  //   series: [(
-  //     Number(result?.bonus || 0)
-  //   )?.toFixed(0) || 0],
-  //   options: {
-  //     chart: {
-  //       height: 250,
-  //       type: "radialBar",
-  //       toolbar: {
-  //         show: false,
-  //       },
-  //     },
-  //     plotOptions: {
-  //       radialBar: {
-  //         stroke: {
-  //           color: '#E71D1E',
-  //           strokeWidth: 15,
-  //           lineCap: 'round',
-  //         },
-  //         fill: {
-  //           colors: ['#E71D1E'],
-  //         },
-  //         startAngle: 0,
-  //         endAngle: 365,
-  //         hollow: {
-  //           margin: 0,
-  //           size: "70%",
-  //           background: zubgback,
-  //           image: undefined,
-  //           imageOffsetX: 0,
-  //           imageOffsetY: 0,
-  //           position: "front",
-  //           dropShadow: {
-  //             enabled: true,
-  //             top: 3,
-  //             left: 0,
-  //             blur: 4,
-  //             opacity: 0.24,
-  //           },
-  //         },
-  //         track: {
-  //           background: "#fff",
-  //           strokeWidth: "67%",
-  //           margin: 0, // margin is in pixels
-  //         },
-
-  //         dataLabels: {
-  //           show: true,
-  //           name: {
-  //             offsetY: -10,
-  //             show: true,
-  //             color: zubgtext,
-  //             fontSize: "17px",
-  //           },
-  //           value: {
-  //             formatter: function (val) {
-  //               return parseInt(val);
-  //             },
-  //             color: zubgtext,
-  //             fontSize: "36px",
-  //             show: true,
-  //           },
-  //         },
-  //       },
-  //     },
-  //     labels: ["Bonus"],
-  //   },
-  // };
-
-  // const third_party_wallet = {
-  //   series: [(
-  //     Number(
-  //       Number(result?.winning_wallet || 0)
-  //     ) || 0
-  //   )?.toFixed(0)],
-  //   options: {
-  //     chart: {
-  //       height: 250,
-  //       type: "radialBar",
-  //       toolbar: {
-  //         show: false,
-  //       },
-  //     },
-  //     plotOptions: {
-  //       radialBar: {
-  //         startAngle: -135,
-  //         endAngle: 225,
-  //         hollow: {
-  //           margin: 0,
-  //           size: "70%",
-  //           background: zubgmid,
-  //           image: undefined,
-  //           imageOffsetX: 0,
-  //           imageOffsetY: 0,
-  //           position: "front",
-  //           dropShadow: {
-  //             enabled: true,
-  //             top: 3,
-  //             left: 0,
-  //             blur: 4,
-  //             opacity: 0.24,
-  //           },
-  //         },
-  //         track: {
-  //           background: "#fff",
-  //           strokeWidth: "67%",
-  //           margin: 0, // margin is in pixels
-  //         },
-
-  //         dataLabels: {
-  //           show: true,
-  //           name: {
-  //             offsetY: -10,
-  //             show: true,
-  //             color: "white",
-  //             fontSize: "17px",
-  //           },
-  //           value: {
-  //             formatter: function (val) {
-  //               return parseInt(val);
-  //             },
-  //             color: "white",
-  //             fontSize: "36px",
-  //             show: true,
-  //           },
-  //         },
-  //       },
-  //     },
-  //     fill: {
-  //       type: "gradient",
-  //       gradient: {
-  //         type: "horizontal",
-  //         background: zubgbackgrad,
-  //         inverseColors: true,
-
-  //         stops: [0, 100],
-  //       },
-  //     },
-  //     stroke: {
-  //       lineCap: "round",
-  //     },
-  //     labels: ["Amount"],
-  //   },
-  // };
-
-  const series = [(Number(Number(result?.wallet || 0) % 100) || 0)?.toFixed(2),]
+    const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retryOnMount:false,
+      refetchOnWindowFocus:false
+    });
+    const amount = data?.data?.data || 0;
+  
+  const series = [(Number(Number(amount?.wallet || 0) % 100) || 0)?.toFixed(2),]
   const series2 = [
-    (Number(Number(result?.winning_wallet || 0) % 100) || 0)?.toFixed(2),
+    (Number(Number(amount?.winning || 0) % 100) || 0)?.toFixed(2),
   ];
 
   const [options] = React.useState({
@@ -279,12 +136,10 @@ function Wallet() {
               <Box component="img" src={wallet} width={50}></Box>
               <Typography variant="h2" color="initial" sx={{ color: zubgtext }}>
                 ₹{" "}
-                {(
-                  Number(
-                    Number(result?.winning_wallet || 0) +
-                    Number(result?.wallet || 0)
-                  ) || 0
-                )?.toFixed(0)}
+                {Number(
+                  Number(amount?.wallet || 0) + Number(amount?.winning || 0) ||
+                  0
+                )?.toFixed(2)}
               </Typography>
               <Typography
                 variant="body1"
@@ -309,29 +164,7 @@ function Wallet() {
               borderRadius: "10px",
             }}
           >
-            {/* <Box sx={{ width: "50%" }}>
-              <ReactApexChart
-                options={main_wallet.options}
-                series={main_wallet.series}
-                type="radialBar"
-                height={!isMediumScreen ? 200 : 250}
-              />
-              <Box
-                sx={{
-                  textAlign: "center",
-                  "&>p": { color: zubgtext, fontSize: "12px" },
-                }}
-              >
-                <Typography variant="body1" color="initial">
-                  ₹{" "}
-
-                  {Number(result?.bonus || 0)}
-                </Typography>
-                <Typography variant="body1" color="initial">
-                  Bonus Amount
-                </Typography>
-              </Box>
-            </Box> */}
+          
             <Stack
               direction="row"
               sx={{
@@ -373,7 +206,7 @@ function Wallet() {
                     color="initial"
                     sx={{ color: "white", fontWeight: "600" }}
                   >
-                    {Number(result?.wallet || 0)}
+                    {Number(amount?.wallet || 0)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -416,7 +249,7 @@ function Wallet() {
                     color="initial"
                     sx={{ color: "white", fontWeight: "600" }}
                   >
-                     {Number(result?.winning_wallet || 0)}
+                     {Number(amount?.winning || 0)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -428,30 +261,7 @@ function Wallet() {
                 </Box>
               </Box>
             </Stack>
-            {/* <Box sx={{ width: "50%" }}>
-              <ReactApexChart
-                options={third_party_wallet.options}
-                series={third_party_wallet.series}
-                type="radialBar"
-                height={!isMediumScreen ? 200 : 250}
-              />
-              <Box
-                sx={{
-                  textAlign: "center",
-                  "&>p": { color: "white", fontSize: "12px" },
-                }}
-              >
-                <Typography variant="body1" color="initial">
-                  ₹  {(
-                    Number(
-                      Number(result?.winning_wallet || 0)) || 0
-                  )?.toFixed(0)}
-                </Typography>
-                <Typography variant="body1" color="initial">
-                  Winning Amount
-                </Typography>
-              </Box>
-            </Box> */}
+           
           </Stack>
           <Stack
             direction="row"
