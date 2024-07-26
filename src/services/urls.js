@@ -5,7 +5,7 @@ export const fron_end_main_domain = "https://play2earn.space";
 export const newDomain = "https://api.play2earn.space";
 // export const domain = "https://api.zupeeter.com";
 
-export const domain = "https://play2earn-timer-zh8b.onrender.com";
+export const domain = "https://play2earn-timer-1.onrender.com"
 
 export const support_mail = "";
 // `support@sunlottrey.fun`;
