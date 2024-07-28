@@ -1,39 +1,17 @@
 import { Box, Stack, Typography } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
 import TablePagination from "@mui/material/TablePagination";
-import axios from "axios";
 import * as React from "react";
-import toast from "react-hot-toast";
-import { useQuery } from "react-query";
-import { zubgback, zubgbackgrad, zubgtext } from "../../../../Shared/color";
+import { useSelector } from "react-redux";
+import { zubgback, zubgtext } from "../../../../Shared/color";
 import history from "../../../../assets/images/list.png";
-import { endpoint } from "../../../../services/urls";
 const Chart = ({ gid }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = React.useState(0);
   const [cor, setcor] = React.useState([]);
   const [visibleRows, setVisibleRows] = React.useState([]);
-
-  const { isLoading, data: game_history } = useQuery(
-    ["trx_gamehistory_chart", gid],
-    () => GameHistoryFn(gid),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
-    }
+  const game_history_data = useSelector(
+    (state) => state.aviator.trx_game_history_data
   );
-
-  const GameHistoryFn = async (gid) => {
-    try {
-      const response = await axios.get(`${endpoint.trx_game_history}?gameid=${gid}&limit=500`);
-      return response;
-    } catch (e) {
-      toast(e?.message);
-      console.log(e);
-    }
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -44,11 +22,6 @@ const Chart = ({ gid }) => {
     setPage(0);
   };
 
-  const game_history_data = React.useMemo(
-    () => game_history?.data?.result,
-    [game_history?.data?.result]
-  );
-
   React.useEffect(() => {
     setVisibleRows(
       game_history_data?.slice(
@@ -56,10 +29,10 @@ const Chart = ({ gid }) => {
         page * rowsPerPage + rowsPerPage
       )
     );
-  }, [page, rowsPerPage, game_history?.data?.result]);
+  }, [page, rowsPerPage, game_history_data]);
 
   React.useEffect(() => {
-    if (visibleRows && !isLoading) {
+    if (visibleRows && visibleRows?.length > 0) {
       const parent = document.getElementById("parent");
       const parentRect = parent.getBoundingClientRect();
       const newCor =
@@ -69,22 +42,22 @@ const Chart = ({ gid }) => {
             String(Number(element?.tr41_slot_id)) === "0"
               ? `zero${index}`
               : String(Number(element?.tr41_slot_id)) === "1"
-                ? `one${index}`
-                : String(Number(element?.tr41_slot_id)) === "2"
-                  ? `two${index}`
-                  : String(Number(element?.tr41_slot_id)) === "3"
-                    ? `three${index}`
-                    : String(Number(element?.tr41_slot_id)) === "4"
-                      ? `four${index}`
-                      : String(Number(element?.tr41_slot_id)) === "5"
-                        ? `five${index}`
-                        : String(Number(element?.tr41_slot_id)) === "6"
-                          ? `six${index}`
-                          : String(Number(element?.tr41_slot_id)) === "7"
-                            ? `seven${index}`
-                            : String(Number(element?.tr41_slot_id)) === "8"
-                              ? `eight${index}`
-                              : `nine${index}`;
+              ? `one${index}`
+              : String(Number(element?.tr41_slot_id)) === "2"
+              ? `two${index}`
+              : String(Number(element?.tr41_slot_id)) === "3"
+              ? `three${index}`
+              : String(Number(element?.tr41_slot_id)) === "4"
+              ? `four${index}`
+              : String(Number(element?.tr41_slot_id)) === "5"
+              ? `five${index}`
+              : String(Number(element?.tr41_slot_id)) === "6"
+              ? `six${index}`
+              : String(Number(element?.tr41_slot_id)) === "7"
+              ? `seven${index}`
+              : String(Number(element?.tr41_slot_id)) === "8"
+              ? `eight${index}`
+              : `nine${index}`;
           const childRect = document
             .getElementById(childId)
             .getBoundingClientRect();
@@ -98,12 +71,6 @@ const Chart = ({ gid }) => {
     }
   }, [visibleRows]);
 
-  if (isLoading)
-    return (
-      <div className="!w-full  flex justify-center">
-        <CircularProgress  />
-      </div>
-    );
   return (
     <Box className="chartTable">
       <Stack direction="row" className="onegotextbox">
@@ -131,7 +98,11 @@ const Chart = ({ gid }) => {
                 >
                   <div className="flex justify-between">
                     <span
-                      style={{ fontWeight: 700, fontSize: '12px', color: zubgtext }}
+                      style={{
+                        fontWeight: 700,
+                        fontSize: "12px",
+                        color: zubgtext,
+                      }}
                     >
                       {element?.tr_transaction_id}
                     </span>
@@ -140,10 +111,11 @@ const Chart = ({ gid }) => {
                       {/* /// 0   //// */}
                       <div id={`zero${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody  !font-bold ${String(Number(element?.tr41_slot_id)) === "0"
-                            ? "!bg-gradient-to-b from-[#e85053] to-[#8c06f2] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody  !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "0"
+                              ? "!bg-gradient-to-b from-[#e85053] to-[#8c06f2] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           0
@@ -152,10 +124,11 @@ const Chart = ({ gid }) => {
                       {/* /// 1   //// */}
                       <div id={`one${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody   !font-bold ${String(Number(element?.tr41_slot_id)) === "1"
-                            ? "!bg-[#4bef98] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody   !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "1"
+                              ? "!bg-[#4bef98] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           1
@@ -164,10 +137,11 @@ const Chart = ({ gid }) => {
                       {/* /// 2   //// */}
                       <div id={`two${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody   !font-bold ${String(Number(element?.tr41_slot_id)) === "2"
-                            ? "!bg-[#f1494c] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody   !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "2"
+                              ? "!bg-[#f1494c] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           2
@@ -176,10 +150,11 @@ const Chart = ({ gid }) => {
                       {/* /// 3   //// */}
                       <div id={`three${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody   !font-bold ${String(Number(element?.tr41_slot_id)) === "3"
-                            ? "!bg-[#46eb93] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody   !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "3"
+                              ? "!bg-[#46eb93] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           3
@@ -188,10 +163,11 @@ const Chart = ({ gid }) => {
                       {/* /// 4   //// */}
                       <div id={`four${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody   !font-bold ${String(Number(element?.tr41_slot_id)) === "4"
-                            ? "!bg-[#ed4b4e] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody   !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "4"
+                              ? "!bg-[#ed4b4e] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           4
@@ -200,10 +176,11 @@ const Chart = ({ gid }) => {
                       {/* /// 5   //// */}
                       <div id={`five${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody  !font-bold ${String(Number(element?.tr41_slot_id)) === "5"
-                            ? "!bg-gradient-to-b from-[#55f8a1] to-[#8c06f2] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody  !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "5"
+                              ? "!bg-gradient-to-b from-[#55f8a1] to-[#8c06f2] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           5
@@ -212,10 +189,11 @@ const Chart = ({ gid }) => {
                       {/* /// 6   //// */}
                       <div id={`six${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody  !font-bold ${String(Number(element?.tr41_slot_id)) === "6"
-                            ? "!bg-[#f54b4e] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody  !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "6"
+                              ? "!bg-[#f54b4e] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           6
@@ -224,10 +202,11 @@ const Chart = ({ gid }) => {
                       {/* /// 7   //// */}
                       <div id={`seven${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody  !font-bold ${String(Number(element?.tr41_slot_id)) === "7"
-                            ? "!bg-[#4af499] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody  !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "7"
+                              ? "!bg-[#4af499] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           7
@@ -236,10 +215,11 @@ const Chart = ({ gid }) => {
                       {/* /// 8   //// */}
                       <div id={`eight${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody   !font-bold ${String(Number(element?.tr41_slot_id)) === "8"
-                            ? "!bg-[#eb494c] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody   !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "8"
+                              ? "!bg-[#eb494c] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           8
@@ -248,20 +228,22 @@ const Chart = ({ gid }) => {
                       {/* /// 9   //// */}
                       <div id={`nine${indexi}`} className="z-20">
                         <Typography
-                          className={`circleNumberbody   !font-bold ${String(Number(element?.tr41_slot_id)) === "9"
-                            ? "!bg-[#4cf199] !text-white"
-                            : "!bg-white !text-black"
-                            }`}
+                          className={`circleNumberbody   !font-bold ${
+                            String(Number(element?.tr41_slot_id)) === "9"
+                              ? "!bg-[#4cf199] !text-white"
+                              : "!bg-white !text-black"
+                          }`}
                         >
                           {" "}
                           9
                         </Typography>
                       </div>
                       <Typography
-                        className={`circleNumberbody ${Number(element?.tr41_slot_id) <= 4
-                          ? "!bg-[#468ce8] "
-                          : "!bg-[#df4be1]"
-                          }  !h-[20px] !w-[20px] !rounded-full !text-center !text-white `}
+                        className={`circleNumberbody ${
+                          Number(element?.tr41_slot_id) <= 4
+                            ? "!bg-[#468ce8] "
+                            : "!bg-[#df4be1]"
+                        }  !h-[20px] !w-[20px] !rounded-full !text-center !text-white `}
                       >
                         {Number(element?.tr41_slot_id) <= 4 ? "S" : "B"}
                       </Typography>

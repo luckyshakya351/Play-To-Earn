@@ -16,6 +16,7 @@ import Policy from "../policy/Policy";
 import ShowImages from "./ShowImages";
 import {
   dummycounterFun,
+  trx_game_history_data_function,
   trx_game_image_index_function,
   updateNextCounter,
 } from "../../../../redux/slices/counterSlice";
@@ -89,9 +90,7 @@ const TwoMinCountDown = ({ fk }) => {
         threemin?.split("_")?.[1] === "0" &&
         threemin?.split("_")?.[0] === "0"
       ) {
-        client.refetchQueries("trx_gamehistory");
-        client.refetchQueries("trx_gamehistory_chart");
-        // client.refetchQueries("my_trx_Allhistory");
+        client.refetchQueries("trx_gamehistory_3");
         client.refetchQueries("my_trx_history");
         client.refetchQueries("walletamount");
         dispatch(dummycounterFun());
@@ -107,13 +106,13 @@ const TwoMinCountDown = ({ fk }) => {
   }, []);
 
   const { isLoading, data: game_history } = useQuery(
-    ["trx_gamehistory"],
+    ["trx_gamehistory_3"],
     () => GameHistoryFn(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -147,6 +146,7 @@ const TwoMinCountDown = ({ fk }) => {
         array.push(tr_digit[i]);
       }
     }
+    dispatch(trx_game_history_data_function(game_history?.data?.result));
     dispatch(trx_game_image_index_function(array));
   }, [game_history?.data?.result]);
 
@@ -178,10 +178,7 @@ const TwoMinCountDown = ({ fk }) => {
   };
 
   return (
-    <Box
-      className="countdownbgtrx"
-      sx={{ background: zubgtext }}
-    >
+    <Box className="countdownbgtrx" sx={{ background: zubgtext }}>
       {React.useMemo(() => {
         return (
           <>

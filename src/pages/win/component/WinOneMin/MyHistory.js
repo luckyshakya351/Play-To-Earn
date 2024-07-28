@@ -25,19 +25,6 @@ const MyHistory = ({ gid }) => {
     setPage(0);
   };
 
-  // const { isLoading: myhistory_loding, data: my_history } = useQuery(
-  //   ["myhistory", gid],
-  //   () => MyHistoryFn(gid),
-  //   {
-  //     refetchOnMount: false,
-  //     refetchOnReconnect: false,
-  //     retryOnMount:false,
-  //     refetchOnWindowFocus:false
-  //   }
-  // );
-
-  // const my_history_data =  my_history?.data?.data || [];
-
   const { isLoading: myhistory_loding_all, data: my_history_all } = useQuery(
     ["myAllhistory", gid],
     () => My_All_HistoryFn(gid),

@@ -14,7 +14,12 @@ import countdownfirst from "../../../../assets/countdownfirst.mp3";
 import countdownlast from "../../../../assets/countdownlast.mp3";
 import circle from "../../../../assets/images/circle-arrow.png";
 import howToPlay from "../../../../assets/images/user-guide.png";
-import { dummycounterFun, trx_game_image_index_function, updateNextCounter } from "../../../../redux/slices/counterSlice";
+import {
+  dummycounterFun,
+  trx_game_history_data_function,
+  trx_game_image_index_function,
+  updateNextCounter,
+} from "../../../../redux/slices/counterSlice";
 import { endpoint } from "../../../../services/urls";
 import Policy from "../policy/Policy";
 import ShowImages from "./ShowImages";
@@ -28,7 +33,7 @@ const ThreeMinCountDown = ({ fk }) => {
   const audioRefMusiclast = React.useRef(null);
   const [poicy, setpoicy] = React.useState(false);
   const [one_min_time, setOne_min_time] = useState("0_0");
-  const next_step = useSelector((state) => state.aviator.next_step)
+  const next_step = useSelector((state) => state.aviator.next_step);
   const dispatch = useDispatch();
   const show_this_three_min_time_sec = React.useMemo(
     () => String(one_min_time?.split("_")?.[1]).padStart(2, "0"),
@@ -47,7 +52,7 @@ const ThreeMinCountDown = ({ fk }) => {
   React.useEffect(() => {
     const handleFiveMin = (fivemin) => {
       setOne_min_time(fivemin);
-      fk.setFieldValue("show_this_one_min_time", fivemin)
+      fk.setFieldValue("show_this_one_min_time", fivemin);
       if (
         (fivemin?.split("_")?.[1] === "5" ||
           fivemin?.split("_")?.[1] === "4" ||
@@ -79,13 +84,10 @@ const ThreeMinCountDown = ({ fk }) => {
         fivemin?.split("_")?.[1] === "0" &&
         fivemin?.split("_")?.[0] === "0"
       ) {
-        client.refetchQueries("trx_gamehistory");
-        client.refetchQueries("trx_gamehistory_chart");
-        // client.refetchQueries("my_trx_Allhistory");
+        client.refetchQueries("trx_gamehistory_2");
         client.refetchQueries("my_trx_history");
         client.refetchQueries("walletamount");
         dispatch(dummycounterFun());
-        // fk.setFieldValue("openTimerDialogBoxOneMin", false);
       }
     };
 
@@ -97,19 +99,21 @@ const ThreeMinCountDown = ({ fk }) => {
   }, []);
 
   const { isLoading, data: game_history } = useQuery(
-    ["trx_gamehistory"],
+    ["trx_gamehistory_2"],
     () => GameHistoryFn(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
     }
   );
 
   const GameHistoryFn = async () => {
     try {
-      const response = await axios.get(`${endpoint.trx_game_history}?gameid=3&limit=500`);
+      const response = await axios.get(
+        `${endpoint.trx_game_history}?gameid=3&limit=500`
+      );
       return response;
     } catch (e) {
       toast(e?.message);
@@ -136,9 +140,8 @@ const ThreeMinCountDown = ({ fk }) => {
       }
     }
     dispatch(trx_game_image_index_function(array));
+    dispatch(trx_game_history_data_function(game_history?.data?.result));
   }, [game_history?.data?.result]);
-
-
 
   const handlePlaySound = async () => {
     try {
@@ -167,10 +170,7 @@ const ThreeMinCountDown = ({ fk }) => {
   };
 
   return (
-    <Box
-      className="countdownbgtrx"
-      sx={{ background: zubgtext }}
-    >
+    <Box className="countdownbgtrx" sx={{ background: zubgtext }}>
       {React.useMemo(() => {
         return (
           <>
@@ -216,7 +216,11 @@ const ThreeMinCountDown = ({ fk }) => {
                     sx={{ width: "15px !important", height: "15px !important" }}
                   ></Box>
                 </Box>
-                <Typography variant="body1" color="initial" className="!ml-2 !text-lg">
+                <Typography
+                  variant="body1"
+                  color="initial"
+                  className="!ml-2 !text-lg"
+                >
                   TRX 5 Min
                 </Typography>
               </>
@@ -244,7 +248,6 @@ const ThreeMinCountDown = ({ fk }) => {
               <Policy />
             </Dialog>
           )}
-
         </Box>
         <Box>
           <Typography variant="h3" color="initial" className="winTextone">
@@ -278,12 +281,12 @@ const ThreeMinCountDown = ({ fk }) => {
             }, [show_this_three_min_time_sec])}
           </Stack>
           <Typography variant="h3" color="initial" className="winTexttwo">
-            {(Number(next_step))?.toString()?.padStart(7, "0")}
+            {Number(next_step)?.toString()?.padStart(7, "0")}
           </Typography>
         </Box>
       </Box>
       {React.useMemo(() => {
-        return <ShowImages />
+        return <ShowImages />;
       }, [])}
       {/* {fk.values.openTimerDialogBox && (
         <Dialog

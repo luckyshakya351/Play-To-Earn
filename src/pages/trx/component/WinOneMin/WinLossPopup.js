@@ -15,7 +15,7 @@ const WinLossPopup = ({ gid }) => {
         "anand"
       )?.toString(CryptoJS.enc.Utf8)) ||
     null;
-    
+
   const user_id = login_data && JSON.parse(login_data)?.UserID;
   const [loding, setloding] = useState(false);
   const [status, setstatus] = useState("");

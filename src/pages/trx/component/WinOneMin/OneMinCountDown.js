@@ -13,11 +13,16 @@ import countdownfirst from "../../../../assets/countdownfirst.mp3";
 import countdownlast from "../../../../assets/countdownlast.mp3";
 import circle from "../../../../assets/images/circle-arrow.png";
 import howToPlay from "../../../../assets/images/user-guide.png";
-import { dummycounterFun, trx_game_image_index_function, updateNextCounter } from "../../../../redux/slices/counterSlice";
+import {
+  dummycounterFun,
+  trx_game_history_data_function,
+  trx_game_image_index_function,
+  updateNextCounter,
+} from "../../../../redux/slices/counterSlice";
 import { endpoint } from "../../../../services/urls";
 import Policy from "../policy/Policy";
 import ShowImages from "./ShowImages";
-import {zubgtext } from "../../../../Shared/color";
+import { zubgtext } from "../../../../Shared/color";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -42,7 +47,6 @@ const OneMinCountDown = ({ fk }) => {
   React.useEffect(() => {
     const handleOneMin = (onemin) => {
       setOne_min_time(onemin);
-      console.log(onemin,"one min timer")
       fk.setFieldValue("show_this_one_min_time", onemin);
       if (onemin === 5 || onemin === 4 || onemin === 3 || onemin === 2) {
         handlePlaySound();
@@ -51,17 +55,14 @@ const OneMinCountDown = ({ fk }) => {
 
       if (onemin <= 10) {
         fk.setFieldValue("openTimerDialogBoxOneMin", true);
-      }else{
+      } else {
         fk.setFieldValue("openTimerDialogBoxOneMin", false);
       }
       if (onemin === 0) {
-        client.refetchQueries("trx_gamehistory");
-        client.refetchQueries("trx_gamehistory_chart");
-        // client.refetchQueries("my_trx_Allhistory");
+        client.refetchQueries("trx_gamehistory_1");
         client.refetchQueries("my_trx_history");
         client.refetchQueries("walletamount");
         dispatch(dummycounterFun());
-        
       }
     };
     socket.on("onemintrx", handleOneMin);
@@ -71,19 +72,21 @@ const OneMinCountDown = ({ fk }) => {
   }, []);
 
   const { isLoading, data: game_history } = useQuery(
-    ["trx_gamehistory"],
+    [`trx_gamehistory_1`],
     () => GameHistoryFn(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
     }
   );
 
   const GameHistoryFn = async () => {
     try {
-      const response = await axios.get(`${endpoint.trx_game_history}?gameid=1&limit=500`);
+      const response = await axios.get(
+        `${endpoint.trx_game_history}?gameid=1&limit=500`
+      );
       return response;
     } catch (e) {
       toast(e?.message);
@@ -109,11 +112,9 @@ const OneMinCountDown = ({ fk }) => {
         array.push(tr_digit[i]);
       }
     }
+    dispatch(trx_game_history_data_function(game_history?.data?.result));
     dispatch(trx_game_image_index_function(array));
   }, [game_history?.data?.result]);
-
-
-
 
   const handlePlaySound = async () => {
     try {
@@ -142,10 +143,7 @@ const OneMinCountDown = ({ fk }) => {
   };
 
   return (
-    <Box
-      className="countdownbgtrx"
-      sx={{ background: zubgtext }}
-    >
+    <Box className="countdownbgtrx" sx={{ background: zubgtext }}>
       {React.useMemo(() => {
         return (
           <>
@@ -249,7 +247,7 @@ const OneMinCountDown = ({ fk }) => {
         </Box>
       </Box>
       {React.useMemo(() => {
-        return <ShowImages />
+        return <ShowImages />;
       }, [])}
     </Box>
   );

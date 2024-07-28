@@ -1,5 +1,5 @@
 
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,48 +8,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import axios from "axios";
 import * as React from "react";
-import toast from "react-hot-toast";
-import { useQuery } from "react-query";
-import CustomCircularProgress from "../../../../Shared/CustomCircularProgress";
-import { zubgback, zubgbackgrad, zubgtext } from "../../../../Shared/color";
+import { useSelector } from "react-redux";
+import { zubgback, zubgtext } from "../../../../Shared/color";
 import history from '../../../../assets/images/list.png';
-import { endpoint } from "../../../../services/urls";
-import { useDispatch } from "react-redux";
-import { updateNextCounter } from "../../../../redux/slices/counterSlice";
 
 const GameHistory = ({ gid }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
-  const dispatch = useDispatch()
-  const { isLoading, data: game_history } = useQuery(
-    ["gamehistory", gid],
-    () => GameHistoryFn(gid),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
-    }
-  );
-
-  const GameHistoryFn = async (gid) => {
-    try {
-      const response = await axios.get(
-        `${endpoint.game_history}?limit=500&offset=0&gameid=${gid}`
-      );
-      return response;
-    } catch (e) {
-      toast(e?.message);
-      console.log(e);
-    }
-  };
-
-  const game_history_data = game_history?.data?.data;
-  React.useEffect(() => {
-    dispatch(updateNextCounter(game_history?.data?.data ? Number(game_history?.data?.data?.[0]?.gamesno) + 1 : 1))
-  }, [game_history?.data?.data])
+  const game_history_data = useSelector((state) => state.aviator.trx_game_history_data);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -69,12 +36,6 @@ const GameHistory = ({ gid }) => {
     [page, rowsPerPage, game_history_data]
   );
 
-  if (isLoading)
-    return (
-      <div className="!w-full  flex justify-center">
-        <CircularProgress  />
-      </div>
-    );
   return (
     <Box>
       <Stack direction="row" className="onegotextbox">
@@ -225,7 +186,7 @@ const GameHistory = ({ gid }) => {
           />
         </Box>
       </TableContainer>
-      <CustomCircularProgress isLoading={isLoading} />
+      {/* <CustomCircularProgress isLoading={isLoading} /> */}
     </Box>
   );
 

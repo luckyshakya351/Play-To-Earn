@@ -23,7 +23,8 @@ export const slice = createSlice({
     next_step:1,
     pendingIds:[],
     aviator_login_data:null,
-    trx_game_image_index:["A","B","C","D","E"]
+    trx_game_image_index:["A","B","C","D","E"],
+    trx_game_history_data:[]
 
   },
   reducers: {
@@ -73,6 +74,9 @@ export const slice = createSlice({
     trx_game_image_index_function: (state,actions) => {
       state.trx_game_image_index = actions.payload;
     },
+    trx_game_history_data_function: (state,actions) => {
+      state.trx_game_history_data = actions.payload;
+    },
   },
 });
 
@@ -90,7 +94,8 @@ export const {
   updateNextCounter,
   pendingIdsFunction,
   aviator_login_data_fn,
-  trx_game_image_index_function
+  trx_game_image_index_function,
+  trx_game_history_data_function
 } = slice.actions;
 
 // export const incrementAsync = amount => dispatch => {
