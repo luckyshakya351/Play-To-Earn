@@ -6,16 +6,18 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import moment from "moment";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { useDispatch } from "react-redux";
 import { zubgback, zubgtext } from "../../../../Shared/color";
+import { useSelector } from "react-redux";
 import history from "../../../../assets/images/list.png";
-import {  My_All_HistoryFn } from "../../../../services/apicalling";
+
 import { rupees } from "../../../../services/urls";
 
 const MyHistory = ({ gid }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
-
+  const my_history_data = useSelector(
+    (state) => state.aviator.trx_my_history_data
+  );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -25,32 +27,16 @@ const MyHistory = ({ gid }) => {
     setPage(0);
   };
 
-  const { isLoading: myhistory_loding_all, data: my_history_all } = useQuery(
-    ["myAllhistory", gid],
-    () => My_All_HistoryFn(gid),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-  const my_history_data_all = my_history_all?.data?.data || [];
 
   const visibleRows = React.useMemo(
     () =>
-      my_history_data_all?.slice(
+      my_history_data?.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [page, rowsPerPage, my_history_data_all]
+    [page, rowsPerPage, my_history_data]
   );
-  if (myhistory_loding_all)
-    return (
-      <div className="!w-full  flex justify-center">
-        <CircularProgress  />
-      </div>
-    );
+
   return (
     <Box>
       <Stack direction="row" className="onegotextbox">
@@ -276,7 +262,7 @@ const MyHistory = ({ gid }) => {
           }}
           rowsPerPageOptions={[2, 5, 10, 15]}
           component="div"
-          count={my_history_data_all?.length}
+          count={my_history_data?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

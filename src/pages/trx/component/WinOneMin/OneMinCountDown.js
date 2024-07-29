@@ -17,12 +17,14 @@ import {
   dummycounterFun,
   trx_game_history_data_function,
   trx_game_image_index_function,
+  trx_my_history_data_function,
   updateNextCounter,
 } from "../../../../redux/slices/counterSlice";
 import { endpoint } from "../../../../services/urls";
 import Policy from "../policy/Policy";
 import ShowImages from "./ShowImages";
 import { zubgtext } from "../../../../Shared/color";
+import { My_All_TRX_HistoryFn } from "../../../../services/apicalling";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -60,7 +62,7 @@ const OneMinCountDown = ({ fk }) => {
       }
       if (onemin === 0) {
         client.refetchQueries("trx_gamehistory_1");
-        client.refetchQueries("my_trx_history");
+        client.refetchQueries("my_trx_history_1");
         client.refetchQueries("walletamount");
         dispatch(dummycounterFun());
       }
@@ -93,6 +95,21 @@ const OneMinCountDown = ({ fk }) => {
       console.log(e);
     }
   };
+  const { isLoading: myhistory_loding, data: my_history } = useQuery(
+    ["my_trx_history_1"],
+    () => My_All_TRX_HistoryFn(1),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  React.useEffect(()=>{
+    dispatch(trx_my_history_data_function(my_history?.data?.data));
+    one_min_time>=58 ||one_min_time===0 &&  dispatch(dummycounterFun());
+  },[my_history?.data?.data])
 
   React.useEffect(() => {
     dispatch(

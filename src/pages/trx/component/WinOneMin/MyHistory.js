@@ -16,11 +16,14 @@ import { zubgback, zubgtext, zubgwhite } from "../../../../Shared/color";
 import history from "../../../../assets/images/list.png";
 import { My_All_TRX_HistoryFn } from "../../../../services/apicalling";
 import { rupees } from "../../../../services/urls";
+import { useSelector } from "react-redux";
 
 const MyHistory = ({ gid }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
-
+  const my_history = useSelector(
+    (state) => state.aviator.trx_my_history_data
+  );
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -30,34 +33,17 @@ const MyHistory = ({ gid }) => {
     setPage(0);
   };
 
-  const { isLoading: myhistory_loding, data: my_history } = useQuery(
-    ["my_trx_history", gid],
-    () => My_All_TRX_HistoryFn(gid),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
 
-  const my_history_data = my_history?.data?.data || [];
 
   const visibleRows = React.useMemo(
     () =>
-      my_history_data?.slice(
+      my_history?.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [page, rowsPerPage, my_history_data]
+    [page, rowsPerPage, my_history]
   );
 
-  if (myhistory_loding)
-    return (
-      <div className="!w-full  flex justify-center">
-        <CircularProgress className={""} />
-      </div>
-    );
 
   return (
     <Box>
@@ -404,7 +390,7 @@ const MyHistory = ({ gid }) => {
           }}
           rowsPerPageOptions={[2, 5, 10, 15]}
           component="div"
-          count={my_history_data?.length}
+          count={my_history?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

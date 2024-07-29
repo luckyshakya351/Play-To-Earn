@@ -24,6 +24,8 @@ import howToPlay from "../../../../assets/images/user-guide.png";
 import {
   dummycounterFun,
   trx_game_history_data_function,
+  trx_my_history_data,
+  trx_my_history_data_function,
   updateNextCounter,
 } from "../../../../redux/slices/counterSlice";
 import { changeImages } from "../../../../services/schedular";
@@ -32,6 +34,7 @@ import { zubgmid } from "../../../../Shared/color";
 import axios from "axios";
 import { endpoint } from "../../../../services/urls";
 import toast from "react-hot-toast";
+import { My_All_HistoryFn } from "../../../../services/apicalling";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -107,7 +110,7 @@ const ThreeMinCountDown = ({ fk }) => {
       ) {
         client.refetchQueries("gamehistory_wingo_3");
         client.refetchQueries("walletamount");
-        client.refetchQueries("myAllhistory");
+        client.refetchQueries("myAllhistory_3");
         dispatch(dummycounterFun());
       }
     };
@@ -118,6 +121,7 @@ const ThreeMinCountDown = ({ fk }) => {
       socket.off("fivemin", handleFiveMin);
     };
   }, []);
+  
   const { data: game_history } = useQuery(
     ["gamehistory_wingo_3"],
     () => GameHistoryFn(),
@@ -140,6 +144,20 @@ const ThreeMinCountDown = ({ fk }) => {
       console.log(e);
     }
   };
+  const {  data: my_history_data } = useQuery(
+    ["myAllhistory_3"],
+    () => My_All_HistoryFn(3),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  React.useEffect(()=>{
+    dispatch(trx_my_history_data_function(my_history_data?.data?.data));
+    (Number(show_this_three_min_time_sec)>=58 || Number(show_this_three_min_time_sec)===0) && Number(show_this_three_min_time_min)===0 &&  dispatch(dummycounterFun());
+  },[my_history_data?.data?.data])
 
   React.useEffect(() => {
     dispatch(

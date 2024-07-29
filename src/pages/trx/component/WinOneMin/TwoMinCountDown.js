@@ -18,12 +18,14 @@ import {
   dummycounterFun,
   trx_game_history_data_function,
   trx_game_image_index_function,
+  trx_my_history_data_function,
   updateNextCounter,
 } from "../../../../redux/slices/counterSlice";
 import axios from "axios";
 import { endpoint } from "../../../../services/urls";
 import toast from "react-hot-toast";
 import { zubgmid, zubgtext } from "../../../../Shared/color";
+import { My_All_TRX_HistoryFn } from "../../../../services/apicalling";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -91,7 +93,7 @@ const TwoMinCountDown = ({ fk }) => {
         threemin?.split("_")?.[0] === "0"
       ) {
         client.refetchQueries("trx_gamehistory_3");
-        client.refetchQueries("my_trx_history");
+        client.refetchQueries("my_trx_history_2");
         client.refetchQueries("walletamount");
         dispatch(dummycounterFun());
         // fk.setFieldValue("openTimerDialogBoxOneMin", false);
@@ -104,7 +106,16 @@ const TwoMinCountDown = ({ fk }) => {
       socket.off("threemintrx", handleThreeMin);
     };
   }, []);
-
+  const { isLoading: myhistory_loding, data: my_history } = useQuery(
+    ["my_trx_history_2"],
+    () => My_All_TRX_HistoryFn(2),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
   const { isLoading, data: game_history } = useQuery(
     ["trx_gamehistory_3"],
     () => GameHistoryFn(),
@@ -127,6 +138,10 @@ const TwoMinCountDown = ({ fk }) => {
       console.log(e);
     }
   };
+  React.useEffect(()=>{
+    dispatch(trx_my_history_data_function(my_history?.data?.data));
+    (Number(show_this_three_min_time_sec)>=58 || Number(show_this_three_min_time_sec)===0) && Number(show_this_three_min_time_min)===0 &&  dispatch(dummycounterFun());
+  },[my_history?.data?.data])
 
   React.useEffect(() => {
     dispatch(

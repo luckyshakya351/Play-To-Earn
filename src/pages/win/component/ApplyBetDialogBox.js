@@ -104,7 +104,7 @@ const ApplyBetDialogBox = ({
       console.log(e);
     }
     client.refetchQueries("walletamount");
-    client.refetchQueries("myAllhistory");
+    client.refetchQueries(`myAllhistory_${gid}`);
     setLoding(false);
   }
 
