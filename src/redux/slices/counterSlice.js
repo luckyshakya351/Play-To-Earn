@@ -25,7 +25,6 @@ export const slice = createSlice({
     aviator_login_data:null,
     trx_game_image_index:["A","B","C","D","E"],
     trx_game_history_data:[]
-
   },
   reducers: {
     // main music and sound enabling and dessabling
