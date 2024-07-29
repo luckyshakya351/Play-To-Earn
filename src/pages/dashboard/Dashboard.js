@@ -101,11 +101,6 @@ function Dashboard() {
   const [loding, setloding] = useState(false);
   const [lodingBanner, setlodingBanner] = useState(false);
 
-  useQuery(["promotion_data"], () => MypromotionDataFn(), {
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus:false,
-  });
 
   useEffect(() => {
     if (!checkTokenValidity()) {

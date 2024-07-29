@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import CustomCircularProgress from "../../../Shared/CustomCircularProgress";
 import { zubgback, zubggray, zubgmid, zubgshadow, zubgtext, zubgwhite } from "../../../Shared/color";
 import Layout from "../../../component/Layout/Layout";
-import { MypromotionDataFn } from "../../../services/apicalling";
+import { MygetdataFn, MypromotionDataFn } from "../../../services/apicalling";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -15,18 +15,15 @@ import { rupees } from "../../../services/urls";
 import { Star } from "@mui/icons-material";
 function TeamData() {
   const { isLoading, data } = useQuery(
-    ["promotion_data"],
-    () => MypromotionDataFn(),
+    ["get_level"],
+    () => MygetdataFn(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
+      refetchOnWindowFocus: false
     }
   );
-
-  const result = data?.data?.data?.teamMembersByLevel;
-  const all_data = data?.data?.data;
+  const result = data?.data?.data;
 
   return (
     <Layout>
@@ -80,11 +77,12 @@ function TeamData() {
                 >
                   <div className="w-full grid grid-cols-3 pr-2">
                     <span className="">Level: {i}</span>
-                    <p className="">{result?.[`level_${i}`]?.length || 0}</p>
+                    <p className="">{result?.filter((j)=>j?.LEVEL === i)?.length}
+                      </p>
                     <p className="">
                       {rupees}{" "}
                       <span className="text-green-200">
-                        {all_data?.deposit_member_amount?.[index] || 0}
+                        {result?.filter((j)=>j?.LEVEL === i)?.reduce((a,b)=>a+Number(b?.deposit_amount||0 ),0) || 0}
                       </span>{" "}
                     </p>
                   </div>
@@ -98,7 +96,7 @@ function TeamData() {
                         <span className="">Name</span>
                       </div>
                       <div className="h-[2px] w-full "></div>
-                      {result?.[`level_${i}`]?.map((i, index) => {
+                      {result?.filter((j)=>j?.LEVEL === i)?.map((i, index) => {
                         return (
                           <div style={{ color: 'white', background: zubgback, color: zubgtext, borderRadius: '5px', padding: '10px 20px', }} className="!grid !grid-cols-3  ">
                             <span>{index + 1}</span>
