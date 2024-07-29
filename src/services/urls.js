@@ -3,14 +3,10 @@ export const rupees = "₹";
 export const baseUrl = "https://admin.play2earn.space";
 export const fron_end_main_domain = "https://play2earn.space";
 export const newDomain = "https://api.play2earn.space";
-// export const domain = "https://api.zupeeter.com";
 
-export const domain = "https://play2earn-timer-1.onrender.com"
-// export const domain1 = "http://192.168.18.183:8000"
+export const domain = "https://play2earn-timer-1.onrender.com";
 export const support_mail = "";
-// `support@sunlottrey.fun`;
 export const telegram_url = "https://t.me/play2earnspace";
-// `https://t.me/SunLottaryOfficial`;
 
 export const endpoint = {
   login: `${newDomain}/api/v1/user_login`,
