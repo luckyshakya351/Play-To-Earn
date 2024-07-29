@@ -2,18 +2,18 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
+import axios from "axios";
 import * as React from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useSocket } from "../../../../Shared/SocketContext";
+import { zubgtext } from "../../../../Shared/color";
 import countdownfirst from "../../../../assets/countdownfirst.mp3";
 import countdownlast from "../../../../assets/countdownlast.mp3";
 import circle from "../../../../assets/images/circle-arrow.png";
 import howToPlay from "../../../../assets/images/user-guide.png";
-import trxtimerbackground from "../../../../assets/trxtimerbackground.png";
-import Policy from "../policy/Policy";
-import ShowImages from "./ShowImages";
 import {
   dummycounterFun,
   trx_game_history_data_function,
@@ -21,11 +21,10 @@ import {
   trx_my_history_data_function,
   updateNextCounter,
 } from "../../../../redux/slices/counterSlice";
-import axios from "axios";
-import { endpoint } from "../../../../services/urls";
-import toast from "react-hot-toast";
-import { zubgmid, zubgtext } from "../../../../Shared/color";
 import { My_All_TRX_HistoryFn } from "../../../../services/apicalling";
+import { endpoint } from "../../../../services/urls";
+import Policy from "../policy/Policy";
+import ShowImages from "./ShowImages";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });

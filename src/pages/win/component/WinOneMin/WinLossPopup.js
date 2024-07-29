@@ -1,16 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 import CustomCircularProgress from "../../../../Shared/CustomCircularProgress";
 import Loss from "../../../../assets/images/loss.png";
 import win from "../../../../assets/images/winnner.png";
-import { endpoint } from "../../../../services/urls";
-import CryptoJS from 'crypto-js'
-import { useSelector } from "react-redux";
 const WinLossPopup = ({ gid }) => {
-  const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null;
-  const user_id = login_data && JSON.parse(login_data).UserID;
+  // const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null;
+  // const user_id = login_data && JSON.parse(login_data).UserID;
   const [loding, setloding] = useState(false);
   const [status, setstatus] = useState("");
   const [newstatus, setstatusNew] = useState("");

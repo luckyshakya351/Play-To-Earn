@@ -60,9 +60,8 @@ import {
   waitingAviatorFun,
 } from "../../redux/slices/counterSlice";
 import {
-  MypromotionDataFn,
   get_user_data_fn,
-  walletamount,
+  walletamount
 } from "../../services/apicalling";
 import {
   endpoint,

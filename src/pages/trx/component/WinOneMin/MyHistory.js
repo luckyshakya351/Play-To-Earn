@@ -1,22 +1,19 @@
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
   Box,
-  CircularProgress,
   Stack,
   TablePagination,
-  Typography,
+  Typography
 } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import moment from "moment";
 import * as React from "react";
-import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { zubgback, zubgtext, zubgwhite } from "../../../../Shared/color";
 import history from "../../../../assets/images/list.png";
-import { My_All_TRX_HistoryFn } from "../../../../services/apicalling";
 import { rupees } from "../../../../services/urls";
-import { useSelector } from "react-redux";
 
 const MyHistory = ({ gid }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);

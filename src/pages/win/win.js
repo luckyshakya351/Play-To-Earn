@@ -5,7 +5,7 @@ import CryptoJS from "crypto-js";
 import * as React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../Shared/CustomCircularProgress";
@@ -49,13 +49,11 @@ function Win() {
   const isAppliedbet = localStorage.getItem("betApplied");
   const dummycounter = useSelector((state) => state.aviator.dummycounter);
 
-  const client = useQueryClient();
-
   const { isLoading, data } = useQuery(["walletamount"], () => walletamount(), {
     refetchOnMount: false,
     refetchOnReconnect: false,
-    refetchOnWindowFocus:false,
-    refetchOnReconnect:false
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const amount = data?.data?.data || 0;
@@ -71,7 +69,6 @@ function Win() {
       }
     }, 1000);
   }, [dummycounter]);
-
 
   return (
     <Layout footer={false}>
@@ -109,14 +106,24 @@ function Win() {
               </Typography>
             </Box>
             <Box>
-              <Typography variant="body1" color="initial" className="b-val" sx={{ color: zubgtext }}>
+              <Typography
+                variant="body1"
+                color="initial"
+                className="b-val"
+                sx={{ color: zubgtext }}
+              >
                 ₹{" "}
                 {Number(
                   Number(amount?.wallet || 0) + Number(amount?.winning || 0) ||
-                  0
+                    0
                 )?.toFixed(2)}
               </Typography>
-              <Typography variant="body1" color="initial" className="b-valp" sx={{ color: zubgtext }}>
+              <Typography
+                variant="body1"
+                color="initial"
+                className="b-valp"
+                sx={{ color: zubgtext }}
+              >
                 Available Balance
               </Typography>
             </Box>
