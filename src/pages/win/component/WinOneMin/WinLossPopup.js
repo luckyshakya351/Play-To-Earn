@@ -7,23 +7,26 @@ import Loss from "../../../../assets/images/loss.png";
 import win from "../../../../assets/images/winnner.png";
 import { endpoint } from "../../../../services/urls";
 import CryptoJS from 'crypto-js'
+import { useSelector } from "react-redux";
 const WinLossPopup = ({ gid }) => {
   const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null;
   const user_id = login_data && JSON.parse(login_data).UserID;
   const [loding, setloding] = useState(false);
   const [status, setstatus] = useState("");
   const [newstatus, setstatusNew] = useState("");
-
+  const my_history_data = useSelector(
+    (state) => state.aviator.trx_my_history_data
+  );
 
   const MyHistoryFn = async () => {
     setloding(true);
     try {
-      const response = await axios.get(
-        `${endpoint.my_history_all}?userid=${user_id}&limit=0&gameid=${gid}`
-      );
-    const firstId =  response?.data?.data?.[0]?.gamesno
-    const winAmnt =  response?.data?.data?.filter((i)=>i?.gamesno === firstId)?.reduce((a,b)=>a+Number(b?.win || 0),0) || 0
-    const amntAmnt =  response?.data?.data?.filter((i)=>i?.gamesno === firstId)?.reduce((a,b)=>a+Number(b?.amount || 0),0) || 0
+      // const response = await axios.get(
+      //   `${endpoint.my_history_all}?userid=${user_id}&limit=0&gameid=${gid}`
+      // );
+    const firstId =  my_history_data?.[0]?.gamesno
+    const winAmnt =  my_history_data?.filter((i)=>i?.gamesno === firstId)?.reduce((a,b)=>a+Number(b?.win || 0),0) || 0
+    const amntAmnt =  my_history_data?.filter((i)=>i?.gamesno === firstId)?.reduce((a,b)=>a+Number(b?.amount || 0),0) || 0
 
     
      if(winAmnt){
@@ -37,7 +40,7 @@ const WinLossPopup = ({ gid }) => {
         amount:amntAmnt
       }); 
     }
-      // setstatus(response?.data?.data?.[0]);
+      // setstatus(my_history_data?.[0]);
     } catch (e) {
       toast(e?.message);
       console.log(e);

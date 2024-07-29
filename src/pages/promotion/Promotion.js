@@ -17,7 +17,7 @@ import book from "../../assets/images/rules.png";
 import money from "../../assets/images/salary.png";
 import coin from "../../assets/images/settings.png";
 import Layout from "../../component/Layout/Layout";
-import { MypromotionDataFn } from "../../services/apicalling";
+import { MygetdataFn, MypromotionDataFn, walletamount } from "../../services/apicalling";
 import CustomCircularProgress from "../../Shared/CustomCircularProgress";
 import { fron_end_main_domain } from "../../services/urls";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,17 +28,24 @@ function Promotion() {
   const [openDialogBoxHomeBanner, setopenDialogBoxHomeBanner] = useState(false);
 
   const { isLoading, data } = useQuery(
-    ["promotion_data"],
-    () => MypromotionDataFn(),
+    ["get_level"],
+    () => MygetdataFn(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
+      refetchOnWindowFocus: false
     }
   );
-
   const result = data?.data?.data;
+  const {  data:amount } = useQuery(["walletamount"], () => walletamount(), {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false,
+    retryOnMount:false,
+
+  });
+
+  const newdata = amount?.data?.data || 0;
 
   const functionTOCopy = (value) => {
     console.log("function hit");
@@ -63,7 +70,7 @@ function Promotion() {
         <Box sx={style.commitionboxOuter}>
           <Box sx={style.commitionbox}>
             <Typography variant="body1" color="initial" sx={{ color: zubgtext }}>
-              {result?.today_turnover}
+              {newdata?.total_turnover}
             </Typography>
             <Typography variant="body1" color="initial" sx={{ color: 'white' }}>
               Total Turnover
@@ -97,7 +104,7 @@ function Promotion() {
                   color="initial"
                   className="!text-white"
                 >
-                  {result?.count || 0}
+                  {result?.filter(entry => entry.LEVEL === 1).length || 0 }
                 </Typography>
                 <Typography
                   variant="body1"
@@ -114,7 +121,7 @@ function Promotion() {
                   color="initial"
                   className="!text-white"
                 >
-                  {result?.deposit_member || 0}
+                  {result?.filter(level => level.LEVEL === 1 && Number(level.deposit_amount) > 0).length || 0}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -131,7 +138,7 @@ function Promotion() {
                   color="initial"
                   className="!text-white"
                 >
-                  {result?.deposit_recharge || 0}
+                    {result?.filter((j)=>j?.LEVEL === 1)?.reduce((a,b)=>a+Number(b?.deposit_amount||0 ),0) || 0}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -142,29 +149,13 @@ function Promotion() {
                   Deposit amount
                 </Typography>
               </Box>
-              {/* <Box sx={style.subcordinatelist}>
-                  <Typography
-                    variant="body1"
-                    color="initial"
-                    className="!text-white"
-                  >
-                    0
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color="initial"
-                    className="!text-white"
-                  >
-                    {" "}
-                    Number of people making first deposit
-                  </Typography>
-                </Box> */}
+           
             </Box>
 
             <Box sx={style.innerBoxStylestwo}>
               <Box sx={style.subcordinatelist}>
                 <Typography variant="body1" color="initial">
-                  {result?.teamcount || 0}
+                {result?.filter((j)=>j?.LEVEL !== 0)?.length|| 0 }
                 </Typography>
                 <Typography variant="body1" color="initial">
                   {" "}
@@ -173,7 +164,8 @@ function Promotion() {
               </Box>
               <Box sx={style.subcordinatelist}>
                 <Typography variant="body1" color="initial">
-                  {result?.deposit_member_team || 0}
+            {result?.filter(level => level.LEVEL !== 0 && Number(level.deposit_amount) > 0).length|| 0}
+
                 </Typography>
                 <Typography variant="body1" color="initial">
                   {" "}
@@ -182,28 +174,20 @@ function Promotion() {
               </Box>
               <Box sx={style.subcordinatelist}>
                 <Typography variant="body1" color="initial">
-                  {result?.deposit_recharge_team || 0}
+                {result?.filter((j)=>j?.LEVEL !== 0)?.reduce((a,b)=>a+Number(b?.deposit_amount||0 ),0) || 0}
                 </Typography>
                 <Typography variant="body1" color="initial">
                   {" "}
                   Deposit amount
                 </Typography>
               </Box>
-              {/* <Box sx={style.subcordinatelist}>
-                  <Typography variant="body1" color="initial">
-                    0
-                  </Typography>
-                  <Typography variant="body1" color="initial">
-                    {" "}
-                    Number of people making first deposit
-                  </Typography>
-                </Box> */}
+            
             </Box>
           </Box>
           <Box sx={style.invitebtn}>
             <NavLink
               //  to="/promotion/PromotionShare"
-              onClick={() => functionTOCopy(`${fron_end_main_domain}/register?ref=${result?.referral_code}`)}
+              onClick={() => functionTOCopy(`${fron_end_main_domain}/register?ref=${newdata?.referral_code}`)}
             >
               <Typography sx={{}}>INVITATION LINK</Typography>
             </NavLink>
@@ -217,7 +201,7 @@ function Promotion() {
                 component="img"
                 src={copyIimage}
                 className="!cursor-pointer"
-                onClick={() => functionTOCopy(result?.referral_code)}
+                onClick={() => functionTOCopy(newdata?.referral_code)}
               ></Box>
               <Typography variant="body1" color="initial">
                 Copy invitation code
@@ -225,7 +209,7 @@ function Promotion() {
             </Stack>
             <Stack direction="row">
               <Typography variant="body1" color="initial">
-                {result?.referral_code}
+                {newdata?.referral_code}
               </Typography>
               <ArrowForwardIosOutlinedIcon />
             </Stack>
@@ -286,19 +270,7 @@ function Promotion() {
               </Stack>
             </Box>
           </NavLink>
-          {/* <NavLink to="/promotion/RebateRatio/">
-              <Box sx={style.invitbox}>
-                <Stack direction="row">
-                  <Box component="img" src={money}></Box>
-                  <Typography variant="body1" color="initial">
-                    Rebate ratio
-                  </Typography>
-                </Stack>
-                <Stack direction="row">
-                  <ArrowForwardIosOutlinedIcon />
-                </Stack>
-              </Box>
-            </NavLink> */}
+         
           <Box sx={style.promotionBoxOuter}>
             <Box sx={style.promotionBox}>
               <Stack direction="row">
@@ -312,7 +284,7 @@ function Promotion() {
             <Stack direction="row">
               <Box>
                 <Typography variant="body1" color="initial">
-                  {Number(Number(result?.turnover || 0) + Number(result?.today_turnover || 0))?.toFixed(2)}
+                  {Number(newdata?.total_turnover || 0)?.toFixed(2)}
                 </Typography>
                 <Typography variant="body1" color="initial">
                   Total Turnover
@@ -330,7 +302,7 @@ function Promotion() {
             <Stack direction="row">
               <Box>
                 <Typography variant="body1" color="initial">
-                  {result?.count || 0}
+                {result?.filter(entry => entry.LEVEL === 1).length || 0 }
                 </Typography>
                 <Typography variant="body1" color="initial">
                   Direct subordinate
@@ -338,7 +310,7 @@ function Promotion() {
               </Box>
               <Box>
                 <Typography variant="body1" color="initial">
-                  {result?.teamcount || 0}
+                {result?.filter((j)=>j?.LEVEL !== 0)?.length || 0}
                 </Typography>
                 <Typography variant="body1" color="initial">
                   Total number of <br />

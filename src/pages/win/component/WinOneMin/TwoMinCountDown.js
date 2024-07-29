@@ -26,12 +26,15 @@ import howToPlay from "../../../../assets/images/user-guide.png";
 import {
   dummycounterFun,
   trx_game_history_data_function,
+  trx_my_history_data,
+  trx_my_history_data_function,
   updateNextCounter,
 } from "../../../../redux/slices/counterSlice";
 import { changeImages } from "../../../../services/schedular";
 import { endpoint } from "../../../../services/urls";
 import Policy from "../policy/Policy";
 import { zubgmid } from "../../../../Shared/color";
+import { My_All_HistoryFn } from "../../../../services/apicalling";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -111,7 +114,7 @@ const TwoMinCountDown = ({ fk }) => {
       ) {
         client.refetchQueries("gamehistory_wingo_2");
         client.refetchQueries("walletamount");
-        client.refetchQueries("myAllhistory");
+        client.refetchQueries("myAllhistory_2");
         dispatch(dummycounterFun());
       }
     };
@@ -122,6 +125,17 @@ const TwoMinCountDown = ({ fk }) => {
       socket.off("threemin", handleThreeMin);
     };
   }, []);
+
+  const {  data: my_history_data } = useQuery(
+    ["myAllhistory_2"],
+    () => My_All_HistoryFn(2),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
   const { data: game_history } = useQuery(
     ["gamehistory_wingo_2"],
     () => GameHistoryFn(),
@@ -144,7 +158,11 @@ const TwoMinCountDown = ({ fk }) => {
       console.log(e);
     }
   };
-
+  React.useEffect(()=>{
+    dispatch(trx_my_history_data_function(my_history_data?.data?.data));
+    (Number(show_this_three_min_time_sec)>=58 || Number(show_this_three_min_time_sec)===0) && Number(show_this_three_min_time_min)===0 &&  dispatch(dummycounterFun());
+  },[my_history_data?.data?.data])
+  
   React.useEffect(() => {
     dispatch(
       updateNextCounter(

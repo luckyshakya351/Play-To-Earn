@@ -27,11 +27,14 @@ import howToPlay from "../../../../assets/images/user-guide.png";
 import {
   dummycounterFun,
   trx_game_history_data_function,
+  trx_my_history_data,
+  trx_my_history_data_function,
   updateNextCounter,
 } from "../../../../redux/slices/counterSlice";
 import { changeImages } from "../../../../services/schedular";
 import { endpoint } from "../../../../services/urls";
 import Policy from "../policy/Policy";
+import {  My_All_HistoryFn } from "../../../../services/apicalling";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -85,10 +88,10 @@ const OneMinCountDown = ({ fk }) => {
         fk.setFieldValue("openTimerDialogBoxOneMin", true);
       }
       if (onemin === 0) {
-        client.refetchQueries("myAllhistory");
+        client.refetchQueries("myAllhistory_1");
         client.refetchQueries("walletamount");
         client.refetchQueries("gamehistory_wingo_1");
-        dispatch(dummycounterFun());
+        // dispatch(dummycounterFun());
         fk.setFieldValue("openTimerDialogBoxOneMin", false);
       }
     };
@@ -97,6 +100,17 @@ const OneMinCountDown = ({ fk }) => {
       socket.off("onemin", handleOneMin);
     };
   }, []);
+
+  const { isLoading: myhistory_loding_all, data: my_history_data } = useQuery(
+    ["myAllhistory_1"],
+    () => My_All_HistoryFn(1),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const { data: game_history } = useQuery(
     ["gamehistory_wingo_1"],
@@ -131,6 +145,11 @@ const OneMinCountDown = ({ fk }) => {
     );
     dispatch(trx_game_history_data_function(game_history?.data?.data));
   }, [game_history?.data?.data]);
+
+  React.useEffect(()=>{
+    dispatch(trx_my_history_data_function(my_history_data?.data?.data));
+    one_min_time>=58 ||one_min_time===0 &&  dispatch(dummycounterFun());
+  },[my_history_data?.data?.data])
 
   const handlePlaySound = async () => {
     try {

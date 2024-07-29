@@ -4,7 +4,8 @@ export const baseUrl = "https://admin.play2earn.space";
 export const fron_end_main_domain = "https://play2earn.space";
 export const newDomain = "https://api.play2earn.space";
 
-export const domain = "https://play2earn-timer-1.onrender.com";
+export const domain = "https://play2earn-timer-1.onrender.com"
+// export const newDomain1 = "http://192.168.18.183:8000"
 export const support_mail = "";
 export const telegram_url = "https://t.me/play2earnspace";
 
@@ -50,6 +51,7 @@ export const endpoint = {
   team_trading_bonus: `${baseUrl}/api/team-trading-bonus`,
   add_bank_details: `${baseUrl}/api/bank-add`,
   get_bank_list: `${baseUrl}/api/user-bank-details`,
+  get_level: `${newDomain}/api/v1/get-level`,
   promotion_data: `${newDomain}/api/v1/promotiondata`,
   all_withdrawl_user_list: `${baseUrl}/api/widthrol-user-list`,
   recharge_call_bakc: `${baseUrl}/api/deposits-user-request`,
