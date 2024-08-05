@@ -3,7 +3,7 @@ export const aviatordomain = "https://play2earn-timer-1.onrender.com"
 
 // export const aviatordomain = "http://192.168.18.183:8000"
 // export const dummy_aviator = "http://192.168.18.183:8000"
-// export const domain = "http://192.168.18.183:8000"
+// export const domain1 = "http://192.168.18.183:8000"
 export const rupees = "₹";
 
 export const baseUrl = "https://admin.play2earn.space";
@@ -68,6 +68,7 @@ export const endpoint = {
   cash_out: `${baseUrl}/api/aviator/cash_out`,
   insert_fund_transfer: `${baseUrl}/api/wallet-to-wallet-transfer`,
   fund_transfer_history: `${baseUrl}/api/wallet-fund-trasfer-list`,
+  get_status: `${newDomain}/api/v1/get-status`,
 
   node_api:{
     get_leder_data:`${aviatordomain}/api/v1/get-ledger-data`,

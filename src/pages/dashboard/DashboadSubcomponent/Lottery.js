@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { zubgback, zubgbackgrad, zubgmid, zubgshadow, zubgtext, zubgwhite } from "../../../Shared/color";
 import go from "../../../assets/images/go.png";
@@ -13,16 +13,31 @@ import jackpot from "../../../assets/images/PSD.jpg";
 import kind from "../../../assets/images/PSD.jpg";
 import megawin from "../../../assets/images/PSD.jpg";
 import toast from "react-hot-toast";
+import { endpoint } from "../../../services/urls";
+import axios from "axios";
 
 
 
 const Lottery = () => {
   const navigate = useNavigate();
+  const [status, setStatus] = useState([]);
+  const getStatus = async () => {
+    try {
+      const res = await axios.get(endpoint.get_status);
+      setStatus(res?.data?.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    getStatus();
+  }, []);
 
   return (
     <Box sx={{ transition: '0.3s !important' }}>
       <Box sx={style.root}>
-        <Box sx={style.roottwo} component={NavLink} to={"/win"}>
+        
+        <Box sx={style.roottwo} component={NavLink} to={status?.find((i)=>i?.title==="wingo_status")?.status!== "0" && "/win"} >
           <Box sx={{ width: "70%", height: "100%", position: 'relative' }}>
             <Box sx={{
               position: 'absolute', top: 0, left: '0', width: '100%', height: '100%', borderRadius: '10px 0px 0px 10px',
@@ -89,7 +104,7 @@ const Lottery = () => {
             <Box component="img" sx={style.imgtwo} src={megawin}></Box>
           </Box>
         </Box>
-        <Box sx={style.roottwo} component={NavLink} to={"/trx"}>
+        <Box sx={style.roottwo} component={NavLink}   to={status?.find((i)=>i?.title==="trx_status")?.status!== "0" && "/trx"}>
           <Box sx={{ width: "70%", height: "100%", position: 'relative' }}>
             <Box sx={{
               position: 'absolute', top: 0, left: '0', width: '100%', height: '100%', borderRadius: '10px 0px 0px 10px',
