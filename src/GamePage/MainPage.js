@@ -12,10 +12,19 @@ import CustomDialogBox from "../Shared/CustomDialogBox";
 import { dummy_aviator } from "../services/urls";
 // import { useDispatch, useSelector } from "react-redux";
 // import { get_user_data_fn } from "../services/apicalling";
+import CryptoJS from "crypto-js";
+
 const MainPage = () => {
   const isMediumScreen = useMediaQuery({ minWidth: 800 });
 
-  const logindata = localStorage.getItem("user");
+  const value =
+    (localStorage.getItem("logindataen") &&
+      CryptoJS.AES.decrypt(
+        localStorage.getItem("logindataen"),
+        "anand"
+      )?.toString(CryptoJS.enc.Utf8)) ||
+    null;
+  const logindata = value && JSON.parse(value)?.UserID;
   const navigate = useNavigate();
   const [openCustomDialogBox, setOpenCustomDialogBox] = useState(false);
   const initialValue = {

@@ -7,10 +7,17 @@ import { BiMessageRounded } from "react-icons/bi";
 import { BsSignTurnRight } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { endpoint } from "../../services/urls";
-
+import CryptoJS from "crypto-js";
 const MybetHistory = () => {
-  const user_id = localStorage.getItem("user_id");
-
+ 
+  const value =
+    (localStorage.getItem("logindataen") &&
+      CryptoJS.AES.decrypt(
+        localStorage.getItem("logindataen"),
+        "anand"
+      )?.toString(CryptoJS.enc.Utf8)) ||
+    null;
+  const user_id = value && JSON.parse(value)?.UserID;
 
 
   const { isLoading, data } = useQuery(
