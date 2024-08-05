@@ -367,11 +367,11 @@ export const walletamountAviator = async () => {
   //   );
   //   return response;
   try {
-    const user =localStorage.getItem("user_id")
+  
 
     const response = await axios.post(
       `${dummy_aviator}/api/v1/get-wallet-amount-by-id`,
-      { id: user }
+      { id: user_id }
     );
     return response;
   } catch (e) {
