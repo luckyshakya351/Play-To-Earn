@@ -7,6 +7,8 @@ import ForgetPassword from "./pages/auth/login/ForgetPassword";
 import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import { routes } from "./routes";
+import LayoutAviator from "./GamePage/Layout";
+import PlayGame from "./GamePage/PlayGame";
 
 const App = () => {
   const isAuthenticated =
@@ -22,6 +24,10 @@ const App = () => {
       <Route path="/" element={<Login />} />
       <Route path="/forget-password" element={<ForgetPassword />} />
       <Route path="/register" element={<Register />} />
+      <Route
+        path="/playgame"
+        element={<LayoutAviator component={<PlayGame />} />}
+      />
       {isAuthenticated ? (
         routes?.map((route, index) => {
           return (

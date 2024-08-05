@@ -1,24 +1,16 @@
-import axios from "axios";
-import React, { useEffect, useMemo, useState } from "react";
-import toast from "react-hot-toast";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Dialog } from "@mui/material";
 import { useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { useSocket } from "../Shared/SocketContext";
 import loderImage from "../assets/loderimage.png";
 import plane1 from "../assets/plan1.svg";
 import plane2 from "../assets/plan2.svg";
-import win from "../assets/win.png";
 import {
   byTimeIsEnableMusic,
   byTimeIsEnableSound,
 } from "../redux/slices/counterSlice";
-import { endpoint } from "../services/urls";
 import {
-  animationUpTo_1_sec,
-  animationUpTo_5_sec,
-  animationabove_10_sec,
-  animationupto_10_sec,
   demomobile,
   demomobilesec,
   demomolap,
@@ -32,37 +24,36 @@ import {
 } from "./DottedPoint";
 import SpentBetLeft from "./SpentBetLeft";
 import SpentBetRight from "./SpentBetRight";
+import betmusic from "../assets/place_your_bet.mp3";
+import { useSocket } from "../Shared/SocketContext";
+
 const AirPlane = ({ formik, fk }) => {
   const socket = useSocket();
+  let timerInterval;
   const dispatch = useDispatch();
   const backgroundImage_url = useSelector(
     (state) => state.aviator.backgroundImage_url
   );
+  const [waiting_for_next_round, set_waiting_for_next_round] = useState(true);
   const waiting_aviator = useSelector((state) => state.aviator.waiting_aviator);
   const isMediumScreen = useMediaQuery({ minWidth: 800 });
   const [bottomLeftCoordinate, setBottomLeftCoordinates] = useState({
     x: 0,
     y: 0,
   });
+  const [crash, setcrashed] = useState(false);
   const [combineTime, setcombineTime] = useState("0_0");
-  const [initialCordinate, setInitialCordinate] = useState(0);
+  const [initialCordinate, setInitialCordinate] = useState({ x: 0, y: 0 });
   let milliseconds = combineTime?.split("_")?.[0].substring(0, 2);
   let seconds = Number(combineTime?.split("_")?.[1]);
   const client = useQueryClient();
   let bool = true;
+  const audioRefMusic = useRef(null);
   useEffect(() => {
     const handleNewMessage = (newMessage) => {
       startFly(newMessage);
     };
 
-    socket.on("message", handleNewMessage);
-
-    return () => {
-      socket.off("message", handleNewMessage);
-    };
-  }, []); // Include startFly as a dependency if it's defined outside the useEffect.
-
-  useEffect(() => {
     const handleSeconds = (seconds) => {
       setcombineTime(seconds);
     };
@@ -72,6 +63,7 @@ const AirPlane = ({ formik, fk }) => {
     };
 
     const handleSetLoader = (setloder) => {
+      setloder && handlePlayMusic();
       fk.setFieldValue("setloder", setloder);
       setcombineTime("0_0");
     };
@@ -80,16 +72,25 @@ const AirPlane = ({ formik, fk }) => {
       fk.setFieldValue("isFlying", isFlying);
     };
 
+    const handlecrash = (isFlying) => {
+      setcrashed(isFlying);
+      setTimeout(() => {
+        client.refetchQueries("allresult");
+      }, 2000);
+    };
+    socket.on("message", handleNewMessage);
     socket.on("seconds", handleSeconds);
     socket.on("setcolorofdigit", handleSetColorOfDigit);
     socket.on("setloder", handleSetLoader);
     socket.on("isFlying", handleIsFlying);
-
+    socket.on("crash", handlecrash);
     return () => {
+      socket.off("message", handleNewMessage);
       socket.off("seconds", handleSeconds);
       socket.off("setcolorofdigit", handleSetColorOfDigit);
       socket.off("setloder", handleSetLoader);
       socket.off("isFlying", handleIsFlying);
+      socket.off("crash", handlecrash);
     };
   }, []);
 
@@ -104,49 +105,60 @@ const AirPlane = ({ formik, fk }) => {
       else style.innerHTML = demomolap;
     }
     document.head.appendChild(style);
-    if (randomFlyingTime < 10) {
-      animationUpTo_1_sec(mainDiv, randomFlyingTime, dispatch, fk);
-      setTimeout(() => {
-        dispatch(byTimeIsEnableSound(true));
-        fk.setFieldValue("isShadowPath", false);
-      }, (randomFlyingTime - 0.3) * 1000);
-    } else if (randomFlyingTime <= 5) {
-      animationUpTo_5_sec(mainDiv, randomFlyingTime, dispatch, fk);
-      setTimeout(() => {
-        dispatch(byTimeIsEnableSound(true));
-        fk.setFieldValue("isShadowPath", false);
-      }, (randomFlyingTime - 0.3) * 1000);
-    } else if (randomFlyingTime > 5 && randomFlyingTime < 10) {
-      animationupto_10_sec(mainDiv, randomFlyingTime, dispatch, fk);
-      setTimeout(() => {
-        dispatch(byTimeIsEnableSound(true));
-        fk.setFieldValue("isShadowPath", false);
-      }, (randomFlyingTime - 0.3) * 1000);
-    } else {
-      animationabove_10_sec(mainDiv, randomFlyingTime, dispatch, fk);
-      setTimeout(() => {
-        dispatch(byTimeIsEnableSound(true));
-        fk.setFieldValue("isShadowPath", false);
-      }, (5 + ((randomFlyingTime - 5) / 5 - 0.3) * 5) * 1000);
-    }
+
+    mainDiv.style.animation = "";
+    mainDiv.style.animation = "slidein 5s linear forwards running";
+
+    mainDiv.addEventListener("animationend", () => {
+      if (mainDiv.style.animationName === "slidein") {
+        // After slidein animation ends, start slideafter animation
+        mainDiv.style.animation = "slideafter 5s linear forwards running 50";
+      } else if (mainDiv.style.animationName === "slideafter") {
+        // If needed, you can add more conditions for other animations
+      }
+    });
   }
+
+  useEffect(() => {
+    const mainDiv = document.getElementsByClassName("maindiv")[0];
+    if (crash === true) {
+      clearInterval(timerInterval);
+      dispatch(byTimeIsEnableSound(true));
+      // Remove any current animation and apply thirdAnimation
+      mainDiv.style.animation = "";
+      mainDiv.style.animation = "thirdAnimation .5s linear forwards running";
+
+      setTimeout(() => {
+        dispatch(byTimeIsEnableSound(false));
+      }, 4000);
+      client.refetchQueries("historydata");
+      dispatch(byTimeIsEnableMusic(false));
+      fk.setFieldValue("isShadowPath", false);
+      localStorage.removeItem("spent_amount1");
+      fk.setFieldValue("waitingForNextTime1", false);
+      fk.setFieldValue("waitingForNextTime2", false);
+      formik.setFieldValue("refetch", Number(formik.values.refetch) + 1);
+    }
+  }, [crash]);
 
   function startFly(randomFlyingTime) {
     bool = true;
+
     dispatch(byTimeIsEnableMusic(true));
+
     fk.setFieldValue("closeButtomDot", true);
     fk.setFieldValue("isEnablingWinner", true);
     const mainDiv = document.getElementsByClassName("maindiv")[0];
     hii(randomFlyingTime);
 
-    const timerInterval = setInterval(() => {
+    timerInterval = setInterval(() => {
       const airplainimage = document.getElementsByClassName("maindiv")[0];
       const parentDiv = document.getElementsByClassName("parentdiv")[0]; // Assuming "maindiv" is the parent element
-      const airplainRect = airplainimage.getBoundingClientRect();
-      const parentRect = parentDiv.getBoundingClientRect();
+      const airplainRect = airplainimage?.getBoundingClientRect();
+      const parentRect = parentDiv?.getBoundingClientRect();
       const newBottomLeftCoordinates = {
-        x: airplainRect.x - parentRect.x,
-        y: airplainRect.y - parentRect.y,
+        x: airplainRect?.x - parentRect?.x,
+        y: airplainRect?.y - parentRect?.y,
       };
 
       if (bool) {
@@ -156,53 +168,42 @@ const AirPlane = ({ formik, fk }) => {
       setBottomLeftCoordinates(newBottomLeftCoordinates);
     }, 10);
 
-    setTimeout(() => {
-      fk.setFieldValue("isEnablingWinner", false);
-    }, randomFlyingTime * 1000 - 2000);
-    // Clear interval after randomFlyingTime seconds
-    setTimeout(() => {
-      // fk.setFieldValue("setcolorofdigit", true);
-      fk.setFieldValue("isShadowPath", false);
-      localStorage.removeItem("spent_amount1");
-      // fk.setFieldValue("isStart1", false);
-      // fk.setFieldValue("isStart2", false);
-      // fk.setFieldValue("isFlying", false);
-      fk.setFieldValue("waitingForNextTime1", false);
-      fk.setFieldValue("waitingForNextTime2", false);
-      // setResultFuncton();
-      formik.setFieldValue("refetch", Number(formik.values.refetch) + 1);
-      mainDiv.style.animation = "";
-      clearInterval(timerInterval);
-    }, (randomFlyingTime - 0.5) * 1000);
-
-    setTimeout(() => {
-      dispatch(byTimeIsEnableMusic(false));
-    }, randomFlyingTime * 1000 + 3000);
-    setTimeout(() => {
-      dispatch(byTimeIsEnableSound(false));
-    }, randomFlyingTime * 1000 + 6000);
-
-    setTimeout(() => {
-      randomFlyingTime >= 3 && fk.setFieldValue("isShadowPath", true);
-    }, 800);
-
     return () => clearInterval(timerInterval);
   }
 
-  const setResultFuncton = async () => {
-    try {
-      await axios.get(`${endpoint.aviator_result}`);
-      client.refetchQueries("allresult");
-    } catch (e) {
-      toast(e?.message);
-      console.log(e);
-    }
-  };
+  useEffect(() => {
+    Number(milliseconds) >= 3 && fk.setFieldValue("isShadowPath", true);
+  }, [milliseconds]);
+
+  useEffect(() => {
+    fk.values.setloder === true && set_waiting_for_next_round(false);
+  }, [fk.values.setloder]);
 
   setTimeout(() => {
     fk.setFieldValue("closeButtomDot", false);
   }, 10000);
 
+  const handlePlayMusic = async () => {
+    try {
+      if (audioRefMusic && audioRefMusic.current) {
+        await audioRefMusic.current.play();
+        console.log("Audio played successfully");
+      } else {
+        console.error(
+          "audioRefMusic or audioRefMusic.current is null or undefined"
+        );
+      }
+    } catch (error) {
+      console.error("Error during play:", error);
+    }
+  };
+
+  // if (waiting_for_next_round)
+  //   return useMemo(() => {
+  //     return <div>HIii</div>;
+  //   }, []);
+  let move_to_buttom_mobile = 36;
+  let move_to_buttom_desktop = 32;
   return (
     <>
       <div
@@ -210,6 +211,10 @@ const AirPlane = ({ formik, fk }) => {
           !waiting_aviator && "lg:py-8 py-9"
         } moved parentdiv relative lg:h-[60vh]  h-[35vh] w-[99.8%] overflow-hidden  rounded-3xl mt-1 border-[1px] border-white border-opacity-10`}
       >
+        <audio ref={audioRefMusic} hidden>
+          <source src={betmusic} type="audio/mp3" />
+        </audio>
+
         <>
           {useMemo(() => {
             return (
@@ -226,6 +231,8 @@ const AirPlane = ({ formik, fk }) => {
           })}
           {fk.values.isShadowPath &&
             (isMediumScreen ? (
+              // Change this value to shift the SVG paths
+
               <svg
                 width="100%"
                 height="60vh"
@@ -233,39 +240,42 @@ const AirPlane = ({ formik, fk }) => {
                 className="z-10 absolute"
               >
                 <path
-                  d={`M -10 ${initialCordinate.y + 24} C ${
+                  d={`M -10 ${
+                    initialCordinate.y + 24 + move_to_buttom_desktop
+                  } C ${
                     bottomLeftCoordinate.x < 300
                       ? bottomLeftCoordinate.x - 40
                       : 300
-                  } ${initialCordinate.y + 20}, ${
+                  } ${initialCordinate.y + 20 + move_to_buttom_desktop}, ${
                     bottomLeftCoordinate.x < 500
                       ? bottomLeftCoordinate.x - 20
                       : 500
-                  } ${initialCordinate.y + 20}, ${
+                  } ${initialCordinate.y + 20 + move_to_buttom_desktop}, ${
                     bottomLeftCoordinate.x + 17
-                  } ${bottomLeftCoordinate.y + 22} L ${
+                  } ${bottomLeftCoordinate.y + 22 + move_to_buttom_desktop} L ${
                     bottomLeftCoordinate.x + 10
-                  } ${initialCordinate.y + 30} L 10 ${
-                    initialCordinate.y + 30
+                  } ${initialCordinate.y + 30 + move_to_buttom_desktop} L 10 ${
+                    initialCordinate.y + 30 + move_to_buttom_desktop
                   } Z`}
                   fill="rgba(112,9,25, 0.6)"
-                  // stroke="#BC0319"
                   stroke-width="3"
                   stroke-dasharray="1000 0"
                   stroke-linejoin="round"
                 />
                 <path
-                  d={`M -10 ${initialCordinate.y + 25} C ${
+                  d={`M -10 ${
+                    initialCordinate.y + 25 + move_to_buttom_desktop
+                  } C ${
                     bottomLeftCoordinate.x < 300
                       ? bottomLeftCoordinate.x - 40
                       : 300
-                  } ${initialCordinate.y + 23}, ${
+                  } ${initialCordinate.y + 23 + move_to_buttom_desktop}, ${
                     bottomLeftCoordinate.x < 500
                       ? bottomLeftCoordinate.x - 20
                       : 500
-                  } ${initialCordinate.y + 23}, ${
+                  } ${initialCordinate.y + 23 + move_to_buttom_desktop}, ${
                     bottomLeftCoordinate.x + 17
-                  } ${bottomLeftCoordinate.y + 21}`}
+                  } ${bottomLeftCoordinate.y + 21 + move_to_buttom_desktop}`}
                   stroke="#a10019"
                   stroke-width="4"
                   fill="none"
@@ -280,19 +290,21 @@ const AirPlane = ({ formik, fk }) => {
               >
                 <path
                   className="!absolute !bottom-0 !left-0"
-                  d={`M -10 ${initialCordinate.y} C ${
+                  d={`M -10 ${initialCordinate.y + move_to_buttom_mobile} C ${
                     bottomLeftCoordinate.x < 80
                       ? bottomLeftCoordinate.x - 10
                       : 80
-                  } ${initialCordinate.y}, ${
+                  } ${initialCordinate.y + move_to_buttom_mobile}, ${
                     bottomLeftCoordinate.x < 120
                       ? bottomLeftCoordinate.x - 5
                       : 120
-                  } ${initialCordinate.y},${bottomLeftCoordinate.x + 12} ${
-                    bottomLeftCoordinate.y - 1
-                  } L ${bottomLeftCoordinate.x + 15} ${
-                    initialCordinate.y + 3
-                  } L ${bottomLeftCoordinate.y} ${initialCordinate.y + 3} Z`}
+                  } ${initialCordinate.y + move_to_buttom_mobile},${
+                    bottomLeftCoordinate.x + 12
+                  } ${bottomLeftCoordinate.y - 1 + move_to_buttom_mobile} L ${
+                    bottomLeftCoordinate.x + 15
+                  } ${initialCordinate.y + 3 + move_to_buttom_mobile} L ${
+                    bottomLeftCoordinate.y + move_to_buttom_mobile
+                  } ${initialCordinate.y + 3 + move_to_buttom_mobile} Z`}
                   fill="rgba(112,9,25, 0.6)"
                   stroke-width="3"
                   stroke-dasharray="1000 0"
@@ -300,17 +312,17 @@ const AirPlane = ({ formik, fk }) => {
                 />
                 <path
                   className="!absolute !bottom-0 !left-0"
-                  d={`M -10 ${initialCordinate.y} C ${
+                  d={`M -10 ${initialCordinate.y + move_to_buttom_mobile} C ${
                     bottomLeftCoordinate.x < 80
                       ? bottomLeftCoordinate.x - 10
                       : 80
-                  } ${initialCordinate.y}, ${
+                  } ${initialCordinate.y + move_to_buttom_mobile}, ${
                     bottomLeftCoordinate.x < 120
                       ? bottomLeftCoordinate.x - 5
                       : 120
-                  } ${initialCordinate.y},${bottomLeftCoordinate.x + 12} ${
-                    bottomLeftCoordinate.y - 1
-                  } `}
+                  } ${initialCordinate.y + move_to_buttom_mobile},${
+                    bottomLeftCoordinate.x + 12
+                  } ${bottomLeftCoordinate.y - 1 + move_to_buttom_mobile} `}
                   stroke="#a10019"
                   stroke-width="3"
                   fill="none"
@@ -318,21 +330,15 @@ const AirPlane = ({ formik, fk }) => {
               </svg>
             ))}
           <div className="maindiv absolute bottom-[20px] left-[20px]  animate-slidein infinite ">
-            {useMemo(() => {
+            {/* {useMemo(() => {
               return (
                 fk.values.isEnablingWinner && (
                   <p className="winslider z-20 rounded-full px-4 py-1">
-                    {[...Array(3)].map((_, index) => (
-                      <img
-                        key={index}
-                        src={win}
-                        className="w-10 h-10 absolute"
-                      />
-                    ))}
+
                   </p>
                 )
               );
-            }, [fk.values.isEnablingWinner])}
+            }, [fk.values.isEnablingWinner])} */}
 
             {useMemo(() => {
               return (
@@ -411,12 +417,30 @@ const AirPlane = ({ formik, fk }) => {
                   FLEW AWAY!
                 </p>
               )}
-              <div className="!font-semibold grid grid-cols-3 lg:w-[225px] w-[190px]">
-                <span className="col-span-2">{`${seconds + 1}.${String(
-                  milliseconds
-                ).padStart(2, "0")}`}</span>
-                <span style={{ marginLeft: "4px" }}>x</span>
-              </div>
+              {waiting_for_next_round ? (
+                <Dialog open={true} className=" lg:!ml-80 ">
+                  <div>
+                   
+                    <div className="lg:pt-1 text-center p-2  lg:text-lg  font-bold">
+                      Let's complete previous round
+                    </div>
+                    <div className="!font-semibold grid grid-cols-3  justify-center lg:w-80 !ml-2 w-[190px] h-16 lg:h-40">
+                      <div className="flex justify-center text-center lg:text-9xl text-5xl lg:px-36  px-28">{`${seconds}.${String(
+                        // phle yha par seconds+1 thA
+                        milliseconds
+                      ).padStart(2, "0")}`}</div>
+                    </div>
+                  </div>
+                </Dialog>
+              ) : (
+                <div className="!font-semibold grid grid-cols-3 lg:w-[225px] w-[190px]">
+                  <span className="col-span-2">{`${seconds}.${String(
+                    // phle yha par seconds+1 thA
+                    milliseconds
+                  ).padStart(2, "0")}`}</span>
+                  <span style={{ marginLeft: "4px" }}>x</span>
+                </div>
+              )}
             </p>
           )}
         </>
@@ -426,17 +450,17 @@ const AirPlane = ({ formik, fk }) => {
       <div className="flex w-[100%] lg:gap-3 gap-0 flex-col lg:flex-row lg:mt-0 md:mt-[20%] sm:mt-[20%]">
         <SpentBetLeft
           milliseconds={milliseconds}
-          seconds={seconds + 1}
+          seconds={seconds} // phle yha par seconds+1 thA
           fk={fk}
           startFly={startFly}
           formik={formik}
         />
-        <SpentBetRight
+        {/* <SpentBetRight
           milliseconds={milliseconds}
-          seconds={seconds + 1}
+          seconds={seconds} // phle yha par seconds+1 thA
           fk={fk}
           startFly={startFly}
-        />
+        /> */}
       </div>
     </>
   );

@@ -1,36 +1,32 @@
+// export const dummy_aviator = "https://aviator-with-sql-backend.onrender.com"
+// export const aviatordomain = "https://aviator-with-sql-backend.onrender.com"
+
+export const aviatordomain = "http://192.168.18.183:8000"
+export const dummy_aviator = "http://192.168.18.183:8000"
+export const domain = "http://192.168.18.183:8000"
 export const rupees = "₹";
 
 export const baseUrl = "https://admin.play2earn.space";
 export const fron_end_main_domain = "https://play2earn.space";
 export const newDomain = "https://api.play2earn.space";
 
-export const domain = "https://play2earn-timer-1.onrender.com"
-// export const newDomain1 = "http://192.168.18.183:8000"
+// export const domain = "https://aviator-with-sql-backend.onrender.com"
+// export const domain = "https://play2earn-timer-1.onrender.com"
 export const support_mail = "";
 export const telegram_url = "https://t.me/play2earnspace";
 
 export const endpoint = {
   login: `${newDomain}/api/v1/user_login`,
-  // login: `${baseUrl}/api/user_login`,
   send_otp: `${baseUrl}/api/forget-password`,
   veryfy_otp: `${baseUrl}/api/user-otp-verify`,
   signup: `${baseUrl}/api/user_register`,
-  // userwallet: `${baseUrl}/api/userwallet`,
   userwallet: `${newDomain}/api/v1/userwallet`,
-  // top11winner: `https://game-zone-sql.onrender.com/api/v1/topw11winningInformation`,
   top11winner: `${newDomain}/api/v1/winning-list`,
   openbannerUrl: `${baseUrl}/popup`,
   profiledata: `${baseUrl}/api/profileapi`,
-
-  // applybet: `${baseUrl}/api/bet`,
-  // game_history: `${baseUrl}/api/colour_result`,
-  // my_history: `${baseUrl}/api/getbet`,
-  // my_history_all: `${baseUrl}/api/getbet-game-results`,
-
   applybet: `${newDomain}/api/v1/bet`,
   game_history: `${newDomain}/api/v1/colour_result`,
   my_history_all: `${newDomain}/api/v1/getbet-game-results`,
-
   check_result: `${baseUrl}/api/checkresult`,
   color_winning: `${baseUrl}/api/colour_winning`,
   cash_deposit: `${baseUrl}/api/deposit`,
@@ -56,15 +52,9 @@ export const endpoint = {
   all_withdrawl_user_list: `${baseUrl}/api/widthrol-user-list`,
   recharge_call_bakc: `${baseUrl}/api/deposits-user-request`,
   cricket_get_url_id_pass: `${baseUrl}/api/cricket-details`,
-  // trx api's
-  // trx_game_history:`${baseUrl}/api/trx-auto-genrated-result`,
-  // trx_game_bet: `${baseUrl}/api/trx-bet`,
-  // my_history_all_trx: `${baseUrl}/api/trx-getColourBets`,
-  // my_history_all_trx_pending: `${baseUrl}/api/trx-getColourBets-results`,
-
-  trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`, //node api
-  trx_game_bet: `${newDomain}/api/v1/trx-bet`, //node api
-  my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`, //node api
+  trx_game_history: `${newDomain}/api/v1/trx-auto-genrated-result`, 
+  trx_game_bet: `${newDomain}/api/v1/trx-bet`, 
+  my_history_all_trx: `${newDomain}/api/v1/trx-getColourBets`, 
 
   // aviator api's
   aviator_login: `${baseUrl}/api/aviator/login`,
@@ -78,4 +68,14 @@ export const endpoint = {
   cash_out: `${baseUrl}/api/aviator/cash_out`,
   insert_fund_transfer: `${baseUrl}/api/wallet-to-wallet-transfer`,
   fund_transfer_history: `${baseUrl}/api/wallet-fund-trasfer-list`,
+
+  node_api:{
+    get_leder_data:`${aviatordomain}/api/v1/get-ledger-data`,
+    my_history: `${aviatordomain}/api/v1/my-history-by-user-id`,
+    login_with_node:`${aviatordomain}/api/v1/createuser`,
+    main_wallet:`${aviatordomain}/main-wallet-to-aviator`,
+    aviator_main:`${aviatordomain}/aviator-to-main-wallet`,
+    get_top_users: `${aviatordomain}/api/v1/get-top-users`,
+  }
 };
+

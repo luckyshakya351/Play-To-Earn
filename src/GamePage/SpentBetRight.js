@@ -1,25 +1,18 @@
-import { CircularProgress, Slide, Switch } from "@mui/material";
+import { CircularProgress, Switch } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
-import { useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { gray } from "./color";
-import { endpoint, rupees } from "../services/urls";
-import { useDispatch,useSelector } from "react-redux";
-import { get_user_data_fn } from "../services/apicalling";
+import { dummy_aviator, rupees } from "../services/urls";
+import { walletamountAviator } from "../services/apicalling";
 
 const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
+  const user_id = localStorage.getItem("user_id");
   const client = useQueryClient();
   const spent_amount2 = localStorage.getItem("spent_amount2");
-  const dispatch = useDispatch()
-  const aviator_login_data = useSelector(
-    (state) => state.aviator.aviator_login_data
-  );
-  const first_rechange =
-  aviator_login_data && JSON.parse(aviator_login_data)?.first_recharge
-  
   const amount_total =
     client.getQueriesData("walletamount_aviator")?.[0]?.[1]?.data?.data || 0;
   const pre_amount = Number(
@@ -27,21 +20,25 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
   ).toFixed(2);
 
   const [loding, setloding] = useState(false);
-  // const logindata = localStorage.getItem("aviator_data");
   const [selectedValue, setSelectedValue] = useState("Bet");
   const [betValue, setBetValue] = useState(10);
-  // const [openCustomDialogBox, setOpenCustomDialogBox] = useState(false);
-  const [gameno, setgameno] = useState({});
 
-
-  useEffect(() => {
-    !aviator_login_data && get_user_data_fn(dispatch);
-  }, []);
 
   const initialValues = {
-    custombetValue_auto_cash_out: (1.1).toFixed(2) || 0,
+    custombetValue_auto_cash_out: (0).toFixed(2) || 0,
     isbetActive: false,
   };
+
+  const { data: walletdata } = useQuery(
+    ["walletamount_aviator"],
+    () => walletamountAviator(),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false
+    }
+  );
+  const wallet_amount = walletdata?.data?.data || 0;
 
   const rightbitfk = useFormik({
     initialValues: initialValues,
@@ -51,74 +48,82 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
   });
 
   const spentBit = async () => {
-    if(Number(first_rechange) !== 1){
-      return toast("You must be sure that , your first deposit is done.");
-    }
+
     setloding(true);
     const reqbody = {
-      userid: aviator_login_data && JSON.parse(aviator_login_data)?.id || 2,
+      id: user_id,
+      userid: user_id,
       amount: betValue || 0,
+      button_type: "b2",
     };
-    try {
-      const response = await axios.get(
-        `${endpoint.bet_now}?userid=${reqbody?.userid}&amount=${reqbody?.amount}`
-      );
-      if (response?.data?.message === "Bet placed successfully") {
-        localStorage.setItem("spent_amount2", reqbody?.amount);
-        client.refetchQueries("historydata");
-        client.refetchQueries("walletamount_aviator");
-        fk.setFieldValue("isStart2", true);
-        getHistory();
+    if (Number(wallet_amount?.wallet) < Number(reqbody?.amount))
+      toast("Your wallet amount is low");
+    else {
+      try {
+        const response = await axios.post(
+          `${dummy_aviator}/api/v1/apply-bet`,
+          reqbody
+        );
+        if (response?.data?.msg === "Data save successfully") {
+          localStorage.setItem("spent_amount2", reqbody?.amount);
+          // client.refetchQueries("historydata");
+          // client.refetchQueries("walletamount_aviator");
+          fk.setFieldValue("isStart2", true);
+          // getHistory();
+        }
+        toast.success(response?.data?.msg, {
+          position: "top-center",
+          topOffset: "20%",
+        });
+      } catch (e) {
+        toast(e?.response?.data?.msg, {
+          position: "top-center",
+          topOffset: "20%",
+        });
+        console.log(e);
       }
-      toast.success(response?.data?.message, {
-        position: "top-center",
-        topOffset: "20%",
-      });
-    } catch (e) {
-      toast(e?.response?.data?.message, {
-        position: "top-center",
-        topOffset: "20%",
-      });
-      console.log(e);
+      rightbitfk.setFieldValue("isbetActive", false);
     }
-
-    rightbitfk.setFieldValue("isbetActive", false);
-
     setloding(false);
   };
   useEffect(() => {
-    if(fk.values.isFlying && rightbitfk?.values?.isbetActive){
-      spentBit()
-    }else{
-      !rightbitfk?.values?.isbetActive  && fk.setFieldValue("isStart2",false)
+    if (fk.values.isFlying && rightbitfk?.values?.isbetActive) {
+      spentBit();
+    } else {
+      !rightbitfk?.values?.isbetActive && fk.setFieldValue("isStart2", false);
     }
   }, [fk.values.isFlying]);
 
-  const getHistory = async () => {
-    const userid =aviator_login_data &&  JSON.parse(aviator_login_data)?.id || 2;
 
-    try {
-      const response = await axios.get(
-        `${endpoint.bet_history}?userid=${userid}&limit=${10}`
-      );
-      setgameno(response?.data?.data[0]?.gamesno);
-    } catch (e) {
-      toast(e?.message);
-      console.log(e);
-    }
-  };
 
   const cashOut = async (sec, mili) => {
+    // const reqbody = {
+    //   userid: (aviator_login_data && JSON.parse(aviator_login_data)?.id) || 2,
+    //   amount:
+    //     Number(betValue * Number(`${seconds}.${milliseconds}`))?.toFixed(2) ||
+    //     0,
+    //   gameno: gameno,
+    //   multiplier: Number(`${sec}.${mili}`),
+    // };
+    // try {
+    //   const response = await axios.get(
+    //     `${endpoint.cash_out}?userid=${reqbody.userid}&amount=${reqbody.amount}&multiplier=${reqbody.multiplier}&gamesno=${reqbody?.gameno}`
+    //   );
+
     const reqbody = {
-      userid:aviator_login_data &&  JSON.parse(aviator_login_data)?.id || 2,
-      amount: betValue || 0,
-      gameno: gameno,
+      id: user_id,
+      userid: user_id,
+      amount: betValue * Number(`${seconds}.${milliseconds}`),
       multiplier: Number(`${sec}.${mili}`),
+      button_type: "b2",
     };
+
     try {
-      const response = await axios.get(
-        `${endpoint.cash_out}?userid=${reqbody.userid}&amount=${reqbody.amount}&multiplier=${reqbody.multiplier}&gamesno=${reqbody?.gameno}`
+      const response = await axios.post(
+        `${dummy_aviator}/api/v1/cash-out`,
+        reqbody
       );
+
       // toast(response?.data?.message);
       toast.success(
         <div className=" flex lg:gap-10 gap-5">
@@ -131,12 +136,10 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
           <p className="flex flex-col bg-white bg-opacity-50 items-center rounded-full px-4 py-1">
             <span className="text-[12px]">Win, USD</span>
             <span className="">
-              {`${
-                betValue * seconds +
-                  Number(milliseconds?.toString()?.substring(0, 1)) || 0
-              }.${
-                Number(milliseconds?.toString()?.substring(1, 2) || 1) * 10
-              } x`}
+              {`${betValue * seconds +
+                Number(milliseconds?.toString()?.substring(0, 1)) || 0
+                }.${Number(milliseconds?.toString()?.substring(1, 2) || 1) * 10
+                } x`}
             </span>
           </p>
         </div>
@@ -155,7 +158,7 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
       pre_amount &&
       fk.values.autocashout2 &&
       Number(rightbitfk.values.custombetValue_auto_cash_out) ===
-        Number(`${seconds}.${milliseconds}`)
+      Number(`${seconds}.${milliseconds}`)
     ) {
       fk.setFieldValue("isStart2", false);
       cashOut(seconds, milliseconds);
@@ -169,32 +172,29 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
     >
       <div
         className={` h-full ${gray}  rounded-lg w-full p-2  
-        ${
-          fk.values.waitingForNextTime2
+        ${fk.values.waitingForNextTime2
             ? "border-2  border-[#BC0319]"
             : fk.values.isStart2 && !fk.values.isFlying
-            ? "border-2  border-[#BC0319]"
-            : fk.values.isStart2 &&
+              ? "border-2  border-[#BC0319]"
+              : fk.values.isStart2 &&
               fk.values.isFlying &&
               "border-2  border-[#d47e3c]"
-        }
+          }
 
         `}
       >
         <div className="flex justify-center">
           <div className="flex justify-center gap-3 w-[40%] lg:w-[30%] bg-black rounded-full">
             <p
-              className={`text-[10px] bg-black px-10 py-1 rounded-full cursor-pointer ${
-                selectedValue === "Bet" && `!bg-[#2C2D30]`
-              }`}
+              className={`text-[10px] bg-black px-10 py-1 rounded-full cursor-pointer ${selectedValue === "Bet" && `!bg-[#2C2D30]`
+                }`}
               onClick={() => setSelectedValue("Bet")}
             >
               Bet
             </p>
             <p
-              className={`text-[10px] bg-black px-10 py-1 rounded-full cursor-pointer ${
-                selectedValue === "Auto" && `!bg-[#2C2D30]`
-              }`}
+              className={`text-[10px] bg-black px-10 py-1 rounded-full cursor-pointer ${selectedValue === "Auto" && `!bg-[#2C2D30]`
+                }`}
               onClick={() => setSelectedValue("Auto")}
             >
               Auto
@@ -202,9 +202,8 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
           </div>
         </div>
         <div
-          className={`w-full flex justify-center pt-3 gap-2 ${
-            selectedValue === "Bet" && "lg:mt-5 mt:2"
-          }`}
+          className={`w-full flex justify-center pt-3 gap-2 ${selectedValue === "Bet" && "lg:mt-5 mt:2"
+            }`}
         >
           <div className=" lg:w-[20%] w-[45%]">
             <div
@@ -221,7 +220,9 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
               </p>
               <CiCirclePlus
                 className="cursor-pointer text-2xl text-gray-400"
-                onClick={() => setBetValue(betValue + 1)}
+                onClick={() =>
+                  setBetValue(betValue + 1 > 1000 ? betValue : betValue + 1)
+                }
               />
             </div>
             <div className="grid grid-cols-2 text-center text-[12px] lg:pt-2 pt-[2px]  gap-1">
@@ -229,7 +230,9 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
                 return (
                   <p
                     className={`bg-black rounded-full cursor-pointer lg:py-1 py-[4px] lg:text-[8px]`}
-                    onClick={() => setBetValue(i)}
+                    onClick={() => {
+                      if (!spent_amount2) setBetValue(i);
+                    }}
                   >
                     {i}
                   </p>
@@ -263,7 +266,8 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
                 // cash out
                 if (fk.values.isStart2 && fk.values.isFlying) {
                   fk.setFieldValue("isStart2", false);
-                  if (pre_amount) cashOut(seconds, milliseconds);
+                  if (pre_amount && spent_amount2)
+                    cashOut(seconds, milliseconds);
                 }
                 // spent bet
                 else {
@@ -280,16 +284,14 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
               }}
               className={`
             flex flex-col justify-center px-[20%]  rounded-2xl border-2 border-white border-opacity-30 shadow-lg z-20 cursor-pointer
-            ${
-              fk.values.waitingForNextTime2
-                ? "bg-[#BC0319]"
-                : fk.values.isStart2 && fk.values.isFlying && spent_amount2
-                ? "bg-gradient-to-t from-[#d47e3c] to-[#e59c6f]"
-                : fk.values.isStart2 && !fk.values.isFlying
-                ? "bg-[#BC0319]"
-                : "bg-[#28A909]"
-            }
-          
+            ${fk.values.waitingForNextTime2
+                  ? "bg-[#BC0319]"
+                  : fk.values.isStart2 && fk.values.isFlying && spent_amount2
+                    ? "bg-gradient-to-t from-[#d47e3c] to-[#e59c6f]"
+                    : fk.values.isStart2 && !fk.values.isFlying
+                      ? "bg-[#BC0319]"
+                      : "bg-[#28A909]"
+                }
             `}
             >
               {loding ? (
@@ -299,15 +301,17 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
               ) : !fk.values.waitingForNextTime2 ? (
                 <div className="flex flex-col w-full py-3 lg:py-3 font-semibold">
                   <span
-                    className={`text-lg text-center ${
-                      fk.values.isStart2 && !fk.values.isFlying && "py-4"
-                    }`}
+                    className={`text-lg text-center ${fk.values.isStart2 && !fk.values.isFlying && "py-4"
+                      }`}
                   >
-                    {fk.values.isStart2 && fk.values.isFlying && pre_amount && spent_amount2
+                    {fk.values.isStart2 &&
+                      fk.values.isFlying &&
+                      pre_amount &&
+                      spent_amount2
                       ? "Cash Out"
                       : fk.values.isStart2 && !fk.values.isFlying
-                      ? "Cancel"
-                      : "BET"}
+                        ? "Cancel"
+                        : "BET"}
                   </span>
                   <span
                     className={`text-lg text-center`}
@@ -315,17 +319,11 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
                   >
                     {fk.values.isStart2 && !fk.values.isFlying
                       ? ""
-                      : fk.values.isStart2
-                      ? `${
-                          betValue * seconds +
-                            Number(milliseconds?.toString()?.substring(0, 1)) ||
-                          0
-                        }.${
-                          Number(
-                            milliseconds?.toString()?.substring(1, 2) || 1
-                          ) * 10
-                        } x`
-                      : `${betValue?.toFixed(2) || 0} ${rupees}`}
+                      : fk.values.isStart2 && spent_amount2
+                        ? `${Number(
+                          betValue * Number(`${seconds}.${milliseconds}`)
+                        )?.toFixed(2)} x`
+                        : `${betValue?.toFixed(2) || 0} ${rupees}`}
                   </span>
                 </div>
               ) : (
@@ -354,20 +352,26 @@ const SpentBetRight = ({ milliseconds, seconds, fk, formik }) => {
                   checked={fk.values.autocashout2}
                   color="secondary"
                   onClick={() => {
-                    fk.setFieldValue("autocashout2", !fk.values.autocashout2);
+                    const customBetValue = Number(
+                      rightbitfk?.values?.custombetValue_auto_cash_out || 0
+                    );
+                    if (customBetValue < 1.1) {
+                      toast("Value should be greater than 1.1");
+                    } else {
+                      fk.setFieldValue("autocashout2", !fk.values.autocashout2);
+                    }
                   }}
                 />
               </span>
             </p>
             <p>
               <input
-                readOnly={!fk.values.autocashout2 === true}
+                readOnly={!fk.values.autocashout2 === false}
                 placeholder="Enter Value"
-                className={`!bg-black px-2 text-[12px] rounded-full py-1 w-[60%] outline-none ${
-                  fk.values.autocashout2
-                    ? "text-white"
-                    : "!text-gray-400 bg-opacity-30"
-                } `}
+                className={`!bg-black px-2 text-[12px] rounded-full py-1 w-[60%] outline-none ${fk.values.autocashout2
+                  ? "text-white"
+                  : "!text-gray-400 bg-opacity-30"
+                  } `}
                 value={rightbitfk?.values?.custombetValue_auto_cash_out}
                 onChange={(e) =>
                   rightbitfk.setFieldValue(
