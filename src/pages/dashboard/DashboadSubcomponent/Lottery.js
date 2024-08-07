@@ -1,13 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { zubgback, zubgbackgrad, zubgmid, zubgshadow, zubgtext, zubgwhite } from "../../../Shared/color";
-import go from "../../../assets/images/go.png";
-import scr1 from '../../../assets/images/src1.png';
+import { NavLink } from "react-router-dom";
+import { zubgshadow, zubgwhite } from "../../../Shared/color";
 import wingobg from '../../../assets/images/wingo11111.jpg';
-import scr2 from '../../../assets/images/src2.png';
-import scr3 from '../../../assets/images/src3.png';
-import scr4 from '../../../assets/images/src4.png';
 import epicWin from "../../../assets/images/PSD.jpg";
 import jackpot from "../../../assets/images/PSD.jpg";
 import kind from "../../../assets/images/PSD.jpg";
@@ -19,7 +14,6 @@ import axios from "axios";
 
 
 const Lottery = () => {
-  const navigate = useNavigate();
   const [status, setStatus] = useState([]);
   const getStatus = async () => {
     try {

@@ -6,23 +6,13 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import { useQuery, useQueryClient } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
 import { dummy_aviator, rupees } from "../services/urls";
 import { gray } from "./color";
 import { walletamountAviator } from "../services/apicalling";
-import CryptoJS from "crypto-js";
 
 const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
-  const client = useQueryClient()
-
-  const value =
-    (localStorage.getItem("logindataen") &&
-      CryptoJS.AES.decrypt(
-        localStorage.getItem("logindataen"),
-        "anand"
-      )?.toString(CryptoJS.enc.Utf8)) ||
-    null;
-  const user_id = value && JSON.parse(value)?.UserID;
+  const client = useQueryClient();
+  const user_id = localStorage.getItem("user_id");
   const spent_amount1 = localStorage.getItem("spent_amount1");
   const amount_total =
     client.getQueriesData("walletamount_aviator")?.[0]?.[1]?.data?.data || 0;
@@ -40,13 +30,13 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
     isbetActive: false,
   };
 
-  const { isLoading: walletloding, data: walletdata } = useQuery(
+  const { data: walletdata } = useQuery(
     ["walletamount_aviator"],
     () => walletamountAviator(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
-      refetchOnWindowFocus:false
+      refetchOnWindowFocus: false,
     }
   );
   const wallet_amount = walletdata?.data?.data || 0;
@@ -59,13 +49,12 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
   });
 
   const spentBit = async () => {
-   
     setloding(true);
     const reqbody = {
-      id:user_id,
+      id: user_id,
       userid: user_id,
       amount: betValue || 0,
-      button_type:"b1"
+      button_type: "b1",
     };
     if (Number(wallet_amount?.wallet) < Number(reqbody?.amount))
       toast("Your wallet amount is low");
@@ -75,9 +64,13 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
           `${dummy_aviator}/api/v1/apply-bet`,
           reqbody
         );
-       
+
         if (response?.data?.msg === "Data save successfully") {
           localStorage.setItem("spent_amount1", reqbody?.amount);
+          setTimeout(() => {
+            client.refetchQueries("walletamount_aviator");
+          }, 1000);
+
           // client.refetchQueries("historydata");
           // client.refetchQueries("walletamount_aviator");
 
@@ -108,8 +101,6 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
     }
   }, [fk.values.isFlying]);
 
-
-
   const cashOut = async (sec, mili) => {
     // const reqbody = {
     //   userid: (aviator_login_data && JSON.parse(aviator_login_data)?.id) || 2,
@@ -122,19 +113,22 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
     //     `${endpoint.cash_out}?userid=${reqbody.userid}&amount=${reqbody.amount}&multiplier=${reqbody.multiplier}&gamesno=${reqbody?.gameno}`
     //   );
     const reqbody = {
-      id:user_id,
+      id: user_id,
       userid: user_id,
       amount: betValue * Number(`${seconds}.${milliseconds}`),
       multiplier: Number(`${sec}.${mili}`),
-      button_type:"b1"
+      button_type: "b1",
     };
 
-   
     try {
       const response = await axios.post(
         `${dummy_aviator}/api/v1/cash-out`,
         reqbody
       );
+
+      setTimeout(() => {
+        client.refetchQueries("walletamount_aviator");
+      }, 2000);
 
       // toast(response?.data?.message);
       toast.success(
@@ -145,7 +139,7 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
             </span>
             <span className="">{`${sec || 0}.${mili || 0} x`}</span>
           </p>
-           <Button
+          <Button
             sx={{
               padding: 0,
               overflow: "hidden",
@@ -167,7 +161,7 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
               <StarBorderIcon sx={{ color: "#469D0F", fontSize: "18px" }} />
             </Box>
             <Stack>
-              <Box>Win, USD</Box>{" "}
+              <Box>Win, INR</Box>{" "}
               <Box>
                 <span className="">
                   {`${
@@ -271,7 +265,9 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
               </p>
               <CiCirclePlus
                 className="cursor-pointer text-2xl text-gray-400"
-                onClick={() => setBetValue(betValue + 1>1000?betValue:betValue+1)}
+                onClick={() =>
+                  setBetValue(betValue + 1 > 1000 ? betValue : betValue + 1)
+                }
               />
             </div>
             <div className="grid grid-cols-2 text-center text-[12px] lg:pt-2 pt-[2px] gap-1">
@@ -365,7 +361,6 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
                       : fk.values.isStart1 && !fk.values.isFlying
                       ? "Cancel"
                       : "BET"}
-                      
                   </span>
                   <span
                     className={`text-lg text-center`}
@@ -402,8 +397,7 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
               Auto Cash Out{" "}
               <span>
                 {" "}
-              
-                  <Switch
+                <Switch
                   checked={fk.values.autocashout1}
                   color="secondary"
                   onClick={() => {
