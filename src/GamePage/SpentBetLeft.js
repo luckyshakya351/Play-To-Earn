@@ -9,10 +9,18 @@ import { useQuery, useQueryClient } from "react-query";
 import { dummy_aviator, rupees } from "../services/urls";
 import { gray } from "./color";
 import { walletamountAviator } from "../services/apicalling";
+import CryptoJS from "crypto-js";
 
 const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
   const client = useQueryClient();
-  const user_id = localStorage.getItem("user_id");
+  const value =
+  (localStorage.getItem("logindataen") &&
+    CryptoJS.AES.decrypt(
+      localStorage.getItem("logindataen"),
+      "anand"
+    )?.toString(CryptoJS.enc.Utf8)) ||
+  null;
+const user_id = value && JSON.parse(value)?.UserID;
   const spent_amount1 = localStorage.getItem("spent_amount1");
   const amount_total =
     client.getQueriesData("walletamount_aviator")?.[0]?.[1]?.data?.data || 0;

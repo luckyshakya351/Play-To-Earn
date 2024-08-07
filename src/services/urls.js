@@ -3,7 +3,8 @@ export const aviatordomain = "https://play2earn-timer-1.onrender.com"
 
 // export const aviatordomain = "http://192.168.18.183:8000"
 // export const dummy_aviator = "http://192.168.18.183:8000"
-// export const domain1 = "http://192.168.18.183:8000"
+// export const domain = "http://192.168.18.183:8000"
+
 export const rupees = "₹";
 
 export const baseUrl = "https://admin.play2earn.space";
@@ -11,6 +12,7 @@ export const fron_end_main_domain = "https://play2earn.space";
 export const newDomain = "https://api.play2earn.space";
 
 // export const domain = "https://aviator-with-sql-backend.onrender.com"
+
 export const domain = "https://play2earn-timer-1.onrender.com"
 export const support_mail = "";
 export const telegram_url = "https://t.me/play2earnspace";
