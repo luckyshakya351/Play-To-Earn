@@ -38,7 +38,7 @@ import { My_All_HistoryFn } from "../../../../services/apicalling";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-const ThreeMinCountDown = ({ fk }) => {
+const ThreeMinCountDown = ({ fk ,setBetNumber }) => {
   const socket = useSocket();
   const dispatch = useDispatch();
   const client = useQueryClient();
@@ -76,6 +76,7 @@ const ThreeMinCountDown = ({ fk }) => {
   React.useEffect(() => {
     const handleFiveMin = (fivemin) => {
       setOne_min_time(fivemin);
+      setBetNumber(fivemin)
       fk.setFieldValue("show_this_one_min_time", fivemin);
       if (
         (fivemin?.split("_")?.[1] === "5" ||

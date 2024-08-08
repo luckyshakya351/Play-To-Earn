@@ -24,6 +24,7 @@ function WinOneMin({ gid }) {
   const [TabTwo, setTabTwo] = useState(1);
   const [apply_bit_dialog_box, setapply_bit_dialog_box] = React.useState(false);
   const [dialog_type, setdialog_type] = React.useState(0);
+  const [timing, setBetNumber] = React.useState(100);
   // const [show_this_one_min_time,setshow_this_one_min_time] = useState()
 
   const initialValues = {
@@ -41,7 +42,7 @@ function WinOneMin({ gid }) {
   return (
     <Box className="mainBox">
       {React.useMemo(() => {
-        return <OneMinCountDown fk={fk} />
+        return <OneMinCountDown fk={fk} setBetNumber={setBetNumber}/>
       }, [])}
       {React.useMemo(() => {
         return (
@@ -276,7 +277,7 @@ function WinOneMin({ gid }) {
         {TabTwo === 2 && <Chart gid={gid} />}
         {TabTwo === 3 && <MyHistory gid={gid} />}
       </Box>
-      {apply_bit_dialog_box && (
+      {apply_bit_dialog_box && Number(timing) >=10 && (
         <ApplyBetDialogBox
           apply_bit_dialog_box={apply_bit_dialog_box}
           setapply_bit_dialog_box={setapply_bit_dialog_box}
