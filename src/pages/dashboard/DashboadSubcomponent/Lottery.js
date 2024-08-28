@@ -12,7 +12,6 @@ import { endpoint } from "../../../services/urls";
 import axios from "axios";
 
 
-
 const Lottery = () => {
   const [status, setStatus] = useState([]);
   const getStatus = async () => {
@@ -30,7 +29,6 @@ const Lottery = () => {
   return (
     <Box sx={{ transition: '0.3s !important' }}>
       <Box sx={style.root}>
-        
         <Box sx={style.roottwo} component={NavLink} to={status?.find((i)=>i?.title==="wingo_status")?.status!== "0" && "/win"} >
           <Box sx={{ width: "70%", height: "100%", position: 'relative' }}>
             <Box sx={{

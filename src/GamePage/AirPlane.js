@@ -49,6 +49,11 @@ const AirPlane = ({ formik, fk }) => {
   const client = useQueryClient();
   let bool = true;
   const audioRefMusic = useRef(null);
+ 
+  useEffect (()=>{
+    startFly();
+  },[])
+
   useEffect(() => {
     const handleNewMessage = (newMessage) => {
       startFly(newMessage);
@@ -123,6 +128,7 @@ const AirPlane = ({ formik, fk }) => {
     const mainDiv = document.getElementsByClassName("maindiv")[0];
     if (crash === true) {
       clearInterval(timerInterval);
+      fk.setFieldValue("isShadowPath", false);
       dispatch(byTimeIsEnableSound(true));
       // Remove any current animation and apply thirdAnimation
       mainDiv.style.animation = "";
@@ -138,6 +144,11 @@ const AirPlane = ({ formik, fk }) => {
       fk.setFieldValue("waitingForNextTime1", false);
       fk.setFieldValue("waitingForNextTime2", false);
       formik.setFieldValue("refetch", Number(formik.values.refetch) + 1);
+      fk.setFieldValue("isShadowPath", false);
+     setTimeout(()=>{
+      fk.setFieldValue("isShadowPath", false);
+     },1000)
+      
     }
   }, [crash]);
 
@@ -417,7 +428,7 @@ const AirPlane = ({ formik, fk }) => {
                   FLEW AWAY!
                 </p>
               )}
-              {waiting_for_next_round ? (
+              {/* {waiting_for_next_round ? (
                 <Dialog open={true} className=" lg:!ml-80 ">
                   <div>
                    
@@ -440,7 +451,13 @@ const AirPlane = ({ formik, fk }) => {
                   ).padStart(2, "0")}`}</span>
                   <span style={{ marginLeft: "4px" }}>x</span>
                 </div>
-              )}
+              )} */}
+              <div className="!font-semibold grid grid-cols-3 lg:w-[225px] w-[190px]">
+                  <span className="col-span-2">{`${seconds}.${String(
+                    milliseconds
+                  ).padStart(2, "0")}`}</span>
+                  <span style={{ marginLeft: "4px" }}>x</span>
+                </div>
             </p>
           )}
         </>
