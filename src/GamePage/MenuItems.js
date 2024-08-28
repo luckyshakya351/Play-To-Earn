@@ -12,7 +12,6 @@ import { IoPersonOutline } from "react-icons/io5";
 import { MdOutlineRefresh, MdStarBorder } from "react-icons/md";
 import { SiRelianceindustrieslimited } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
-import CustomDialogBox from "../Shared/CustomDialogBox";
 import { isEnableMusicFun, isEnableSoundFun } from "../redux/slices/counterSlice";
 import FreeBets from "./DialogComponent/FreeBets";
 import GameLimits from "./DialogComponent/GameLimits";
@@ -21,6 +20,7 @@ import { gray } from "./color";
 import Changebackground from "./DialogComponent/Changebackground";
 import { PiSelectionBackground } from "react-icons/pi";
 import ChangebackgroundMusic from "./DialogComponent/ChangebackgroundMusic";
+import CustomDialogBox from "../Shared/CustomDialogBox";
 
 export default function AccountMenu({ anchorEl, setAnchorEl }) {
   const dispatch = useDispatch()

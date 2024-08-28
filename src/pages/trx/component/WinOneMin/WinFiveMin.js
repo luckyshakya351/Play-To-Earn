@@ -24,6 +24,7 @@ function WinFiveMin({ gid }) {
   const [TabTwo, setTabTwo] = useState(1);
   const [apply_bit_dialog_box, setapply_bit_dialog_box] = React.useState(false);
   const [dialog_type, setdialog_type] = React.useState(0);
+  const [timing, setBetNumber] = React.useState(0);
   // const [show_this_one_min_time,setshow_this_one_min_time] = useState()
 
   const initialValues = {
@@ -41,7 +42,7 @@ function WinFiveMin({ gid }) {
   return (
     <Box className="mainBox">
       {React.useMemo(() => {
-        return <ThreeMinCountDown fk={fk} />
+        return <ThreeMinCountDown fk={fk} setBetNumber={setBetNumber}/>
       }, [])}
       {React.useMemo(() => {
         return (
@@ -274,7 +275,12 @@ function WinFiveMin({ gid }) {
         {TabTwo === 2 && <Chart gid={gid} />}
         {TabTwo === 3 && <MyHistory gid={gid} />}
       </Box>
-      {apply_bit_dialog_box && (
+      {apply_bit_dialog_box &&
+        Number(
+          `${String(timing)?.split("_")?.[0]}.${String(timing)
+            ?.split("_")?.[1]
+            ?.padStart(2, "0")}`
+        ) > 0.1 && (
         <ApplyBetDialogBox
           apply_bit_dialog_box={apply_bit_dialog_box}
           setapply_bit_dialog_box={setapply_bit_dialog_box}

@@ -1,56 +1,32 @@
-import ClearIcon from "@mui/icons-material/Clear";
-import {
-  Button,
-  Card,
-  CircularProgress,
-  IconButton,
-  LinearProgress,
-  Tab,
-  Tabs,
-} from "@mui/material";
+import { CircularProgress, Tab, Tabs } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { CgDetailsMore } from "react-icons/cg";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { useNavigate } from "react-router-dom";
-import { useSocket } from "../Shared/SocketContext";
 import aviatorimage from "../assets/aviatorimage.png";
 import crashmusic from "../assets/crashmusic.mp3";
 import plane1 from "../assets/front-aviator-image.svg";
 import howtoplay from "../assets/howtoplay.PNG";
-import {
-  just_start_after_waitingFun,
-  please_reconnect_the_serverFun,
-  waitingAviatorFun,
-} from "../redux/slices/counterSlice";
-import { endpoint, rupees } from "../services/urls";
+import { just_start_after_waitingFun } from "../redux/slices/counterSlice";
 import AirPlane from "./AirPlane";
 import AllBets from "./AllBets";
 import AccountMenu from "./MenuItems";
 import MyBets from "./MyBets";
 import Top from "./Top";
 import { gray } from "./color";
-import { get_user_data_fn, walletamount } from "../services/apicalling";
-
+import { useSocket } from "../Shared/SocketContext";
+import { dummy_aviator, rupees } from "../services/urls";
+import { walletamountAviator } from "../services/apicalling";
 const PlayGame = () => {
-  const navigate = useNavigate();
+  const client = useQueryClient();
   const dispatch = useDispatch();
-  const aviator_login_data = useSelector(
-    (state) => state.aviator.aviator_login_data
-  );
-  const waiting_aviator = useSelector((state) => state.aviator.waiting_aviator);
-  const just_start_after_waiting = useSelector(
-    (state) => state.aviator.just_start_after_waiting
-  );
   const [waiting_sec, setWaitingSec] = useState(10);
-  const userId = aviator_login_data && JSON.parse(aviator_login_data)?.id;
   const isMediumScreen = useMediaQuery({ minWidth: 800 });
   const [value, setValue] = React.useState(0);
-  const [limit, setlimit] = useState(100);
   const [anchorEl, setAnchorEl] = useState(null);
   const socket = useSocket();
 
@@ -58,9 +34,9 @@ const PlayGame = () => {
     anchorEl === null ? setAnchorEl(event.currentTarget) : setAnchorEl(null);
   };
 
-  useEffect(() => {
-    !aviator_login_data && get_user_data_fn(dispatch);
-  }, []);
+  // useEffect(() => {
+  //   !aviator_login_data && get_user_data_fn(dispatch);
+  // }, []);
 
   function a11yProps(index) {
     return {
@@ -73,27 +49,18 @@ const PlayGame = () => {
     setValue(newValue);
   };
 
-  const { isLoading, data } = useQuery(
-    ["allresult", limit],
-    () => resultFunction({ limit: limit }),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
-    }
-  );
+  const { isLoading, data } = useQuery(["allresult"], () => resultFunction(), {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus:false
+  });
 
-  const resultFunction = async (reqbody) => {
-    const headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json", // Add the 'Accept' header
-      // Add any other headers you need for CORS here
-    };
+  const resultFunction = async () => {
     try {
-      const response = await axios.post(`${endpoint.result}`, reqbody, {
-        headers,
-      });
+      const response = await axios.get(
+        `${dummy_aviator}/api/v1/get-game-history`
+      );
+
       return response;
     } catch (e) {
       toast(e?.message);
@@ -103,12 +70,10 @@ const PlayGame = () => {
 
   const { isLoading: walletloding, data: walletdata } = useQuery(
     ["walletamount_aviator"],
-    () => walletamount(),
+    () => walletamountAviator(),
     {
       refetchOnMount: false,
-      refetchOnReconnect: false,
-      retryOnMount:false,
-      refetchOnWindowFocus:false
+      refetchOnReconnect: true,
     }
   );
 
@@ -161,6 +126,10 @@ const PlayGame = () => {
   const audioRefSound = useRef(null);
   const isEnableMusic = useSelector((state) => state.aviator.isEnableMusic);
   const isEnableSound = useSelector((state) => state.aviator.isEnableSound);
+  const waiting_aviator = useSelector((state) => state.aviator.waiting_aviator);
+  const just_start_after_waiting = useSelector(
+    (state) => state.aviator.just_start_after_waiting
+  );
   const byTimeEnablingMusic = useSelector(
     (state) => state.aviator.byTimeEnablingMusic
   );
@@ -217,10 +186,10 @@ const PlayGame = () => {
   useEffect(() => {
     const handleSetColorOfDigit = (color_value) => {
       fk.setFieldValue("setcolorofdigit", color_value);
-      console.log(color_value, "This is color Value");
     };
 
     const handleSetLoader = (setloder) => {
+      client.refetchQueries("walletamount_aviator");
       fk.setFieldValue("setloder", setloder);
     };
 
@@ -240,13 +209,19 @@ const PlayGame = () => {
   }, []);
 
   useEffect(() => {
-    if (fk.values.setcolorofdigit) {
-      dispatch(waitingAviatorFun(false));
+    const hasReloaded = localStorage.getItem("hasReloadedDashboard");
+
+    if (!hasReloaded) {
+      // Reload the page and set localStorage value
+      localStorage.setItem("hasReloadedDashboard", "true");
+      window.location.reload();
+    } else {
+      // Execute the setTimeout and dispatch logic after reload
       setTimeout(() => {
         dispatch(just_start_after_waitingFun(false));
       }, 2000);
     }
-  }, [fk.values.setcolorofdigit]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!waiting_aviator) {
@@ -258,28 +233,30 @@ const PlayGame = () => {
     }
   }, [waiting_aviator]);
 
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      const confirmationMessage =
-        "You are about to leave the dashboard. Are you sure you want to do this?";
-      event.returnValue = confirmationMessage; // Standard for most browsers
-      return confirmationMessage; // For some older browsers
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event) => {
+  //     const confirmationMessage =
+  //       "You are about to leave the dashboard. Are you sure you want to do this?";
+  //     event.returnValue = confirmationMessage; // Standard for most browsers
+  //     return confirmationMessage; // For some older browsers
+  //   };
 
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        setTimeout(() => {
-          dispatch(please_reconnect_the_serverFun(true));
-        }, 60 * 1000);
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, []);
+  //   const handleVisibilityChange = () => {
+  //     if (document.visibilityState === "hidden") {
+  //       setTimeout(() => {
+  //         dispatch(please_reconnect_the_serverFun(true));
+  //       }, 60 * 1000);
+  //     }
+  //   };
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //   };
+  // }, []);
+
+
 
   const airPlaneComponent = useMemo(() => {
     return <AirPlane formik={formik} fk={fk} />;
@@ -316,7 +293,7 @@ const PlayGame = () => {
                     : "text-amber-600 bg-black"
                 } rounded-full px-2 text-[10px] overscroll-auto scroll-smooth`}
               >
-                {i?.result} X
+                {Number(i?.multiplier)?.toFixed(2)} X
               </p>
             );
           })}
@@ -420,19 +397,19 @@ const PlayGame = () => {
       </div>
     );
 
-  if (waiting_aviator)
-    return (
-      <>
-        <LinearProgress />
-        <div
-          className="h-full !bg-black w-full flex flex-col justify-center items-center overflow-y-hidden no-scrollbar
-      "
-        >
-          <CircularProgress />
-          <span className="!text-white">Connecting...</span>
-        </div>
-      </>
-    );
+  // if (waiting_aviator)
+  //   return (
+  //     <>
+  //       <LinearProgress />
+  //       <div
+  //         className="h-full !bg-black w-full flex flex-col justify-center items-center overflow-y-hidden no-scrollbar
+  //     "
+  //       >
+  //         <CircularProgress />
+  //         <span className="!text-white">Connecting...</span>
+  //       </div>
+  //     </>
+  //   );
 
   if (just_start_after_waiting)
     return (
@@ -457,44 +434,43 @@ const PlayGame = () => {
         </div>
       </>
     );
-  // please_reconnect_the_server?
-  if (please_reconnect_the_server)
-    return (
-      <>
-        <div className="!w-[screen] !h-screen flex justify-center items-center no-scrollbar ">
-          <Card className="!bg-white !bg-opacity-5 !rounded-lg !p-4">
-            <p className="flex justify-end">
-              <IconButton
-                onClick={() => {
-                  navigate("/dashboard");
-                }}
-              >
-                <ClearIcon className="!text-white" />
-              </IconButton>
-            </p>
-            <div className="!flex justify-center">
-              <ClearIcon className="!text-[#C3384E] !text-8xl border-[1px] border-[#C3384E] rounded-full" />
-            </div>
-            <p className="!text-white mt-10 text-center">
-              <span className="!font-bold text-xl">Sorry !</span> Server
-              Reconnection Failed
-            </p>
-            <p className="text-center !text-white">
-              Plese refresh the page for continue playing..
-            </p>
-            <div className="flex justify-center mt-5 ">
-              <Button
-                variant="contained"
-                className="!bg-[#C3384E]"
-                onClick={() => window.location.reload()}
-              >
-                OK
-              </Button>
-            </div>
-          </Card>
-        </div>
-      </>
-    );
+  // if (please_reconnect_the_server)
+  //   return (
+  //     <>
+  //       <div className="!w-[screen] !h-screen flex justify-center items-center no-scrollbar ">
+  //         <Card className="!bg-white !bg-opacity-5 !rounded-lg !p-4">
+  //           <p className="flex justify-end">
+  //             <IconButton
+  //               onClick={() => {
+  //                 navigate("/dashboard");
+  //               }}
+  //             >
+  //               <ClearIcon className="!text-white" />
+  //             </IconButton>
+  //           </p>
+  //           <div className="!flex justify-center">
+  //             <ClearIcon className="!text-[#C3384E] !text-8xl border-[1px] border-[#C3384E] rounded-full" />
+  //           </div>
+  //           <p className="!text-white mt-10 text-center">
+  //             <span className="!font-bold text-xl">Sorry !</span> Server
+  //             Reconnection Failed
+  //           </p>
+  //           <p className="text-center !text-white">
+  //             Plese refresh the page for continue playing..
+  //           </p>
+  //           <div className="flex justify-center mt-5 ">
+  //             <Button
+  //               variant="contained"
+  //               className="!bg-[#C3384E]"
+  //               onClick={() => window.location.reload()}
+  //             >
+  //               OK
+  //             </Button>
+  //           </div>
+  //         </Card>
+  //       </div>
+  //     </>
+  //   );
 
   return (
     <div className=" h-full">
@@ -518,6 +494,7 @@ const PlayGame = () => {
       </div>
 
       {menu_item}
+      <div>adfaf</div>
     </div>
   );
 };

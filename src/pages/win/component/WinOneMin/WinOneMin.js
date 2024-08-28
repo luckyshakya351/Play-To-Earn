@@ -1,8 +1,9 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { useFormik } from "formik";
 import * as React from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { zubgback, zubgmid, zubgshadow, zubgtext, zubgwhite } from "../../../../Shared/color";
+import { zubgshadow, zubgtext, zubgwhite } from "../../../../Shared/color";
 import pr0 from "../../../../assets/images/0.png";
 import pr11 from "../../../../assets/images/11.png";
 import pr22 from "../../../../assets/images/22.png";
@@ -18,14 +19,12 @@ import Chart from "./Chart";
 import GameHistory from "./GameHistory";
 import MyHistory from "./MyHistory";
 import OneMinCountDown from "./OneMinCountDown";
-import ThreeMinCountDown from "./ThreeMinCountDown";
-import TwoMinCountDown from "./TwoMinCountDown";
-import { useFormik } from "formik";
 
 function WinOneMin({ gid }) {
   const [TabTwo, setTabTwo] = useState(1);
   const [apply_bit_dialog_box, setapply_bit_dialog_box] = React.useState(false);
   const [dialog_type, setdialog_type] = React.useState(0);
+  const [timing , setBetNumber] = useState(100)
   // const [show_this_one_min_time,setshow_this_one_min_time] = useState()
 
   const initialValues = {
@@ -40,10 +39,11 @@ function WinOneMin({ gid }) {
     },
   });
 
+
   return (
     <Box className="mainBox">
       {React.useMemo(() => {
-        return <OneMinCountDown fk={fk} />
+        return <OneMinCountDown fk={fk} setBetNumber={setBetNumber}/>
       }, [])}
       {React.useMemo(() => {
         return (
@@ -279,7 +279,8 @@ function WinOneMin({ gid }) {
         {TabTwo === 2 && <Chart gid={gid} />}
         {TabTwo === 3 && <MyHistory gid={gid} />}
       </Box>
-      {apply_bit_dialog_box && (
+      
+      {apply_bit_dialog_box && Number(timing) >= 10 && (
         <ApplyBetDialogBox
           apply_bit_dialog_box={apply_bit_dialog_box}
           setapply_bit_dialog_box={setapply_bit_dialog_box}
