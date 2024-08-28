@@ -10,7 +10,6 @@ const Test = () => {
               <span>Hii</span>
             </div>
           </div>
-
         </div>
     </div>
   );

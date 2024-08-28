@@ -94,6 +94,7 @@ function TeamData() {
                         <span>S.No.</span>
                         <span>User Id</span>
                         <span className="">Name</span>
+                        <span className="">Deposit</span>
                       </div>
                       <div className="h-[2px] w-full "></div>
                       {result?.filter((j)=>j?.LEVEL === i)?.map((i, index) => {
@@ -105,6 +106,9 @@ function TeamData() {
                             </span>
                             <span className=" ">
                               {i?.full_name || "No data found"}
+                            </span>
+                            <span className=" ">
+                              {i?.deposit_amount || "No data found"}
                             </span>
                           </div>
                         );

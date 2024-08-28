@@ -213,7 +213,7 @@ function Wallet() {
                     color="initial"
                     sx={{ color: "white", fontWeight: "600" }}
                   >
-                    Wallet Amount
+                    Main Amount
                   </Typography>
                 </Box>
               </Box>
@@ -256,7 +256,7 @@ function Wallet() {
                     color="initial"
                     sx={{ color: "white", fontWeight: "600" }}
                   >
-                    Winning Amount
+                    Game Amount
                   </Typography>
                 </Box>
               </Box>
