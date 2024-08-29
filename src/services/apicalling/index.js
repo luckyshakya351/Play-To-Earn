@@ -3,6 +3,7 @@ import {dummy_aviator, endpoint } from "../urls";
 import toast from "react-hot-toast";
 import { aviator_login_data_fn } from "../../redux/slices/counterSlice";
 import CryptoJS from "crypto-js";
+import moment from "moment";
 const value =
   (localStorage.getItem("logindataen") &&
     CryptoJS.AES.decrypt(
@@ -52,10 +53,10 @@ export const Cricket_id_passFunction = async ({ setId_pass_data }) => {
     console.log(e);
   }
 };
-export const MygetdataFn = async () => {
+export const MygetdataFn = async (date) => {
   try {
     const response = await axios.get(
-      `${endpoint.get_level}?userid=${Number(user_id)}`
+      `${endpoint.get_level}?userid=${Number(user_id)}&in_date=${date || moment(Date.now())?.format("YYYY-MM-DD")}`
     );
     return response;
   } catch (e) {

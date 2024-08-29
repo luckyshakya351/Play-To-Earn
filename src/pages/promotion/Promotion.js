@@ -1,28 +1,26 @@
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
+import CloseIcon from "@mui/icons-material/Close";
 import EmojiPeopleOutlinedIcon from "@mui/icons-material/EmojiPeopleOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import { Box, Container, Dialog, IconButton, Stack, Typography } from "@mui/material";
-import copy from "clipboard-copy";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { NavLink } from "react-router-dom";
-import { zubgback, zubgbackgrad, zubggray, zubgmid, zubgtext } from "../../Shared/color";
+import CustomCircularProgress from "../../Shared/CustomCircularProgress";
+import { zubgback, zubggray, zubgtext } from "../../Shared/color";
 import customer from "../../assets/images/24-hours-service.png";
-import copyIimage from "../../assets/images/copy.png";
 import bgms from "../../assets/images/bgs.jpg";
 import bgms1 from "../../assets/images/bgs1.jpg";
+import copyIimage from "../../assets/images/copy.png";
 import sort from "../../assets/images/data-flow.png";
 import donut from "../../assets/images/database.png";
 import book from "../../assets/images/rules.png";
 import money from "../../assets/images/salary.png";
-import coin from "../../assets/images/settings.png";
-import Layout from "../../component/Layout/Layout";
-import { MygetdataFn, MypromotionDataFn, walletamount } from "../../services/apicalling";
-import CustomCircularProgress from "../../Shared/CustomCircularProgress";
-import { fron_end_main_domain } from "../../services/urls";
-import CloseIcon from "@mui/icons-material/Close";
 import sunlotteryhomebanner from "../../assets/sunlotteryhomebanner.jpg";
-import { useState } from "react";
+import Layout from "../../component/Layout/Layout";
+import { MygetdataFn, walletamount } from "../../services/apicalling";
+import { fron_end_main_domain } from "../../services/urls";
 
 function Promotion() {
   const [openDialogBoxHomeBanner, setopenDialogBoxHomeBanner] = useState(false);
@@ -48,8 +46,6 @@ function Promotion() {
   const newdata = amount?.data?.data || 0;
 
   const functionTOCopy = (value) => {
-    console.log("function hit");
-    copy(value);
     toast.success("Copied to clipboard!");
   };
   return (

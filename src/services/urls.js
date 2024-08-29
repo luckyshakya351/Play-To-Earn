@@ -6,6 +6,7 @@ export const rupees = "₹";
 export const baseUrl = "https://admin.play2earn.space";
 export const fron_end_main_domain = "https://play2earn.space";
 export const newDomain = "https://api.play2earn.space";
+// export const newDomain = "http://localhost:8000";
 
 
 export const domain = "https://play2earn-timer-1.onrender.com"

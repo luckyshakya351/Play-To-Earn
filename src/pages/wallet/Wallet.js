@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import {
   Box,
@@ -10,32 +11,24 @@ import {
 import * as React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useQuery } from "react-query";
-import { useMediaQuery } from "react-responsive";
 import { NavLink, useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../Shared/CustomCircularProgress";
 import {
   zubgback,
-  zubgbackgrad,
   zubggray,
-  zubgmid,
-  zubgshadow,
-  zubgtext,
-  zubgwhite,
+  zubgtext
 } from "../../Shared/color";
-import withdrow from "../../assets/images/withdraw.png";
+import bgms from "../../assets/images/bgs.jpg";
 import rechargeIcon from "../../assets/images/deposit (2).png";
 import wdhistory from "../../assets/images/list.png";
 import deposite from "../../assets/images/manuscript.png";
 import wallet from "../../assets/images/wallet (5).png";
-import bgms1 from "../../assets/images/playgame.jpg";
-import bgms from "../../assets/images/bgs.jpg";
-import Layout from "../../component/Layout/Layout";
-import {  walletamount } from "../../services/apicalling";
-import CloseIcon from "@mui/icons-material/Close";
+import withdrow from "../../assets/images/withdraw.png";
 import sunlotteryhomebanner from "../../assets/sunlotteryhomebanner.jpg";
+import Layout from "../../component/Layout/Layout";
+import { walletamount } from "../../services/apicalling";
 
 function Wallet() {
-  const isMediumScreen = useMediaQuery({ minWidth: 800 });
   const navigate = useNavigate();
   const [openDialogBoxHomeBanner, setopenDialogBoxHomeBanner] =
     React.useState(false);
