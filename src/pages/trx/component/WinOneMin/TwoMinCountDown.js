@@ -55,7 +55,8 @@ const TwoMinCountDown = ({ fk ,setBetNumber}) => {
   };
 
   React.useEffect(() => {
-    const handleThreeMin = (threemin) => {
+    const handleThreeMin = (onemin) => {
+      let threemin = `${2 - (new Date()?.getMinutes() % 3)}_${onemin}`
       setThree_min_time(threemin);
       setBetNumber(threemin)
       fk.setFieldValue("show_this_one_min_time", threemin);
@@ -100,10 +101,10 @@ const TwoMinCountDown = ({ fk ,setBetNumber}) => {
       }
     };
 
-    socket.on("threemintrx", handleThreeMin);
+    socket.on("onemintrx", handleThreeMin);
 
     return () => {
-      socket.off("threemintrx", handleThreeMin);
+      socket.off("onemintrx", handleThreeMin);
     };
   }, []);
   const { isLoading: myhistory_loding, data: my_history } = useQuery(

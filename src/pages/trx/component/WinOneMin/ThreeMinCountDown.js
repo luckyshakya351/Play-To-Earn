@@ -37,6 +37,7 @@ const ThreeMinCountDown = ({ fk ,setBetNumber }) => {
   const [one_min_time, setOne_min_time] = useState("0_0");
   const next_step = useSelector((state) => state.aviator.next_step);
   const dispatch = useDispatch();
+  
   const show_this_three_min_time_sec = React.useMemo(
     () => String(one_min_time?.split("_")?.[1]).padStart(2, "0"),
     [one_min_time]
@@ -52,7 +53,8 @@ const ThreeMinCountDown = ({ fk ,setBetNumber }) => {
     setpoicy(false);
   };
   React.useEffect(() => {
-    const handleFiveMin = (fivemin) => {
+    const handleFiveMin = (onemin) => {
+      let fivemin = `${4 - (new Date()?.getMinutes() % 5)}_${onemin}`;
       setOne_min_time(fivemin);
       setBetNumber(fivemin)
       fk.setFieldValue("show_this_one_min_time", fivemin);
@@ -94,10 +96,10 @@ const ThreeMinCountDown = ({ fk ,setBetNumber }) => {
       }
     };
 
-    socket.on("fivemintrx", handleFiveMin);
+    socket.on("onemin", handleFiveMin);
 
     return () => {
-      socket.off("fivemintrx", handleFiveMin);
+      socket.off("onemin", handleFiveMin);
     };
   }, []);
 
