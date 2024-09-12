@@ -1,21 +1,15 @@
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import {
     Box,
-    Button,
     Container,
-    IconButton,
-    Stack,
-    Typography,
+    Typography
 } from "@mui/material";
 import moment from "moment";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../../Shared/CustomCircularProgress";
-import { zubgback, zubgbackgrad, zubgmid, zubgshadow, zubgtext, zubgwhite } from "../../../Shared/color";
-import deposit from "../../../assets/images/list.png";
+import { zubgback, zubgbackgrad, zubgmid, zubgtext } from "../../../Shared/color";
 import Layout from "../../../component/Layout/Layout";
 import {
     CustomerFn

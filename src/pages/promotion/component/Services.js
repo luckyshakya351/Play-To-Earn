@@ -1,18 +1,17 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
-import { Box, Container, Stack, Typography, } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
+import { useFormik } from 'formik';
 import * as React from 'react';
+import toast from 'react-hot-toast';
 import { NavLink, useNavigate } from 'react-router-dom';
+import CustomCircularProgress from '../../../Shared/CustomCircularProgress';
+import { servicesvalidationSchema } from '../../../Shared/Validation';
 import { zubgback, zubgtext } from '../../../Shared/color';
 import customer from '../../../assets/images/logo-2 (2).png';
 import Layout from '../../../component/Layout/Layout';
 import { endpoint } from "../../../services/urls";
-import CryptoJS from 'crypto-js';
-import { useFormik } from 'formik';
-import toast from 'react-hot-toast';
-import axios from 'axios';
-import { servicesvalidationSchema } from '../../../Shared/Validation';
-import CustomCircularProgress from '../../../Shared/CustomCircularProgress';
 
 function Services() {
   const login_data = localStorage.getItem("logindataen") && CryptoJS.AES.decrypt(localStorage.getItem("logindataen"), "anand")?.toString(CryptoJS.enc.Utf8) || null
