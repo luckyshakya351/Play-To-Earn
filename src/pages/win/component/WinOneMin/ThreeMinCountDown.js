@@ -99,6 +99,12 @@ const ThreeMinCountDown = ({ fk ,setBetNumber }) => {
       if (fivemin?.split("_")?.[1] === "59") {
         fk.setFieldValue("openTimerDialogBoxOneMin", false);
       }
+      if (fivemin?.split("_")?.[1] === "0") {
+        fk.setFieldValue("openTimerDialogBoxOneMin", false);
+      }
+      if (fivemin?.split("_")?.[1] === "1") {
+        fk.setFieldValue("openTimerDialogBoxOneMin", false);
+      }
       if (
         fivemin?.split("_")?.[1] === "40" && // this is for sec
         fivemin?.split("_")?.[0] === "0" // this is for minut
@@ -107,8 +113,8 @@ const ThreeMinCountDown = ({ fk ,setBetNumber }) => {
         // oneMinColorWinning();
       }
       if (
-        fivemin?.split("_")?.[1] === "0" &&
-        fivemin?.split("_")?.[0] === "0"
+        fivemin?.split("_")?.[1] === "58" &&
+        fivemin?.split("_")?.[0] === "4"
       ) {
         client.refetchQueries("gamehistory_wingo_3");
         client.refetchQueries("walletamount");
